@@ -1,7 +1,7 @@
 # Corpo3D — corpo humano 3D desmontável para educação de paciente
 
 **Data:** 2026-09-21
-**Status:** aprovado em brainstorming, aguardando revisão escrita
+**Status:** aprovado em 2026-09-21; seção 2 e escopo corrigidos após verificação dos dados reais (mesmo dia)
 **Nome de trabalho:** Corpo3D (na linha do Olho3D)
 
 ## 1. Propósito
@@ -24,18 +24,48 @@ Decisões tomadas no brainstorming (2026-09-21):
 
 ## 2. Fatos verificados que sustentam o desenho
 
-- **BodyParts3D** (DBCLS, Japão): 2.234 malhas OBJ, 3.432 conceitos com ID FMA e nome em
-  inglês, 15 sistemas, download em `isa_BP3D_4.0_obj_99.zip` (136 MB) e
-  `partof_BP3D_4.0_obj_99.zip` (62 MB). A página oficial de licença declara
+- **BodyParts3D** (DBCLS, Japão). A página oficial de licença declara
   **CC Attribution 4.0 International**, sem ShareAlike. Último update 2013/05; anatomia não
-  muda, então isso não é problema. **É um corpo masculino.**
+  muda, então isso não é problema. **É um corpo masculino.** ⚠ O cabeçalho de cada `.obj`
+  ainda traz o texto da licença antiga (CC BY-SA 2.1 JP); vale a página oficial, e o repo
+  guarda uma cópia datada dela em `docs/licenca-bodyparts3d.md`.
+- **Estrutura real dos dados (verificada em 2026-09-21):**
+  - Um único zip basta: `isa_BP3D_4.0_obj_99.zip` (142.903.898 bytes, SHA-256
+    `40665852c49f218326590e204db91064a1ecfc3c6f8cbd7bbbcaac62c7cd409e`) contém **2.234
+    arquivos-elemento** `isa_BP3D_4.0_obj_99/FJ####.obj` (52 deles com sufixo `M`, cópias
+    espelhadas). O zip `partof` (1.258 arquivos) é subconjunto com geometria idêntica; só o
+    cabeçalho de comentário difere.
+  - Um **conceito** (ID FMA, ex. `FMA7088` coração) é a **união de vários elementos**: o
+    coração tem 83, o fígado 60, o crânio 43. O mapeamento conceito → elementos está em
+    dois arquivos tab-delimitados (`concept id`, `name`, `element file id`):
+    `partof_element_parts.txt` (1.368 conceitos, é o que tem coração, fígado, cérebro,
+    mãos, pés) e `isa_element_parts.txt` (2.905 conceitos, é o que tem baço, músculos dos
+    membros, testículos, nervo óptico). O pipeline consulta os dois.
+  - OBJ: `v x y z` em **milímetros, eixo Z para cima**, origem perto do chão (pele vai de
+    z = −78 a 1.641 mm); `+x` é a **esquerda do paciente**; a frente do corpo está em `−y`.
+    Traz `vn` (descartadas: recalculamos) e faces `f a//b c//d e//f`, triângulos.
+    Conversão para o three.js: `(x, y, z) → (x·0,001, z·0,001, −y·0,001)`.
+  - Os dois conjuntos compartilham o mesmo sistema de coordenadas (baço do IS-A cai à
+    esquerda do fígado do PART-OF, deltoide do IS-A envolve o úmero do PART-OF).
+- **Lacunas do BodyParts3D que limitam a v1** (não existem em nenhuma das duas árvores):
+  tireoide, laringe, faringe, cólon sigmoide, cóccix, esfenoide como osso avulso (está
+  dentro dos elementos sem nome do crânio), parótida, pênis; músculos **latíssimo do dorso,
+  reto abdominal, masseter, temporal**. Deltoide, trapézio, bíceps, tríceps e gastrocnêmio
+  existem só como partes/cabeças e são agrupados numa peça pelo CSV.
+- **Resultado do ensaio do pipeline (2026-09-21):** as 251 peças do CSV convertem sem
+  falha para **8,9 MB no total** (2,04 milhões de triângulos); só crânio e intercostais
+  passavam de 500 KB e receberam razão de simplificação própria.
 - **Z-Anatomy** é CC BY-SA 4.0 e suas definições vêm da Wikipedia (BY-SA 3.0). Malhas
   derivadas teriam de ser publicadas sob a mesma licença. Descartado como base; serve
   só como referência visual de como agrupar estruturas.
-- Todas as malhas do BodyParts3D compartilham **um único sistema de coordenadas**, em
-  milímetros. A posição de casa de toda peça é a identidade. É isso que torna
-  "remontar" trivial.
-- Nenhuma fonte aberta entrega glTF. Pipeline de conversão é obrigatório.
+- Todas as malhas compartilham **um único sistema de coordenadas**. A posição de casa de
+  toda peça é a identidade. É isso que torna "remontar" trivial. ⚠ `meshopt()` do
+  gltf-transform quantiza as posições e move a escala para a matriz do nó: o GLB carregado
+  no three.js tem um nó filho com essa matriz; a peça é o grupo pai, cuja posição continua
+  sendo zero. `bbox` e `centro` do manifesto são calculados **antes** da quantização.
+- Nenhuma fonte aberta entrega glTF. Pipeline de conversão é obrigatório. `normals()` do
+  gltf-transform **desolda** a malha para gerar normais planas; as normais suaves são
+  calculadas por código próprio (ponderadas por área) depois de `weld()` e `simplify()`.
 - Existem visualizadores abertos em Three.js sobre o BodyParts3D com camadas por sistema
   e vista explodida (o mais popular é MIT, criado em set/2026, aparentemente gerado por
   IA). Servem como referência de pipeline, **não** como fundação de código.
@@ -48,10 +78,14 @@ Decisões tomadas no brainstorming (2026-09-21):
 
 **Entra:**
 
-- ~200 malhas escolhidas num CSV curado: órgãos internos completos; esqueleto completo
-  com mãos e pés agrupados (um GLB por mão e por pé); músculos superficiais grandes;
-  grandes vasos (aorta, cavas, carótidas, femorais, pulmonares); cérebro por lobos,
-  cerebelo e tronco; olho (globo, córnea, cristalino).
+- **251 peças** já escolhidas em `conteudo/estruturas.csv` (gerado por
+  `conteudo/gerar-estruturas.py`, depois editado à mão): pele 1 · esqueleto 79 (crânio sem
+  mandíbula, mandíbula, hioide, 24 vértebras, sacro, esterno, 24 costelas, cartilagens
+  costais por lado, membros osso a osso, mãos e pés como um bloco cada) · músculos 54 ·
+  cardiovascular 43 · nervoso 19 (lobos por lado, cerebelo, tronco, diencéfalo, corpo
+  caloso, medula, nervos ópticos) · digestivo 17 · olho 16 (córnea, esclera, íris,
+  cristalino, vítreo, coroide, músculos do olho, glândula lacrimal, por lado) ·
+  reprodutor 7 · respiratório 5 · urinário 5 · endócrino 3 · linfático 2.
 - Camadas por sistema com opacidade; seleção com painel de descrição; desmontar por
   arrasto com fantasma no lugar de origem; encaixe por raio; explodir e remontar tudo;
   desfazer/refazer; anotação do médico (destaque + nota curta); busca por nome; presets
@@ -68,6 +102,8 @@ Decisões tomadas no brainstorming (2026-09-21):
 - Ponte com o AgendaHora (fase 5, spec próprio).
 - Corpo feminino. O BodyParts3D é masculino. Candidato para depois: Human Reference
   Atlas (HuBMAP) feminino, CC BY 4.0, 1.220 estruturas; verificar antes de prometer.
+- As estruturas ausentes no BodyParts3D (lista na seção 2). Se um médico pedir uma delas,
+  a resposta é compra de modelo avulso ou outro atlas, não este pipeline.
 - Nervos periféricos, vasos finos, ligamentos individuais: entram como linhas novas no
   CSV em versões seguintes, sem código novo.
 - Planos de corte, animação fisiológica (batimento, respiração), VR, inglês.
@@ -75,25 +111,27 @@ Decisões tomadas no brainstorming (2026-09-21):
 
 ## 4. Arquitetura
 
-Repositório novo em `~/Projetos/corpo3d`, monorepo leve com pnpm workspaces:
+Repositório novo em `~/Projetos/corpo3d`, monorepo leve com pnpm workspaces. O ensaio de
+2026-09-21 provou: **Next 15 do rascunho vira Next 16**, porque o AgendaHora já está em 16.3.
 
 ```
 corpo3d/
-├── apps/web/                 # Next 15 + TypeScript + Prisma + Postgres
+├── apps/web/                 # Next 16 + TypeScript + Prisma 5 + Postgres (mesmas versões do AgendaHora)
 │   ├── src/app/              # rotas: /, /login, /estudio, /links, /v/[token], /atribuicao
 │   ├── src/components/viewer # React Three Fiber + drei + postprocessing
 │   ├── src/components/painel # descrição, busca, camadas, lista de peças
 │   ├── src/lib/estado        # schema Zod do estado da cena, serialização, undo
 │   ├── src/lib/materiais     # um material físico por sistema
-│   └── public/models/<sistema>/<fmaId>.glb + manifest.json (gerados)
-├── packages/pipeline/        # scripts Node: baixar, filtrar, converter, comprimir, manifestar
+│   └── public/models/<sistema>/<fmaId>.glb + manifest.json (gerados, ignorados pelo git)
+├── packages/pipeline/        # scripts Node: baixar, catalogar, converter, comprimir, manifestar
 ├── conteudo/
-│   ├── estruturas.csv        # fonte da verdade das ~200 partes
+│   ├── estruturas.csv        # fonte da verdade das 251 peças
+│   ├── gerar-estruturas.py   # proveniência: gerou a versão inicial do CSV
 │   └── descricoes/<fmaId>.md # três blocos + frontmatter de revisão
 └── docs/superpowers/specs/
 ```
 
-Pilha igual à do AgendaHora e do Olho3D para a ponte futura custar pouco.
+Pilha igual à do AgendaHora (Next 16.3, React 19.2, Prisma 5.22, next-auth 5 beta, Zod 4) para a ponte futura custar pouco.
 Hospedagem: Vercel para o app e os GLBs estáticos, Postgres gerenciado. A VM da Magalu
 foi descartada para não misturar com o AgendaHora.
 
@@ -102,24 +140,30 @@ foi descartada para não misturar com o AgendaHora.
 Sem Blender. Etapas, cada uma um script separado, idempotente, com cache em
 `packages/pipeline/.cache/`:
 
-1. **baixar**: os dois zips do BodyParts3D e as listas `isa_parts_list_e.txt` e
-   `partof_parts_list_e.txt`. Verifica tamanho e SHA-256 gravados no repo.
-2. **filtrar**: lê `conteudo/estruturas.csv`, resolve cada `fmaId` para o OBJ
-   correspondente. Falha alto se algum `fmaId` do CSV não existir no zip.
-3. **converter**: OBJ → glTF com `obj2gltf`. Escala 0,001 (mm → m) para a iluminação
-   física do three.js funcionar. Os OBJ não trazem normais: calcular normais suaves com
-   limiar de 60°.
-4. **otimizar**: `@gltf-transform` para soldar vértices, simplificar com meshoptimizer
-   até ≤ 40 mil triângulos por peça (coluna `razaoSimplificacao` do CSV, por peça, com
-   padrão por sistema), e comprimir
-   com meshopt. Sem texturas: os materiais são procedurais em código.
+1. **baixar**: o zip `isa_BP3D_4.0_obj_99.zip` e os quatro arquivos de texto
+   (`isa_parts_list_e.txt`, `partof_parts_list_e.txt`, `isa_element_parts.txt`,
+   `partof_element_parts.txt`) para `.cache/bp3d/`. Verifica o SHA-256 gravado no código;
+   não baixa de novo se já confere.
+2. **catalogar**: lê os dois `*_element_parts.txt` em mapas `fmaId → Set<elemento>`; lê
+   `conteudo/estruturas.csv`. Para cada linha, o conjunto de elementos é
+   `elementos(fmaId) ∪ elementos(fmaIdsExtras) − elementos(excluirFmaIds)`, consultando
+   primeiro a árvore da coluna `arvore` e depois a outra. Falha alto se um ID não existir
+   em nenhuma das duas ou se o conjunto ficar vazio.
+3. **converter**: parser OBJ próprio (só `v` e `f`; ~30 linhas), que concatena os elementos
+   de uma peça numa única malha com deslocamento de índices, e converte
+   `(x, y, z) → (x·0,001, z·0,001, −y·0,001)`.
+4. **otimizar**: `@gltf-transform` 4.5 — `weld()`, `simplify({ simplifier: MeshoptSimplifier,
+   ratio, error: 0.005 })`, normais suaves por código próprio, `prune()`,
+   `meshopt({ encoder: MeshoptEncoder })`. A razão vem da coluna `razaoSimplificacao` ou do
+   padrão por sistema (pele 0,3; nervoso 0,4; olho 0,6; resto 0,5). Sem texturas: os
+   materiais são procedurais em código.
 5. **manifestar**: gera `public/models/manifest.json` com, por peça: `fmaId`,
    `nomeLatim`, `nomePt`, `nomeLeigo`, `sistema`, `paiFmaId`, `lado`, `glb`, `bbox`,
    `centro`, `vetorExplosao`, `triangulos`, `bytes`. O `vetorExplosao` padrão é o
    vetor normalizado do centro do corpo ao centro da peça, ponderado por sistema
    (órgãos 1,0; ossos 0,6; músculos 1,2); o CSV pode sobrescrever.
 
-Orçamentos, verificados por teste: ≤ 500 KB por GLB, ≤ 60 MB no total da v1.
+Orçamentos, verificados por teste: ≤ 500 KB por GLB, ≤ 30 MB no total da v1 (o ensaio deu 8,9 MB).
 
 ### 4.2 Visualizador
 
@@ -261,11 +305,11 @@ objeto. Abrir link é desserializar e aplicar.
 
 | Fase | Entrega | Portão para seguir | Estimativa |
 |---|---|---|---|
-| 0 | Pipeline + `estruturas.csv` + manifesto | 200 GLBs abrem num visualizador mínimo; total < 60 MB | 2-3 dias |
+| 0 | Pipeline + `estruturas.csv` + manifesto + visualizador mínimo | 251 GLBs abrem; total < 30 MB | 2-3 dias |
 | 1 | Visualizador desktop completo (seções 4.2, 4.3, 5) | E2E de desmontar/encaixar/explodir passa | 1-2 semanas |
 | 2 | Login, gerar link, snapshot, lista, revogação | E2E de link passa; revogado dá 404 | 3-4 dias |
 | 3 | Celular e fallback | Roda em iPhone 12 e Galaxy A54; fallback dispara em aparelho fraco | 3-4 dias |
-| 4 | Conteúdo revisado | 100% das ~200 peças com `status: revisado` | depende do médico revisor (~200 × 5 min) |
+| 4 | Conteúdo revisado | 100% das 251 peças com `status: revisado` | depende do médico revisor (~251 × 5 min) |
 | 5 | Ponte com o AgendaHora | spec próprio | fora deste documento |
 
 Estimativas são de esforço de desenvolvimento, não de calendário.
@@ -276,7 +320,7 @@ Estimativas são de esforço de desenvolvimento, não de calendário.
   cuidadosa; aceitar que o realismo é de atlas bem iluminado, não de cinema.
 - **Corpo só masculino** na v1. Metade dos pacientes não se vê no modelo. Declarado na
   interface; atlas feminino é candidato para versão seguinte.
-- **Conteúdo é o gargalo**: 200 peças × 3 blocos exigem revisão médica. A regra
+- **Conteúdo é o gargalo**: 251 peças × 3 blocos exigem revisão médica. A regra
   "só revisado vai ao paciente" garante que o produto não mente enquanto isso.
 - **Nota livre do médico** pode conter dado de paciente apesar do aviso. Mitigação na
   v1: aviso; versão seguinte pode bloquear padrões de CPF e e-mail.
