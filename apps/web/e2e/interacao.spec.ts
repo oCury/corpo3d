@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { PNG } from 'pngjs';
+import { aguardarModeloRenderizado } from './util';
 
 async function abrir(page: Page) {
   await page.goto('/');
@@ -7,31 +7,6 @@ async function abrir(page: Page) {
   await expect(cena).toHaveAttribute('data-pecas', '251');
   await expect(cena).toHaveAttribute('data-visiveis', '251');
   return cena;
-}
-
-const FUNDO = [16, 18, 20]; // #101214, a cor de fundo do canvas
-/** Fração dos pixels de uma janela central de 200px que NÃO são o fundo. */
-function fracaoNaoFundo(png: Buffer): number {
-  const img = PNG.sync.read(png);
-  const lado = 200;
-  const x0 = Math.floor(img.width / 2 - lado / 2), y0 = Math.floor(img.height / 2 - lado / 2);
-  let diferentes = 0, total = 0;
-  for (let y = y0; y < y0 + lado; y++) for (let x = x0; x < x0 + lado; x++) {
-    const i = (img.width * y + x) * 4;
-    const d = Math.abs(img.data[i] - FUNDO[0]) + Math.abs(img.data[i + 1] - FUNDO[1]) + Math.abs(img.data[i + 2] - FUNDO[2]);
-    total++; if (d > 30) diferentes++;
-  }
-  return diferentes / total;
-}
-
-/**
- * `abrir()` só garante que o manifesto (metadados) carregou — os 251 GLBs ainda estão chegando
- * de forma assíncrona (Suspense) e o canvas só assume o tamanho final e ganha malhas clicáveis
- * depois disso. Sem esta espera, um clique no canvas logo após `abrir()` não acerta nada (raycast
- * vazio): é uma corrida, não uma questão de altura do clique.
- */
-async function aguardarModeloRenderizado(page: Page) {
-  await expect.poll(async () => fracaoNaoFundo(await page.screenshot()), { timeout: 60_000 }).toBeGreaterThan(0.2);
 }
 
 test('camadas: opacidade 0 desmonta as peças do sistema; 1 remonta', async ({ page }) => {

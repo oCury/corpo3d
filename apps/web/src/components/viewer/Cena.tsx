@@ -22,6 +22,15 @@ function FiltrarHits() {
   return null;
 }
 
+/** Expõe a cena Three.js em `window.__cena` para os testes E2E lerem posições de peças diretamente. */
+function ExporCena() {
+  const scene = useThree((s) => s.scene);
+  useEffect(() => {
+    (window as unknown as { __cena?: unknown }).__cena = scene;
+  }, [scene]);
+  return null;
+}
+
 /** Espelha câmera/alvo do OrbitControls no store ao fim de cada gesto (sem histórico). */
 function SincronizarCamera() {
   const controles = useThree((s) => s.controls);
@@ -108,6 +117,7 @@ export function Cena() {
         <FiltrarHits />
         <SincronizarCamera />
         <Camera />
+        {process.env.NODE_ENV !== 'production' && <ExporCena />}
       </Canvas>
     </div>
   );
