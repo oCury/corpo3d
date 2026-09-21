@@ -1,6 +1,6 @@
 fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao,inflarMm,confinar
 FMA7163,partof,,,Cutis,Pele,pele,pele,-,,1,3.5,
-FMA46565,partof,,FMA52748,Cranium,Crânio,"crânio (ossos da cabeça, sem o maxilar inferior)",esqueleto,-,,0.3,,
+FMA46565,partof,,FMA52748;FMA12514;FMA12515,Cranium,Crânio,"crânio (ossos da cabeça, sem o maxilar inferior)",esqueleto,-,,0.3,,
 FMA52748,partof,,,Mandibula,Mandíbula,maxilar inferior (osso do queixo),esqueleto,-,,,,
 FMA52749,partof,,,Os hyoideum,Osso hioide,osso hioide (na frente do pescoço),esqueleto,-,,,,
 FMA12519,partof,,,Atlas (C I),Atlas (C1),1ª vértebra do pescoço,esqueleto,-,,,,

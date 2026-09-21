@@ -66,6 +66,7 @@ const RAIO_OLHO = 0.0125;
  * continua dentro da pálpebra. O conserto de verdade é tirar o globo de dentro do crânio no
  * pipeline; isto é o que dá para fazer sem reprocessar o atlas.
  */
+/** A fenda palpebral do atlas é estreita: com o olho no centro do globo do atlas a íris some atrás das pálpebras; 4 mm à frente ela aparece sem furar a pele (superfície a ~20 mm). */
 const DESLOCAMENTO_Z_OLHO = 0.004;
 
 /**
