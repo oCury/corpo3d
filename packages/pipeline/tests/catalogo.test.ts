@@ -22,6 +22,14 @@ describe('catalogo', () => {
     expect(linhas[3].vetorExplosao).toEqual([0, 0, 1]);
   });
 
+  it('lança erro se houver fmaId repetido no CSV', () => {
+    const csv = 'fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao\n'
+      + 'FMA1,partof,,,Cor,Coração,coração,cardiovascular,-,,\n'
+      + 'FMA4,partof,,,Splen,Baço,baço,linfatico,-,,\n'
+      + 'FMA1,partof,,,Cor,Coração,coração,cardiovascular,-,,\n';
+    expect(() => lerCsvEstruturas(csv)).toThrow(/duplicado.*FMA1/);
+  });
+
   it('resolve união, exclusão e fallback de árvore', () => {
     const pecas = resolverPecas(lerCsvEstruturas(fx('estruturas.csv')), {
       partof: lerElementos(fx('partof_element_parts.txt')),
@@ -44,5 +52,16 @@ describe('catalogo', () => {
     const csv = lerCsvEstruturas('fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao\nFMA2,partof,,FMA2,X,X,x,pele,-,,\n');
     const m = lerElementos(fx('partof_element_parts.txt'));
     expect(() => resolverPecas(csv, { partof: m, isa: new Map() })).toThrow(/sem elementos/);
+  });
+  it('resolverPecas falha alto se um extra não existe em nenhuma árvore', () => {
+    const csv = lerCsvEstruturas('fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao\nFMA1,partof,FMA6,,Cor,Coração,coração,cardiovascular,-,,\n');
+    const m = lerElementos(fx('partof_element_parts.txt'));
+    expect(() => resolverPecas(csv, { partof: m, isa: new Map() })).toThrow(/extra FMA6 não existe/);
+  });
+
+  it('resolverPecas falha alto se uma exclusão não existe em nenhuma árvore', () => {
+    const csv = lerCsvEstruturas('fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao\nFMA1,partof,,FMA9,Cor,Coração,coração,cardiovascular,-,,\n');
+    const m = lerElementos(fx('partof_element_parts.txt'));
+    expect(() => resolverPecas(csv, { partof: m, isa: new Map() })).toThrow(/exclusão FMA9 não existe/);
   });
 });

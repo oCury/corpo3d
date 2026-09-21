@@ -40,7 +40,7 @@ const SISTEMAS: Sistema[] = ['pele','esqueleto','musculos','cardiovascular','res
 export function lerCsvEstruturas(texto: string): LinhaEstrutura[] {
   const linhas = texto.split('\n').map((l) => l.replace(/\r$/, '')).filter((l) => l.trim());
   const cab = dividirCsv(linhas[0]);
-  return linhas.slice(1).map((l, i) => {
+  const resultado = linhas.slice(1).map((l, i) => {
     const v = Object.fromEntries(cab.map((k, j) => [k, (dividirCsv(l)[j] ?? '').trim()]));
     const lista = (s: string) => s ? s.split(';').map((x) => x.trim()).filter(Boolean) : [];
     if (!/^FMA\d+$/.test(v.fmaId)) throw new Error(`linha ${i + 2}: fmaId inválido "${v.fmaId}"`);
@@ -55,8 +55,20 @@ export function lerCsvEstruturas(texto: string): LinhaEstrutura[] {
       fmaId: v.fmaId, arvore: v.arvore as Arvore, fmaIdsExtras: lista(v.fmaIdsExtras), excluirFmaIds: lista(v.excluirFmaIds),
       nomeLatim: v.nomeLatim, nomePt: v.nomePt, nomeLeigo: v.nomeLeigo, sistema: v.sistema as Sistema, lado: v.lado as Lado,
       vetorExplosao: vetor as [number, number, number] | undefined, razaoSimplificacao: razao,
+      _linha: i + 2,
     };
   });
+
+  const primeiraLinhaPorId = new Map<string, number>();
+  for (const l of resultado) {
+    const anterior = primeiraLinhaPorId.get(l.fmaId);
+    if (anterior !== undefined) {
+      throw new Error(`fmaId duplicado: ${l.fmaId} (linhas ${anterior} e ${l._linha})`);
+    }
+    primeiraLinhaPorId.set(l.fmaId, l._linha);
+  }
+
+  return resultado.map(({ _linha, ...resto }) => resto);
 }
 
 function elementosDe(id: string, preferida: Arvore, mapas: Mapas): { elementos: Set<string>; arvore: Arvore } | undefined {
