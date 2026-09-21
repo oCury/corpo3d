@@ -37,5 +37,5 @@ export const RAZAO_PADRAO: Record<Sistema, number> = {
   reprodutor: 0.5,
   endocrino: 0.5,
 };
-export const ORCAMENTO_BYTES_POR_PECA = 500 * 1024;
+export const ORCAMENTO_BYTES_POR_PECA = 1024 * 1024;
 export const ORCAMENTO_BYTES_TOTAL = 30 * 1024 * 1024;

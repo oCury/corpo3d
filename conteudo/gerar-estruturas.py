@@ -4,6 +4,10 @@
 Rodado uma vez em 2026-09-21. Depois disso o CSV é a fonte da verdade e é editado à mão;
 este script fica só como registro de proveniência (de onde veio cada ID) e para
 regenerar do zero se for preciso. Precisa das listas em .cache/bp3d/ (ver pipeline).
+
+A partir de 21/09 (fase 1.5) o CSV é editado à mão: pele ganhou razaoSimplificacao=1 e
+inflarMm=2, e os olhos = globos FMA12514 (direito) e FMA12515 (esquerdo) no lugar das
+12 peças de córnea/esclera/íris/cristalino/corpo vítreo/coroide.
 """
 import csv, sys
 import os

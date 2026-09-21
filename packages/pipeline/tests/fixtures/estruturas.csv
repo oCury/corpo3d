@@ -1,5 +1,5 @@
-fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao
-FMA1,partof,,,Cor,Coração,coração,cardiovascular,-,,
-FMA3,partof,,FMA2,Cranium,Crânio,"crânio (ossos da cabeça, sem o maxilar)",esqueleto,-,,0.3
-FMA4,partof,,,Splen,Baço,baço,linfatico,-,,
-FMA5,isa,FMA6,,Musculus biceps brachii,Bíceps braquial direito,bíceps direito,musculos,D,"0,0,1",
+fmaId,arvore,fmaIdsExtras,excluirFmaIds,nomeLatim,nomePt,nomeLeigo,sistema,lado,vetorExplosao,razaoSimplificacao,inflarMm
+FMA1,partof,,,Cor,Coração,coração,cardiovascular,-,,,2
+FMA3,partof,,FMA2,Cranium,Crânio,"crânio (ossos da cabeça, sem o maxilar)",esqueleto,-,,0.3,
+FMA4,partof,,,Splen,Baço,baço,linfatico,-,,,
+FMA5,isa,FMA6,,Musculus biceps brachii,Bíceps braquial direito,bíceps direito,musculos,D,"0,0,1",,

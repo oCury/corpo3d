@@ -6,7 +6,7 @@ export type Lado = 'D' | 'E' | '-';
 export interface LinhaEstrutura {
   fmaId: string; arvore: Arvore; fmaIdsExtras: string[]; excluirFmaIds: string[];
   nomeLatim: string; nomePt: string; nomeLeigo: string; sistema: Sistema; lado: Lado;
-  vetorExplosao?: [number, number, number]; razaoSimplificacao?: number;
+  vetorExplosao?: [number, number, number]; razaoSimplificacao?: number; inflarMm?: number;
 }
 export interface Peca extends LinhaEstrutura { elementos: Set<string>; arvoreUsada: Arvore; }
 export type Mapas = Record<Arvore, Map<string, Set<string>>>;
@@ -51,10 +51,12 @@ export function lerCsvEstruturas(texto: string): LinhaEstrutura[] {
     if (vetor && (vetor.length !== 3 || vetor.some(Number.isNaN))) throw new Error(`linha ${i + 2}: vetorExplosao inválido`);
     const razao = v.razaoSimplificacao ? Number(v.razaoSimplificacao) : undefined;
     if (razao !== undefined && !(razao > 0 && razao <= 1)) throw new Error(`linha ${i + 2}: razaoSimplificacao fora de (0,1]`);
+    const inflarMm = v.inflarMm ? Number(v.inflarMm) : undefined;
+    if (inflarMm !== undefined && !(inflarMm >= 0)) throw new Error(`linha ${i + 2}: inflarMm inválido "${v.inflarMm}"`);
     return {
       fmaId: v.fmaId, arvore: v.arvore as Arvore, fmaIdsExtras: lista(v.fmaIdsExtras), excluirFmaIds: lista(v.excluirFmaIds),
       nomeLatim: v.nomeLatim, nomePt: v.nomePt, nomeLeigo: v.nomeLeigo, sistema: v.sistema as Sistema, lado: v.lado as Lado,
-      vetorExplosao: vetor as [number, number, number] | undefined, razaoSimplificacao: razao,
+      vetorExplosao: vetor as [number, number, number] | undefined, razaoSimplificacao: razao, inflarMm,
     };
   });
   // cada item de `resultado` corresponde à linha i+2 do arquivo (cabeçalho é a linha 1)

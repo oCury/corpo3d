@@ -31,7 +31,10 @@ export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
     const g = novaGeometria();
     for (const fj of p.elementos) parseObj(lerElemento(op.dirObj, fj, p), g);
     const glb = `${p.sistema}/${p.fmaId}.glb`;
-    const st = await escreverGlb(g, join(op.dirSaida, glb), { razao: p.razaoSimplificacao ?? RAZAO_PADRAO[p.sistema], nome: p.fmaId });
+    const st = await escreverGlb(g, join(op.dirSaida, glb), {
+      razao: p.razaoSimplificacao ?? RAZAO_PADRAO[p.sistema], nome: p.fmaId,
+      inflarM: p.inflarMm ? p.inflarMm / 1000 : undefined,
+    });
     saida.push({
       fmaId: p.fmaId, nomeLatim: p.nomeLatim, nomePt: p.nomePt, nomeLeigo: p.nomeLeigo, sistema: p.sistema, lado: p.lado,
       glb, bytes: st.bytes, triangulos: st.triangulosDepois, elementos: p.elementos.size,

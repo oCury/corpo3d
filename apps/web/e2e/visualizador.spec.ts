@@ -16,7 +16,7 @@ function fracaoNaoFundo(png: Buffer, lado = 200): number {
   return diferentes / total;
 }
 
-test('abre o manifesto, carrega as 251 peças sem erro de console e renderiza pixels', async ({ page }, info) => {
+test('abre o manifesto, carrega as 241 peças sem erro de console e renderiza pixels', async ({ page }, info) => {
   const erros: string[] = [];
   page.on('console', (m) => { if (m.type() === 'error') erros.push(m.text()); });
   page.on('pageerror', (e) => erros.push(e.message));
@@ -26,11 +26,11 @@ test('abre o manifesto, carrega as 251 peças sem erro de console e renderiza pi
   await page.goto('/');
   const cena = page.getByTestId('cena');
   await expect(cena).toBeVisible();
-  await expect(cena).toHaveAttribute('data-pecas', '251');
+  await expect(cena).toHaveAttribute('data-pecas', '241');
   await expect(page.locator('canvas')).toBeVisible();
 
-  // espera os GLBs chegarem (251 requisições OK)
-  await expect.poll(() => respostas.length, { timeout: 60_000 }).toBeGreaterThanOrEqual(251);
+  // espera os GLBs chegarem (241 requisições OK)
+  await expect.poll(() => respostas.length, { timeout: 60_000 }).toBeGreaterThanOrEqual(241);
   expect(respostas.filter((s) => s !== 200 && s !== 304)).toEqual([]);
 
   // o canvas não pode estar todo da cor de fundo: espera (determinística, por poll) até que uma janela

@@ -36,7 +36,7 @@ export function bboxDe(pos: ArrayLike<number>): Bbox {
  * weld → simplify (meshoptimizer) → normais suaves próprias → prune → meshopt (quantiza e
  * comprime). bbox/centro vêm da geometria float, antes da quantização.
  */
-export async function escreverGlb(g: Geometria, saida: string, op: { razao: number; nome: string }): Promise<EstatisticasGlb> {
+export async function escreverGlb(g: Geometria, saida: string, op: { razao: number; nome: string; inflarM?: number }): Promise<EstatisticasGlb> {
   if (g.posicoes.length === 0 || g.indices.length === 0) throw new Error(`geometria vazia para ${op.nome}`);
   const bbox = bboxDe(g.posicoes);
   const centro: [number, number, number] = [0, 1, 2].map((k) => (bbox.min[k] + bbox.max[k]) / 2) as [number, number, number];
@@ -51,10 +51,17 @@ export async function escreverGlb(g: Geometria, saida: string, op: { razao: numb
   const nodeIo = await getIo();
   await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: op.razao, error: ERRO_SIMPLIFICACAO }));
   const p = doc.getRoot().listMeshes()[0].listPrimitives()[0];
-  const pos = p.getAttribute('POSITION')?.getArray();
+  const posAcc = p.getAttribute('POSITION');
+  const pos = posAcc?.getArray();
   const idx = p.getIndices()?.getArray();
-  if (!pos || !idx || idx.length === 0) throw new Error(`simplify não deixou geometria indexada para ${op.nome}`);
-  p.setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(normaisSuaves(pos, idx)).setBuffer(buffer));
+  if (!posAcc || !pos || !idx || idx.length === 0) throw new Error(`simplify não deixou geometria indexada para ${op.nome}`);
+  const n = normaisSuaves(pos, idx);
+  if (op.inflarM) {
+    const inflado = new Float32Array(pos);
+    for (let i = 0; i < inflado.length; i++) inflado[i] += n[i] * op.inflarM;
+    posAcc.setArray(inflado);
+  }
+  p.setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(n).setBuffer(buffer));
   const triangulosDepois = idx.length / 3;
   await doc.transform(prune(), meshopt({ encoder: MeshoptEncoder }));
 
