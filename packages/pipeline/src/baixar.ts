@@ -11,6 +11,7 @@ import {
   DIR_CACHE,
   DIR_OBJ_NO_ZIP,
   TOTAL_OBJS_ESPERADOS,
+  ZIP_BYTES,
   ZIP_NOME,
   ZIP_SHA256,
 } from './constantes.js';
@@ -94,7 +95,7 @@ export async function extrairObjs(zip: string, destino: string): Promise<number>
 export async function baixarTudo(): Promise<void> {
   const zip = join(DIR_CACHE, ZIP_NOME);
   if (await precisaBaixar(zip, ZIP_SHA256)) {
-    console.log(`baixando ${ZIP_NOME} (143 MB)…`);
+    console.log(`baixando ${ZIP_NOME} (${(ZIP_BYTES / 1048576).toFixed(0)} MB)…`);
     await baixarArquivo(`${BASE_URL}/${ZIP_NOME}`, zip);
     const sha = await sha256DoArquivo(zip);
     if (sha !== ZIP_SHA256) throw new Error(`SHA-256 do zip não confere: ${sha}`);
