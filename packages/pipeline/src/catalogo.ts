@@ -52,7 +52,7 @@ export function lerCsvEstruturas(texto: string): LinhaEstrutura[] {
     const razao = v.razaoSimplificacao ? Number(v.razaoSimplificacao) : undefined;
     if (razao !== undefined && !(razao > 0 && razao <= 1)) throw new Error(`linha ${i + 2}: razaoSimplificacao fora de (0,1]`);
     const inflarMm = v.inflarMm ? Number(v.inflarMm) : undefined;
-    if (inflarMm !== undefined && !(inflarMm >= 0)) throw new Error(`linha ${i + 2}: inflarMm inválido "${v.inflarMm}"`);
+    if (inflarMm !== undefined && !(Number.isFinite(inflarMm) && Math.abs(inflarMm) <= 10)) throw new Error(`linha ${i + 2}: inflarMm inválido "${v.inflarMm}" (mm, entre -10 e 10; negativo encolhe)`);
     return {
       fmaId: v.fmaId, arvore: v.arvore as Arvore, fmaIdsExtras: lista(v.fmaIdsExtras), excluirFmaIds: lista(v.excluirFmaIds),
       nomeLatim: v.nomeLatim, nomePt: v.nomePt, nomeLeigo: v.nomeLeigo, sistema: v.sistema as Sistema, lado: v.lado as Lado,
