@@ -2,6 +2,7 @@
 import { Cena } from '@/components/viewer/Cena';
 import { PainelCamadas } from './PainelCamadas';
 import { Controles } from './Controles';
+import { PainelPeca } from './PainelPeca';
 
 export function Estudio() {
   return (
@@ -13,7 +14,9 @@ export function Estudio() {
       <section className="palco" aria-label="Modelo 3D">
         <Cena />
       </section>
-      <aside className="painel painel-direito" aria-label="Peça selecionada" data-testid="painel-peca" />
+      <aside className="painel painel-direito" aria-label="Peça selecionada" data-testid="painel-peca">
+        <PainelPeca />
+      </aside>
     </div>
   );
 }
