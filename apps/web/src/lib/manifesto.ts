@@ -12,6 +12,9 @@ export type Sistema =
   | 'nervoso'
   | 'olho';
 
+export const SISTEMAS = ['pele', 'esqueleto', 'musculos', 'cardiovascular', 'respiratorio', 'digestivo',
+  'linfatico', 'urinario', 'reprodutor', 'endocrino', 'nervoso', 'olho'] as const satisfies readonly Sistema[];
+
 export interface PecaManifesto {
   fmaId: string;
   nomeLatim: string;

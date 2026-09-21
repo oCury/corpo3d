@@ -38,10 +38,10 @@ test('abre o manifesto, carrega as 251 peças sem erro de console e renderiza pi
   const lado = Math.min(200, Math.floor(Math.min(page.viewportSize()!.width, page.viewportSize()!.height) / 3));
   let captura: Buffer = Buffer.alloc(0);
   await expect.poll(async () => {
-    captura = await page.screenshot();
+    try { captura = await page.screenshot(); } catch { return 0; }   // recusa do Chromium = ainda não pronto
     return fracaoNaoFundo(captura, lado);
   }, { message: `janela central de ${lado}px continua sendo fundo`, timeout: 30_000 }).toBeGreaterThan(0.2);
-  await page.screenshot({ path: info.outputPath(`corpo-${info.project.name}.png`) });
+  try { await page.screenshot({ path: info.outputPath(`corpo-${info.project.name}.png`) }); } catch { /* artefato opcional */ }
 
   expect(erros).toEqual([]);
 });
