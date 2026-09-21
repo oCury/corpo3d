@@ -5,3 +5,4 @@ node_modules/
 .env.*
 !.env.example
 apps/web/public/models/
+*.tsbuildinfo
