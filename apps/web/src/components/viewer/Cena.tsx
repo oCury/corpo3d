@@ -9,9 +9,11 @@ export function Cena() {
   const [manifesto, setManifesto] = useState<Manifesto | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   useEffect(() => {
+    let ativo = true; // evita setState depois do unmount
     carregarManifesto()
-      .then(setManifesto)
-      .catch((e: Error) => setErro(e.message));
+      .then((m) => { if (ativo) setManifesto(m); })
+      .catch((e: Error) => { if (ativo) setErro(e.message); });
+    return () => { ativo = false; };
   }, []);
 
   if (erro)

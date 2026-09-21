@@ -38,7 +38,7 @@ export interface Manifesto {
 }
 
 export async function carregarManifesto(): Promise<Manifesto> {
-  const res = await fetch('/models/manifest.json', { cache: 'force-cache' });
+  const res = await fetch('/models/manifest.json', { cache: 'no-cache' }); // revalida com ETag; imutáveis são os GLBs, não o manifesto
   if (!res.ok) throw new Error(`manifest.json: HTTP ${res.status}`);
   const m = (await res.json()) as Manifesto;
   if (m.versao !== 1 || !Array.isArray(m.pecas)) throw new Error('manifest.json em formato inesperado');

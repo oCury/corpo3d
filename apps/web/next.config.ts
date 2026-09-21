@@ -11,6 +11,11 @@ const config: NextConfig = {
         source: '/models/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
+      {
+        // o manifesto muda a cada build do pipeline; a regra posterior sobrepõe a anterior para o mesmo header
+        source: '/models/manifest.json',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
+      },
     ];
   },
 };

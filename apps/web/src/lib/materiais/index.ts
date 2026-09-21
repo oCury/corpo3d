@@ -33,8 +33,8 @@ export const RECEITAS: Record<Sistema, Receita> = {
 /** Cor semântica para artérias x veias, sobrepondo a receita do sistema quando o nome diz. */
 export function corPorNome(sistema: Sistema, nomeLatim: string): string {
   if (sistema !== 'cardiovascular') return RECEITAS[sistema].cor;
-  if (/^Vena|Venae/.test(nomeLatim)) return '#3f5fa8';
-  if (/^Arteria|Truncus|Circulus|Aorta/.test(nomeLatim)) return '#c4322d';
+  if (/^(Vena|Venae)\b/.test(nomeLatim)) return '#3f5fa8';
+  if (/^(Arteria|Truncus|Circulus|Aorta)\b/.test(nomeLatim)) return '#c4322d';
   return RECEITAS.cardiovascular.cor;
 }
 
