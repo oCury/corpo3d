@@ -32,7 +32,7 @@ Decisões tomadas no brainstorming (2026-09-21):
 - **Estrutura real dos dados (verificada em 2026-09-21):**
   - Um único zip basta: `isa_BP3D_4.0_obj_99.zip` (142.903.898 bytes, SHA-256
     `40665852c49f218326590e204db91064a1ecfc3c6f8cbd7bbbcaac62c7cd409e`) contém **2.234
-    arquivos-elemento** `isa_BP3D_4.0_obj_99/FJ####.obj` (52 deles com sufixo `M`, cópias
+    arquivos-elemento** `isa_BP3D_4.0_obj_99/FJ####.obj` (241 deles com sufixo `M`, cópias
     espelhadas). O zip `partof` (1.258 arquivos) é subconjunto com geometria idêntica; só o
     cabeçalho de comentário difere.
   - Um **conceito** (ID FMA, ex. `FMA7088` coração) é a **união de vários elementos**: o
