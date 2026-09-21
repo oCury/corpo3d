@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { CSV_ESTRUTURAS, DIR_CACHE, DIR_SAIDA, RAZAO_PADRAO } from './constantes';
-import { lerCsvEstruturas, lerElementos, resolverPecas, type Sistema } from './catalogo';
+import { lerCsvEstruturas, lerElementos, resolverPecas } from './catalogo';
 import { escreverGlb } from './glb';
 import { novaGeometria, parseObj } from './obj';
 import { FONTE, vetorExplosaoPadrao, type Manifesto, type PecaManifesto } from './manifesto';
@@ -9,6 +9,14 @@ import { FONTE, vetorExplosaoPadrao, type Manifesto, type PecaManifesto } from '
 export interface OpcoesConstruir {
   csv: string; elementParts: { partof: string; isa: string }; dirObj: string; dirSaida: string;
   log?: (m: string) => void;
+}
+
+function lerElemento(dirObj: string, fj: string, p: { fmaId: string; nomePt: string }): string {
+  try {
+    return readFileSync(join(dirObj, `${fj}.obj`), 'utf8');
+  } catch (e) {
+    throw new Error(`${p.fmaId} (${p.nomePt}): elemento ${fj}.obj não pôde ser lido em ${dirObj} — ${(e as Error).message}`);
+  }
 }
 
 export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
@@ -21,7 +29,7 @@ export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
   const saida: PecaManifesto[] = [];
   for (const [i, p] of pecas.entries()) {
     const g = novaGeometria();
-    for (const fj of p.elementos) parseObj(readFileSync(join(op.dirObj, `${fj}.obj`), 'utf8'), g);
+    for (const fj of p.elementos) parseObj(lerElemento(op.dirObj, fj, p), g);
     const glb = `${p.sistema}/${p.fmaId}.glb`;
     const st = await escreverGlb(g, join(op.dirSaida, glb), { razao: p.razaoSimplificacao ?? RAZAO_PADRAO[p.sistema], nome: p.fmaId });
     saida.push({
@@ -31,7 +39,7 @@ export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
     });
     log(`[${i + 1}/${pecas.length}] ${p.nomePt}: ${p.elementos.size} el, ${st.triangulosAntes}→${st.triangulosDepois} tri, ${(st.bytes / 1024).toFixed(0)} KB`);
   }
-  const sistemas = [...new Set(saida.map((p) => p.sistema))] as Sistema[];
+  const sistemas = [...new Set(saida.map((p) => p.sistema))];
   const manifesto: Manifesto = {
     versao: 1, geradoEm: new Date().toISOString(), fonte: FONTE,
     bytesTotal: saida.reduce((a, p) => a + p.bytes, 0), sistemas, pecas: saida,
