@@ -41,3 +41,11 @@ button:disabled { opacity: .45; cursor: default; }
   .titulo { position: static; padding: 10px 14px; }
   .rodape { position: static; padding: 8px 14px; }
 }
+input[type="search"] { width: 100%; box-sizing: border-box; font: inherit; background: #0d0f12; color: var(--fg); border: 1px solid var(--borda); border-radius: 6px; padding: 6px 8px; }
+.resultados, .lista-pecas, .lista-pecas ul { list-style: none; margin: 4px 0 0; padding: 0; }
+.resultados li, .lista-pecas [role="option"] { padding: 4px 6px; border-radius: 4px; cursor: pointer; }
+.resultados li:hover, .lista-pecas [role="option"]:hover { background: #22262c; }
+.lista-pecas [aria-selected="true"] { background: #2b2f36; outline: 1px solid var(--acento); }
+.resultados span { color: var(--muted); }
+.grupo { margin: 8px 0 2px; font-size: 11px; color: var(--muted); text-transform: uppercase; }
+details > summary { cursor: pointer; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin: 16px 0 8px; }
