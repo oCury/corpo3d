@@ -177,7 +177,11 @@ Orçamentos, verificados por teste: ≤ 500 KB por GLB, ≤ 30 MB no total da v1
   tone mapping ACES via `@react-three/postprocessing`. Realismo vem daqui, não da malha.
 - Olho: a v1 usa as malhas do BodyParts3D. Substituir pelo modelo do Olho3D é uma
   tarefa da fase 1 **com portão**: se importar exigir mais de um dia, fica para depois.
-- Contorno de hover e destaque por `Outline`/`Select` do postprocessing.
+- Hover e seleção por **brilho emissivo** no material da peça (0,18 e 0,30), destaque do médico
+  por emissivo colorido (0,45). ⚠ Registrado na fase 1 (21/09): `Outlines` do drei e o
+  contorno por pós-processamento não servem com a geometria quantizada dos GLBs (o contorno
+  sai em unidades locais e some; em espaço de tela, a casca atravessa a malha de duas faces e
+  mancha o corpo). Oclusão ambiente (N8AO) ficou como tarefa opcional, não executada.
 
 ### 4.3 Estado da cena
 
@@ -186,8 +190,7 @@ Um único objeto, validado por Zod, é a fonte da verdade da interface, do undo 
 ```ts
 {
   v: 1,
-  sistemasVisiveis: string[],
-  opacidade: Record<sistema, number>,      // 0–1
+  opacidade: Record<sistema, number>,      // 0–1; 0 = sistema oculto e não carregado (substitui o antigo sistemasVisiveis)
   ocultas: fmaId[],
   soltas: { fmaId, pos: [x, y, z] }[],     // peças desmontadas, em metros
   destacadas: { fmaId, cor }[],
@@ -320,7 +323,13 @@ Estimativas são de esforço de desenvolvimento, não de calendário.
   cuidadosa; aceitar que o realismo é de atlas bem iluminado, não de cinema.
 - **Corpo só masculino** na v1. Metade dos pacientes não se vê no modelo. Declarado na
   interface; atlas feminino é candidato para versão seguinte.
-- **Conteúdo é o gargalo**: 251 peças × 3 blocos exigem revisão médica. A regra
+- **Conteúdo é o gargalo**: 251 peças × 3 blocos exigem revisão médica. Até a fase 4, o painel
+  mostra "Descrição em revisão médica" nos três blocos.
+- **Peça semitransparente (< 50%) não recebe clique nem hover**: o raio passa para a peça de trás
+  (filtro de hits do R3F). Decisão da fase 1 para a pele "descascada pela metade" não bloquear os
+  órgãos.
+- **E2E é pesado em GPU**: cada teste abre um Chromium com WebGL e 251 GLBs; a suíte roda com
+  2 workers e tolera recusas de captura de tela do Chromium como "ainda não pronto". A regra
   "só revisado vai ao paciente" garante que o produto não mente enquanto isso.
 - **Nota livre do médico** pode conter dado de paciente apesar do aviso. Mitigação na
   v1: aviso; versão seguinte pode bloquear padrões de CPF e e-mail.

@@ -1831,9 +1831,9 @@ git add -A && git commit -m "feat(web): oclusão ambiente N8AO com portão de de
 
 ## Portão da fase 1 (spec §11)
 
-- [ ] `pnpm typecheck` e `cd apps/web && pnpm test` (17 unitários) e `pnpm --filter @corpo3d/pipeline test` (29) verdes
-- [ ] `cd apps/web && pnpm test:e2e` verde nos 3 viewports (33 passed, 3 skipped)
+- [x] `pnpm typecheck` e `cd apps/web && pnpm test` (29 unitários) e `pnpm --filter @corpo3d/pipeline test` (29) verdes
+- [x] `cd apps/web && pnpm test:e2e` verde nos 3 viewports (34 passed, 5 skipped — abaixo de 900 px o layout empilha e 2 testes de painel + 3 de arrasto são pulados)
 - [ ] Verificação a olho, gravando um screenshot com: pele a 40%, uma peça solta com fantasma, uma destacada com nota, explosão a 30%
-- [ ] Atualizar o spec: remover `sistemasVisiveis` do §4.3; registrar em §12 que descrições seguem placeholder até a fase 4
+- [x] Atualizar o spec: remover `sistemasVisiveis` do §4.3; registrar em §12 que descrições seguem placeholder até a fase 4 (feito em 21/09; Task 11 N8AO não executada por custo)
 
 Ao fechar: escrever o plano das fases 2–3 (login, link opaco, snapshot, celular/fallback) a partir do spec §6 e §7.
