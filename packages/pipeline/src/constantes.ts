@@ -12,6 +12,7 @@ export const ZIP_NOME = 'isa_BP3D_4.0_obj_99.zip';
 export const ZIP_SHA256 = '40665852c49f218326590e204db91064a1ecfc3c6f8cbd7bbbcaac62c7cd409e';
 export const ZIP_BYTES = 142_903_898;
 export const DIR_OBJ_NO_ZIP = 'isa_BP3D_4.0_obj_99'; // prefixo dos arquivos dentro do zip
+export const TOTAL_OBJS_ESPERADOS = 2234;
 export const ARQUIVOS_TEXTO = [
   'isa_parts_list_e.txt',
   'partof_parts_list_e.txt',

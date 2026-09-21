@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { createReadStream, createWriteStream, existsSync, mkdirSync } from 'node:fs';
-import { rename, stat, mkdir } from 'node:fs/promises';
+import { rename, rm, stat, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
@@ -10,6 +10,7 @@ import {
   BASE_URL,
   DIR_CACHE,
   DIR_OBJ_NO_ZIP,
+  TOTAL_OBJS_ESPERADOS,
   ZIP_NOME,
   ZIP_SHA256,
 } from './constantes.js';
@@ -32,7 +33,13 @@ async function baixarArquivo(url: string, destino: string): Promise<void> {
   const res = await fetch(url);
   if (!res.ok || !res.body) throw new Error(`falha ao baixar ${url}: HTTP ${res.status}`);
   const tmp = `${destino}.part`;
-  await pipeline(Readable.fromWeb(res.body as never), createWriteStream(tmp));
+  try {
+    // `fetch` tipa `body` como `ReadableStream<Uint8Array>` do DOM; `fromWeb` espera o tipo do lib.dom.
+    await pipeline(Readable.fromWeb(res.body as never), createWriteStream(tmp));
+  } catch (erro) {
+    await rm(tmp, { force: true });
+    throw erro;
+  }
   await rename(tmp, destino);
 }
 
@@ -41,31 +48,39 @@ export async function extrairObjs(zip: string, destino: string): Promise<number>
   await mkdir(destino, { recursive: true });
   return new Promise((resolvePromessa, reject) => {
     let n = 0;
-    let jaRejeitou = false;
+    let falhou = false;
 
     const falhar = (erro: Error): void => {
-      if (jaRejeitou) return;
-      jaRejeitou = true;
+      if (falhou) return;
+      falhou = true;
       reject(erro);
+    };
+
+    // Só avança para a próxima entrada se ainda não falhamos — evita ler além
+    // de um erro já rejeitado e evita rejeitar a Promise mais de uma vez.
+    const proximaEntrada = (arquivo: yauzl.ZipFile): void => {
+      if (falhou) return;
+      arquivo.readEntry();
     };
 
     yauzl.open(zip, { lazyEntries: true }, (err, arquivo) => {
       if (err) return falhar(err);
-      arquivo.readEntry();
+      proximaEntrada(arquivo);
       arquivo.on('entry', (entrada: Entry) => {
         const nome = entrada.fileName;
         if (!nome.startsWith(`${DIR_OBJ_NO_ZIP}/`) || !nome.endsWith('.obj')) {
-          arquivo.readEntry();
+          proximaEntrada(arquivo);
           return;
         }
         const alvo = join(destino, nome.slice(DIR_OBJ_NO_ZIP.length + 1));
         arquivo.openReadStream(entrada, (e, stream) => {
           if (e) return falhar(e);
+          stream.on('error', falhar);
           stream
             .pipe(createWriteStream(alvo))
             .on('finish', () => {
               n++;
-              arquivo.readEntry();
+              proximaEntrada(arquivo);
             })
             .on('error', falhar);
         });
@@ -101,7 +116,8 @@ export async function baixarTudo(): Promise<void> {
   if (!jaExtraido) {
     const n = await extrairObjs(zip, dirObj);
     console.log(`extraídos ${n} .obj`);
-    if (n !== 2234) throw new Error(`esperava 2234 .obj, extraiu ${n}`);
+    if (n !== TOTAL_OBJS_ESPERADOS)
+      throw new Error(`esperava ${TOTAL_OBJS_ESPERADOS} .obj, extraiu ${n}`);
   } else {
     console.log('objs já extraídos');
   }

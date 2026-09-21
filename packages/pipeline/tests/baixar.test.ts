@@ -1,9 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { sha256DoArquivo, precisaBaixar } from '../src/baixar';
+import { extrairObjs, sha256DoArquivo, precisaBaixar } from '../src/baixar';
+
+const AQUI = dirname(fileURLToPath(import.meta.url));
+const FIXTURE_MINI_ZIP = join(AQUI, 'fixtures', 'mini.zip');
 
 describe('baixar', () => {
   it('calcula o sha256 de um arquivo', async () => {
@@ -28,5 +32,20 @@ describe('baixar', () => {
     expect(await precisaBaixar(f, 'abc')).toBe(true);
     writeFileSync(f, 'outro conteudo');
     expect(await precisaBaixar(f, 'abc')).toBe(true);
+  });
+
+  it('extrai só os .obj do prefixo esperado, ignorando os demais arquivos do zip', async () => {
+    const destino = mkdtempSync(join(tmpdir(), 'bp3d-extrai-'));
+    const total = await extrairObjs(FIXTURE_MINI_ZIP, destino);
+    expect(total).toBe(2);
+    expect(readdirSync(destino).sort()).toEqual(['FJ1.obj', 'FJ2M.obj']);
+    expect(readFileSync(join(destino, 'FJ1.obj'), 'utf8')).toBe('v 0 0 0\n');
+  });
+
+  it('rejeita quando o caminho do zip não existe', async () => {
+    const destino = mkdtempSync(join(tmpdir(), 'bp3d-extrai-erro-'));
+    await expect(
+      extrairObjs(join(AQUI, 'fixtures', 'nao-existe.zip'), destino),
+    ).rejects.toThrow();
   });
 });
