@@ -1,4 +1,20 @@
 import { test, expect } from '@playwright/test';
+import { PNG } from 'pngjs';
+
+const FUNDO = [16, 18, 20]; // #101214, a cor de fundo do canvas
+
+/** Fração dos pixels de uma janela central que NÃO são a cor de fundo. */
+function fracaoNaoFundo(png: Buffer, lado = 200): number {
+  const img = PNG.sync.read(png);
+  const x0 = Math.floor(img.width / 2 - lado / 2), y0 = Math.floor(img.height / 2 - lado / 2);
+  let diferentes = 0, total = 0;
+  for (let y = y0; y < y0 + lado; y++) for (let x = x0; x < x0 + lado; x++) {
+    const i = (img.width * y + x) * 4;
+    const d = Math.abs(img.data[i] - FUNDO[0]) + Math.abs(img.data[i + 1] - FUNDO[1]) + Math.abs(img.data[i + 2] - FUNDO[2]);
+    total++; if (d > 30) diferentes++;
+  }
+  return diferentes / total;
+}
 
 test('abre o manifesto, carrega as 251 peças sem erro de console e renderiza pixels', async ({ page }, info) => {
   const erros: string[] = [];
@@ -17,19 +33,12 @@ test('abre o manifesto, carrega as 251 peças sem erro de console e renderiza pi
   await expect.poll(() => respostas.length, { timeout: 60_000 }).toBeGreaterThanOrEqual(251);
   expect(respostas.filter((s) => s !== 200 && s !== 304)).toEqual([]);
 
-  // o canvas não pode estar todo da cor de fundo: amostra o pixel central
+  // o canvas não pode estar todo da cor de fundo: decodifica a captura e amostra uma janela central
   await page.waitForTimeout(1500);
-  const centro = await page.evaluate(() => {
-    const c = document.querySelector('canvas') as HTMLCanvasElement;
-    const gl = c.getContext('webgl2') as WebGL2RenderingContext | null;
-    if (!gl) return null;
-    const px = new Uint8Array(4);
-    gl.readPixels(Math.floor(c.width / 2), Math.floor(c.height / 2), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
-    return Array.from(px);
-  });
-  // com preserveDrawingBuffer=false o readPixels pode devolver zeros; nesse caso a prova é o screenshot
-  await page.screenshot({ path: info.outputPath(`corpo-${info.project.name}.png`) });
-  if (centro && centro.some((v) => v !== 0)) expect(centro.slice(0, 3)).not.toEqual([16, 18, 20]);
+  const captura = await page.screenshot({ path: info.outputPath(`corpo-${info.project.name}.png`) });
+  const lado = Math.min(200, Math.floor(Math.min(page.viewportSize()!.width, page.viewportSize()!.height) / 3));
+  const fracao = fracaoNaoFundo(captura, lado);
+  expect(fracao, `janela central ${lado}px: ${(fracao * 100).toFixed(1)}% de pixels não são fundo`).toBeGreaterThan(0.2);
 
   expect(erros).toEqual([]);
 });
