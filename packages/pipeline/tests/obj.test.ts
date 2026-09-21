@@ -27,6 +27,12 @@ describe('obj', () => {
     expect(Array.from(g.indices)).toEqual([0, 1, 2, 3, 4, 5]);
   });
 
+  it('rejeita índice relativo (negativo) ou zero em vez de produzir geometria errada', () => {
+    const g = novaGeometria();
+    expect(() => parseObj('v 0 0 0\nv 1 0 0\nv 0 1 0\nf -1 -2 -3\n', g)).toThrow(/índice de face inválido/);
+    expect(() => parseObj('v 0 0 0\nf 0 0 0\n', novaGeometria())).toThrow(/índice de face inválido/);
+  });
+
   it('ignora vn, vt e comentários; preserva o sinal de y', () => {
     const g = novaGeometria();
     parseObj('v 10 -20 30\nvt 0 0\nvn 0 0 1\n# x\nf 1 1 1\n', g);

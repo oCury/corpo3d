@@ -23,7 +23,11 @@ export function parseObj(texto: string, g: Geometria): void {
         semZeroNegativo(-(+y) * MM_PARA_M),
       );
     } else if (linha.startsWith('f ')) {
-      const v = linha.trim().split(/\s+/).slice(1).map((t) => base + parseInt(t.split('/')[0], 10) - 1);
+      const v = linha.trim().split(/\s+/).slice(1).map((t) => {
+        const indice = parseInt(t.split('/')[0], 10);
+        if (!(indice >= 1)) throw new Error(`índice de face inválido "${t}" (só índices positivos absolutos são suportados)`);
+        return base + indice - 1;
+      });
       for (let i = 1; i + 1 < v.length; i++) g.indices.push(v[0], v[i], v[i + 1]);
     }
   }
