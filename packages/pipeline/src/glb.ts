@@ -4,13 +4,18 @@ import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { meshopt, prune, simplify, weld } from '@gltf-transform/functions';
 import { MeshoptDecoder, MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
-import { ERRO_SIMPLIFICACAO } from './constantes';
+import { ALCANCE_CONFINAR_M, ERRO_SIMPLIFICACAO, FOLGA_CONFINAR_M } from './constantes';
 import { normaisSuaves } from './normais';
+import { confinarDentro, type Envelope } from './confinar';
 import type { Geometria } from './obj';
 
 export interface Bbox { min: [number, number, number]; max: [number, number, number]; }
 export interface EstatisticasGlb {
   bytes: number; triangulosAntes: number; triangulosDepois: number; bbox: Bbox; centro: [number, number, number];
+  /** Geometria float final (após inflar), para servir de envelope a outras peças. Só quando pedida. */
+  geometriaFinal?: Envelope;
+  /** Vértices empurrados para dentro do envelope. */
+  confinados?: number;
 }
 
 let io: NodeIO | undefined;
@@ -36,7 +41,7 @@ export function bboxDe(pos: ArrayLike<number>): Bbox {
  * weld → simplify (meshoptimizer) → normais suaves próprias → prune → meshopt (quantiza e
  * comprime). bbox/centro vêm da geometria float, antes da quantização.
  */
-export async function escreverGlb(g: Geometria, saida: string, op: { razao: number; nome: string; inflarM?: number }): Promise<EstatisticasGlb> {
+export async function escreverGlb(g: Geometria, saida: string, op: { razao: number; nome: string; inflarM?: number; confinarEm?: Envelope; devolverGeometria?: boolean }): Promise<EstatisticasGlb> {
   if (g.posicoes.length === 0 || g.indices.length === 0) throw new Error(`geometria vazia para ${op.nome}`);
   const bbox = bboxDe(g.posicoes);
   const centro: [number, number, number] = [0, 1, 2].map((k) => (bbox.min[k] + bbox.max[k]) / 2) as [number, number, number];
@@ -56,16 +61,17 @@ export async function escreverGlb(g: Geometria, saida: string, op: { razao: numb
   const idx = p.getIndices()?.getArray();
   if (!posAcc || !pos || !idx || idx.length === 0) throw new Error(`simplify não deixou geometria indexada para ${op.nome}`);
   const n = normaisSuaves(pos, idx);
-  if (op.inflarM) {
-    const inflado = new Float32Array(pos);
-    for (let i = 0; i < inflado.length; i++) inflado[i] += n[i] * op.inflarM;
-    posAcc.setArray(inflado);
-  }
+  const final = new Float32Array(pos);
+  if (op.inflarM) for (let i = 0; i < final.length; i++) final[i] += n[i] * op.inflarM;
+  let confinados: number | undefined;
+  if (op.confinarEm) confinados = confinarDentro(final, op.confinarEm, { folgaM: FOLGA_CONFINAR_M, alcanceM: ALCANCE_CONFINAR_M });
+  if (op.inflarM || op.confinarEm) posAcc.setArray(final);
   p.setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(n).setBuffer(buffer));
   const triangulosDepois = idx.length / 3;
+  const geometriaFinal = op.devolverGeometria ? { pos: new Float32Array(final), idx: new Uint32Array(idx) } : undefined;
   await doc.transform(prune(), meshopt({ encoder: MeshoptEncoder }));
 
   mkdirSync(dirname(saida), { recursive: true });
   await nodeIo.write(saida, doc);
-  return { bytes: statSync(saida).size, triangulosAntes: g.indices.length / 3, triangulosDepois, bbox, centro };
+  return { bytes: statSync(saida).size, triangulosAntes: g.indices.length / 3, triangulosDepois, bbox, centro, geometriaFinal, confinados };
 }

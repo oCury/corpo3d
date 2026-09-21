@@ -23,6 +23,11 @@ export const ARQUIVOS_TEXTO = [
 
 export const MM_PARA_M = 0.001;
 export const ERRO_SIMPLIFICACAO = 0.005;
+/** Confinar na pele: vértice fora fica a esta distância para dentro; só vértices a menos de ALCANCE são tocados. */
+export const FOLGA_CONFINAR_M = 0.001;
+export const ALCANCE_CONFINAR_M = 0.012;
+/** Peça que serve de envelope para `confinar=pele`. */
+export const FMA_PELE = 'FMA7163';
 export const RAZAO_PADRAO: Record<Sistema, number> = {
   pele: 0.3,
   nervoso: 0.4,
