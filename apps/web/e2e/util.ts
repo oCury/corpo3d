@@ -25,5 +25,14 @@ function fracaoNaoFundo(png: Buffer): number {
  * página não acerta nada (raycast vazio): é uma corrida, não uma questão de posição do gesto.
  */
 export async function aguardarModeloRenderizado(page: Page) {
-  await expect.poll(async () => fracaoNaoFundo(await page.screenshot()), { timeout: 60_000 }).toBeGreaterThan(0.2);
+  await expect.poll(async () => {
+    // Chromium sem cabeça às vezes recusa a captura no meio de um quadro WebGL pesado
+    // ("Unable to capture screenshot"): é "ainda não pronto", não falha do teste — o poll repete.
+    try { return fracaoNaoFundo(await page.screenshot()); } catch { return 0; }
+  }, { timeout: 60_000 }).toBeGreaterThan(0.2);
+}
+
+/** Captura para arquivo só como artefato de inspeção: uma recusa do Chromium não deve reprovar o teste. */
+export async function capturarSePossivel(page: Page, path: string) {
+  try { await page.screenshot({ path }); } catch { /* artefato opcional */ }
 }

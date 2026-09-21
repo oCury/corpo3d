@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { aguardarModeloRenderizado } from './util';
+import { aguardarModeloRenderizado, capturarSePossivel } from './util';
 
 test.describe('arrasto', () => {
   test.skip(({ viewport }) => viewport!.width < 500, 'canvas estreito demais para o arrasto de 220 px');
@@ -29,7 +29,7 @@ test.describe('arrasto', () => {
     await page.mouse.up();
     await expect(cena).toHaveAttribute('data-soltas', '1');
     await expect(cena).toHaveAttribute('data-historico', '3'); // pele, músculos, soltar
-    await page.screenshot({ path: test.info().outputPath('esterno-solto.png') });
+    await capturarSePossivel(page, test.info().outputPath('esterno-solto.png'));
     await page.mouse.move(cx + 220, cy - 40);
     await page.mouse.down();
     await page.mouse.move(cx, cy, { steps: 12 });
