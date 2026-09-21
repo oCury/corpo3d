@@ -9,6 +9,19 @@ import { useReducedMotion } from '@/lib/hooks/useReducedMotion';
 import { Peca } from './Peca';
 import { Camera, type ControlesOrbita } from './Camera';
 
+/**
+ * Filtro de hits do R3F: malhas marcadas `userData.interativo === false` (opacidade < 0,5) não
+ * recebem eventos, e o hit seguinte (a peça de trás) recebe. O raycast acelerado do Bvh fica intacto.
+ */
+function FiltrarHits() {
+  const setEvents = useThree((s) => s.setEvents);
+  useEffect(() => {
+    setEvents({ filter: (hits) => hits.filter((h) => h.object.userData?.interativo !== false) });
+    return () => setEvents({ filter: undefined });
+  }, [setEvents]);
+  return null;
+}
+
 /** Espelha câmera/alvo do OrbitControls no store ao fim de cada gesto (sem histórico). */
 function SincronizarCamera() {
   const controles = useThree((s) => s.controls);
@@ -92,6 +105,7 @@ export function Cena() {
             ))}
           </Bvh>
         </Suspense>
+        <FiltrarHits />
         <SincronizarCamera />
         <Camera />
       </Canvas>

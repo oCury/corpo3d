@@ -204,7 +204,8 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
         onPointerOut={onPointerOut}
       >
         <group matrix={matriz} matrixAutoUpdate={false}>
-          <mesh geometry={geometria} material={material} />
+          {/* `interativo=false` faz o filtro de hits da Cena ignorar esta malha: o raio segue para a peça de trás */}
+          <mesh geometry={geometria} material={material} userData={{ fmaId: peca.fmaId, interativo: opacidade >= OPACIDADE_MINIMA_INTERATIVA }} />
         </group>
         {(nota || cor) && <Nota posicao={centroNoGrupo} texto={nota || peca.nomeLeigo} cor={cor} />}
       </group>
