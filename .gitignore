@@ -5,3 +5,6 @@ node_modules/
 .env.*
 !.env.example
 apps/web/public/models/
+*.tsbuildinfo
+apps/web/test-results/
+apps/web/playwright-report/

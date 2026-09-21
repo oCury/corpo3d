@@ -1,0 +1,7 @@
+concept id	name	element file id
+FMA1	coracao	FJ10
+FMA1	coracao	FJ11
+FMA2	mandibula	FJ20
+FMA3	cranio	FJ20
+FMA3	cranio	FJ30
+FMA3	cranio	FJ31

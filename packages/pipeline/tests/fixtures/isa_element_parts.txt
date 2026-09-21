@@ -1,0 +1,4 @@
+concept id	name	element file id
+FMA4	baco	FJ40
+FMA5	cabeca curta	FJ50
+FMA6	cabeca longa	FJ51
