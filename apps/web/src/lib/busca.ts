@@ -1,7 +1,7 @@
 import type { PecaManifesto } from './manifesto';
 
 export const MAX_RESULTADOS = 20;
-export const normalizar = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+export const normalizar = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036F]/g, '').toLowerCase().trim();
 
 export function buscarPecas(pecas: PecaManifesto[], consulta: string): PecaManifesto[] {
   const q = normalizar(consulta);
