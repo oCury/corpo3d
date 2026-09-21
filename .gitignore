@@ -1,0 +1,7 @@
+.cache/
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+apps/web/public/models/
