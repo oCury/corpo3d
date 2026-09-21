@@ -1,5 +1,6 @@
 import { MeshPhysicalMaterial, MeshBasicMaterial, Color, DoubleSide } from 'three';
 import type { Sistema } from '../manifesto';
+import { materialPele } from './pele';
 
 interface Receita {
   cor: string;
@@ -45,6 +46,11 @@ export function materialPara(sistema: Sistema, nomeLatim: string): MeshPhysicalM
   const chave = `${sistema}:${cor}`;
   const existente = cache.get(chave);
   if (existente) return existente;
+  if (sistema === 'pele') {
+    const pele = materialPele();
+    cache.set(chave, pele);
+    return pele;
+  }
   const r = RECEITAS[sistema];
   const m = new MeshPhysicalMaterial({
     color: new Color(cor),
