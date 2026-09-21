@@ -101,6 +101,5 @@ export const useLoja = create<Loja>()((set, get) => ({
 }));
 
 /** Seletores derivados, memoizáveis pelos componentes. */
-export const estaSolta = (e: EstadoCena, fmaId: string) => e.soltas.find((s) => s.fmaId === fmaId) ?? null;
 export const corDestaqueDe = (e: EstadoCena, fmaId: string) => e.destacadas.find((d) => d.fmaId === fmaId)?.cor ?? null;
 export const notaDe = (e: EstadoCena, fmaId: string) => e.notas.find((n) => n.fmaId === fmaId)?.texto ?? '';

@@ -14,6 +14,7 @@ export function Controles() {
   const deslizador = useDeslizador((v) => definirExplosao(v, { historico: false }));
   const irPara = (p: keyof typeof PRESETS_CAMERA) => { definirCamera(PRESETS_CAMERA[p].pos, PRESETS_CAMERA[p].alvo); definirPreset(p); };
   return (
+    <>
     <section aria-labelledby="controles-titulo" className="painel-bloco">
       <h2 id="controles-titulo">Montagem</h2>
       <label className="camada"><span>Explosão</span>
@@ -24,7 +25,9 @@ export function Controles() {
         <button type="button" onClick={desfazer} disabled={!podeDesfazer} aria-keyshortcuts="Meta+Z Control+Z">Desfazer</button>
         <button type="button" onClick={refazer} disabled={!podeRefazer} aria-keyshortcuts="Shift+Meta+Z Shift+Control+Z">Refazer</button>
       </div>
-      <h2>Câmera</h2>
+    </section>
+    <section aria-labelledby="camera-titulo" className="painel-bloco">
+      <h2 id="camera-titulo">Câmera</h2>
       <div className="linha-botoes">
         {(Object.keys(ROTULO_PRESET) as (keyof typeof ROTULO_PRESET)[]).map((p) => (
           <button key={p} type="button" onClick={() => irPara(p)}>{ROTULO_PRESET[p]}</button>
@@ -32,5 +35,6 @@ export function Controles() {
         <button type="button" onClick={() => irPara('frente')}>Recentrar</button>
       </div>
     </section>
+    </>
   );
 }
