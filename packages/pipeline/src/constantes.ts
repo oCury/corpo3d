@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import type { Sistema } from './catalogo';
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 export const RAIZ = resolve(AQUI, '..', '..', '..'); // corpo3d/
@@ -22,7 +23,7 @@ export const ARQUIVOS_TEXTO = [
 
 export const MM_PARA_M = 0.001;
 export const ERRO_SIMPLIFICACAO = 0.005;
-export const RAZAO_PADRAO: Record<string, number> = {
+export const RAZAO_PADRAO: Record<Sistema, number> = {
   pele: 0.3,
   nervoso: 0.4,
   olho: 0.6,

@@ -33,12 +33,15 @@ test('abre o manifesto, carrega as 251 peças sem erro de console e renderiza pi
   await expect.poll(() => respostas.length, { timeout: 60_000 }).toBeGreaterThanOrEqual(251);
   expect(respostas.filter((s) => s !== 200 && s !== 304)).toEqual([]);
 
-  // o canvas não pode estar todo da cor de fundo: decodifica a captura e amostra uma janela central
-  await page.waitForTimeout(1500);
-  const captura = await page.screenshot({ path: info.outputPath(`corpo-${info.project.name}.png`) });
+  // o canvas não pode estar todo da cor de fundo: espera (determinística, por poll) até que uma janela
+  // central da captura tenha mais de 20% de pixels que não são o fundo, e guarda a última captura
   const lado = Math.min(200, Math.floor(Math.min(page.viewportSize()!.width, page.viewportSize()!.height) / 3));
-  const fracao = fracaoNaoFundo(captura, lado);
-  expect(fracao, `janela central ${lado}px: ${(fracao * 100).toFixed(1)}% de pixels não são fundo`).toBeGreaterThan(0.2);
+  let captura: Buffer = Buffer.alloc(0);
+  await expect.poll(async () => {
+    captura = await page.screenshot();
+    return fracaoNaoFundo(captura, lado);
+  }, { message: `janela central de ${lado}px continua sendo fundo`, timeout: 30_000 }).toBeGreaterThan(0.2);
+  await page.screenshot({ path: info.outputPath(`corpo-${info.project.name}.png`) });
 
   expect(erros).toEqual([]);
 });
