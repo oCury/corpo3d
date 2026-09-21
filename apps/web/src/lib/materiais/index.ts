@@ -1,4 +1,4 @@
-import { MeshPhysicalMaterial, Color, DoubleSide } from 'three';
+import { MeshPhysicalMaterial, MeshBasicMaterial, Color, DoubleSide } from 'three';
 import type { Sistema } from '../manifesto';
 
 interface Receita {
@@ -53,7 +53,7 @@ export function materialPara(sistema: Sistema, nomeLatim: string): MeshPhysicalM
     clearcoat: r.clearcoat ?? 0,
     clearcoatRoughness: r.clearcoatRoughness ?? 0.3,
     sheen: r.sheen ?? 0,
-    sheenColor: r.sheenColor ? new Color(r.sheenColor) : undefined,
+    ...(r.sheenColor ? { sheenColor: new Color(r.sheenColor) } : {}),
     transmission: r.transmission ?? 0,
     ior: r.ior ?? 1.45,
     transparent: (r.opacity ?? 1) < 1,
@@ -62,4 +62,11 @@ export function materialPara(sistema: Sistema, nomeLatim: string): MeshPhysicalM
   });
   cache.set(chave, m);
   return m;
+}
+
+let fantasma: MeshBasicMaterial | undefined;
+/** Wireframe translúcido que marca a posição de casa de uma peça solta. Compartilhado. */
+export function materialFantasma(): MeshBasicMaterial {
+  fantasma ??= new MeshBasicMaterial({ color: new Color('#9ecbff'), wireframe: true, transparent: true, opacity: 0.25, depthWrite: false });
+  return fantasma;
 }

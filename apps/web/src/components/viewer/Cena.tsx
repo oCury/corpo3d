@@ -33,7 +33,7 @@ export function Cena() {
         gl={{ antialias: true, powerPreference: 'high-performance' }}
       >
         <color attach="background" args={['#101214']} />
-        <Environment preset="studio" />
+        <Environment files="/hdri/studio_small_09_1k.hdr" />
         <Suspense fallback={null}>
           {manifesto.pecas.map((p) => (
             <Peca key={p.fmaId} peca={p} />
