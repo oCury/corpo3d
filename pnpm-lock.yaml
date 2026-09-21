@@ -83,6 +83,12 @@ importers:
       meshoptimizer:
         specifier: 1.2.0
         version: 1.2.0
+      three:
+        specifier: 0.186.0
+        version: 0.186.0
+      three-mesh-bvh:
+        specifier: ^0.9.15
+        version: 0.9.15(three@0.186.0)
       yauzl:
         specifier: 3.4.0
         version: 3.4.0
@@ -90,6 +96,9 @@ importers:
       '@types/node':
         specifier: ^22
         version: 22.20.4
+      '@types/three':
+        specifier: 0.186.0
+        version: 0.186.0
       '@types/yauzl':
         specifier: ^2.10.3
         version: 2.10.3
@@ -1151,6 +1160,11 @@ packages:
     peerDependencies:
       three: '>= 0.159.0'
 
+  three-mesh-bvh@0.9.15:
+    resolution: {integrity: sha512-9xdEDkCzFoT8VPFH9DznwFSdbaIEjMvM106Iqq7TJurrIheUKDcdW4prfJTCxryih4XS/UxWs0H3K4MLMRFyOQ==}
+    peerDependencies:
+      three: '>= 0.159.0'
+
   three-stdlib@2.36.1:
     resolution: {integrity: sha512-XyGQrFmNQ5O/IoKm556ftwKsBg11TIb301MB5dWNicziQBEs2g3gtOYIf7pFiLa0zI2gUwhtCjv9fmjnxKZ1Cg==}
     peerDependencies:
@@ -2187,6 +2201,10 @@ snapshots:
       react: 19.2.4
 
   three-mesh-bvh@0.8.3(three@0.186.0):
+    dependencies:
+      three: 0.186.0
+
+  three-mesh-bvh@0.9.15(three@0.186.0):
     dependencies:
       three: 0.186.0
 

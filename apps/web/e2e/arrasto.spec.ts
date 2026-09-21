@@ -8,11 +8,11 @@ test.describe('arrasto', () => {
   async function prepararEsterno(page: Page) {
     await page.goto('/');
     const cena = page.getByTestId('cena');
-    await expect(cena).toHaveAttribute('data-pecas', '251');
+    await expect(cena).toHaveAttribute('data-pecas', '241');
     await aguardarModeloRenderizado(page);
     await page.getByLabel('Pele').fill('0');
     await page.getByLabel('Músculos').fill('0');
-    await expect(cena).toHaveAttribute('data-visiveis', '196');
+    await expect(cena).toHaveAttribute('data-visiveis', '186');
     await page.getByRole('searchbox', { name: 'Buscar peça' }).fill('esterno');
     await page.getByRole('listbox', { name: 'Resultados' }).getByRole('option', { name: /^Esterno osso/ }).click();
     await expect(cena).toHaveAttribute('data-selecionada', 'FMA7485');

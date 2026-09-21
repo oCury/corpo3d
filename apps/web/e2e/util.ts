@@ -19,7 +19,7 @@ function fracaoNaoFundo(png: Buffer): number {
 }
 
 /**
- * `abrir()`/`page.goto('/')` só garante que o manifesto (metadados) carregou — os 251 GLBs ainda
+ * `abrir()`/`page.goto('/')` só garante que o manifesto (metadados) carregou — os 241 GLBs ainda
  * estão chegando de forma assíncrona (Suspense) e o canvas só assume o tamanho final e ganha
  * malhas clicáveis depois disso. Sem esta espera, um clique/arrasto no canvas logo após abrir a
  * página não acerta nada (raycast vazio): é uma corrida, não uma questão de posição do gesto.

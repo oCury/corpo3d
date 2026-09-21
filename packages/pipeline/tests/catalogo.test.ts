@@ -20,6 +20,7 @@ describe('catalogo', () => {
     expect(linhas[1].razaoSimplificacao).toBe(0.3);
     expect(linhas[0].razaoSimplificacao).toBeUndefined();
     expect(linhas[3].vetorExplosao).toEqual([0, 0, 1]);
+    expect(linhas[0].inflarMm).toBe(2);
   });
 
   it('lança erro se houver fmaId repetido no CSV', () => {

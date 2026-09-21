@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
+import { MeshPhysicalMaterial } from 'three';
 import { materialPara, corPorNome } from './index';
 
 describe('materialPara', () => {
@@ -11,6 +12,11 @@ describe('materialPara', () => {
   it('reusa o material por sistema+cor', () => {
     expect(materialPara('esqueleto', 'Femur')).toBe(materialPara('esqueleto', 'Tibia'));
     expect(materialPara('cardiovascular', 'Vena cava')).not.toBe(materialPara('cardiovascular', 'Aorta'));
+  });
+  it('a pele recebe o shader procedural (onBeforeCompile definido) e os demais não', () => {
+    expect(materialPara('pele', 'Cutis').onBeforeCompile).not.toBe(MeshPhysicalMaterial.prototype.onBeforeCompile);
+    expect(materialPara('esqueleto', 'Femur').onBeforeCompile).toBe(MeshPhysicalMaterial.prototype.onBeforeCompile);
+    expect(materialPara('pele', 'Cutis').customProgramCacheKey()).toContain('pele');
   });
   it('colore veias de azul e artérias de vermelho pelo nome em latim', () => {
     expect(corPorNome('cardiovascular', 'Vena cava superior')).toBe('#3f5fa8');

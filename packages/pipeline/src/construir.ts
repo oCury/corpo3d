@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { CSV_ESTRUTURAS, DIR_CACHE, DIR_SAIDA, RAZAO_PADRAO } from './constantes';
+import { CSV_ESTRUTURAS, DIR_CACHE, DIR_SAIDA, FMA_PELE, RAZAO_PADRAO } from './constantes';
+import type { Envelope } from './confinar';
 import { lerCsvEstruturas, lerElementos, resolverPecas } from './catalogo';
 import { escreverGlb } from './glb';
 import { novaGeometria, parseObj } from './obj';
@@ -27,17 +28,27 @@ export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
   });
   mkdirSync(op.dirSaida, { recursive: true });
   const saida: PecaManifesto[] = [];
-  for (const [i, p] of pecas.entries()) {
+  // a pele vai primeiro: a geometria final dela é o envelope das peças com `confinar=pele`
+  const ordenadas = [...pecas].sort((a, b) => (a.fmaId === FMA_PELE ? -1 : b.fmaId === FMA_PELE ? 1 : 0));
+  let envelope: Envelope | undefined;
+  for (const [i, p] of ordenadas.entries()) {
     const g = novaGeometria();
     for (const fj of p.elementos) parseObj(lerElemento(op.dirObj, fj, p), g);
     const glb = `${p.sistema}/${p.fmaId}.glb`;
-    const st = await escreverGlb(g, join(op.dirSaida, glb), { razao: p.razaoSimplificacao ?? RAZAO_PADRAO[p.sistema], nome: p.fmaId });
+    if (p.confinar === 'pele' && !envelope) throw new Error(`${p.fmaId} (${p.nomePt}): confinar=pele exige a pele (${FMA_PELE}) no CSV`);
+    const st = await escreverGlb(g, join(op.dirSaida, glb), {
+      razao: p.razaoSimplificacao ?? RAZAO_PADRAO[p.sistema], nome: p.fmaId,
+      inflarM: p.inflarMm ? p.inflarMm / 1000 : undefined,
+      confinarEm: p.confinar === 'pele' ? envelope : undefined,
+      devolverGeometria: p.fmaId === FMA_PELE,
+    });
+    if (p.fmaId === FMA_PELE) envelope = st.geometriaFinal;
     saida.push({
       fmaId: p.fmaId, nomeLatim: p.nomeLatim, nomePt: p.nomePt, nomeLeigo: p.nomeLeigo, sistema: p.sistema, lado: p.lado,
       glb, bytes: st.bytes, triangulos: st.triangulosDepois, elementos: p.elementos.size,
       bbox: st.bbox, centro: st.centro, vetorExplosao: p.vetorExplosao ?? vetorExplosaoPadrao(st.centro, p.sistema),
     });
-    log(`[${i + 1}/${pecas.length}] ${p.nomePt}: ${p.elementos.size} el, ${st.triangulosAntes}→${st.triangulosDepois} tri, ${(st.bytes / 1024).toFixed(0)} KB`);
+    log(`[${i + 1}/${pecas.length}] ${p.nomePt}: ${p.elementos.size} el, ${st.triangulosAntes}→${st.triangulosDepois} tri, ${(st.bytes / 1024).toFixed(0)} KB${st.confinados !== undefined ? `, ${st.confinados} vértices confinados na pele` : ''}`);
   }
   const sistemas = [...new Set(saida.map((p) => p.sistema))];
   const manifesto: Manifesto = {

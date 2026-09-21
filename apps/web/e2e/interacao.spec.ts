@@ -4,19 +4,19 @@ import { aguardarModeloRenderizado } from './util';
 async function abrir(page: Page) {
   await page.goto('/');
   const cena = page.getByTestId('cena');
-  await expect(cena).toHaveAttribute('data-pecas', '251');
-  await expect(cena).toHaveAttribute('data-visiveis', '251');
+  await expect(cena).toHaveAttribute('data-pecas', '241');
+  await expect(cena).toHaveAttribute('data-visiveis', '241');
   return cena;
 }
 
 test('camadas: opacidade 0 desmonta as peças do sistema; 1 remonta', async ({ page }) => {
   const cena = await abrir(page);
   await page.getByLabel('Pele').fill('0');
-  await expect(cena).toHaveAttribute('data-visiveis', '250');
+  await expect(cena).toHaveAttribute('data-visiveis', '240');
   await page.getByLabel('Músculos').fill('0');
-  await expect(cena).toHaveAttribute('data-visiveis', '196');      // 250 - 54 músculos
+  await expect(cena).toHaveAttribute('data-visiveis', '186');      // 240 - 54 músculos
   await page.getByLabel('Pele').fill('1');
-  await expect(cena).toHaveAttribute('data-visiveis', '197');
+  await expect(cena).toHaveAttribute('data-visiveis', '187');
 });
 
 test('explosão, remontar tudo e desfazer/refazer', async ({ page }) => {
@@ -71,9 +71,9 @@ test.describe('seleção com painel (layout de 3 colunas)', () => {
 
     await page.mouse.click(box.x + box.width / 2, box.y + box.height * 0.45);
     await painel.getByRole('button', { name: 'Ocultar peça' }).click();
-    await expect(cena).toHaveAttribute('data-visiveis', '250');
+    await expect(cena).toHaveAttribute('data-visiveis', '240');
     await painel.getByRole('button', { name: 'Mostrar peça' }).click();
-    await expect(cena).toHaveAttribute('data-visiveis', '251');
+    await expect(cena).toHaveAttribute('data-visiveis', '241');
 
     await painel.getByRole('radio', { name: 'Destaque amarelo' }).check();
     await painel.getByLabel('Nota para o paciente').fill('Aqui é a pele.');
