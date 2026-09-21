@@ -99,6 +99,7 @@ export function Cena() {
       style={{ position: 'absolute', inset: 0 }}
     >
       <Canvas
+        shadows
         frameloop="demand"
         dpr={[1, 1.5]}
         camera={{ position: [0, 1.0, 2.6], fov: 40, near: 0.01, far: 20 }}
@@ -107,6 +108,16 @@ export function Cena() {
       >
         <color attach="background" args={['#101214']} />
         <Environment files="/hdri/studio_small_09_1k.hdr" />
+        <directionalLight
+          position={[1.5, 3, 2]}
+          intensity={1.2}
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+          shadow-bias={-0.0002}
+          shadow-normalBias={0.02}
+        >
+          <orthographicCamera attach="shadow-camera" args={[-1.2, 1.2, 2, -0.2, 0.5, 8]} />
+        </directionalLight>
         <Suspense fallback={null}>
           <Bvh firstHitOnly>
             {visiveis.map((p) => (

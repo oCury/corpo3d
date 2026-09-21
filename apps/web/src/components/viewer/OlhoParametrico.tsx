@@ -112,7 +112,7 @@ export function OlhoParametrico({
   return (
     <group scale={raio}>
       {/* ESCLERA — esfera com abertura frontal; é ela que carrega opacidade e realce */}
-      <mesh geometry={geos.esclera} rotation={[ROT_X, 0, 0]} renderOrder={3}>
+      <mesh geometry={geos.esclera} rotation={[ROT_X, 0, 0]} renderOrder={3} castShadow receiveShadow>
         <meshPhysicalMaterial
           map={texs.esclera}
           bumpMap={texs.escleraBump}
