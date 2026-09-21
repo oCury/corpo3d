@@ -22,6 +22,7 @@ async function getIo(): Promise<NodeIO> {
 }
 
 export function bboxDe(pos: ArrayLike<number>): Bbox {
+  if (pos.length < 3) throw new Error('bboxDe: sem posições');
   const min: [number, number, number] = [Infinity, Infinity, Infinity];
   const max: [number, number, number] = [-Infinity, -Infinity, -Infinity];
   for (let i = 0; i < pos.length; i += 3) for (let k = 0; k < 3; k++) {
@@ -50,8 +51,9 @@ export async function escreverGlb(g: Geometria, saida: string, op: { razao: numb
   const nodeIo = await getIo();
   await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: op.razao, error: ERRO_SIMPLIFICACAO }));
   const p = doc.getRoot().listMeshes()[0].listPrimitives()[0];
-  const pos = p.getAttribute('POSITION')!.getArray()!;
-  const idx = p.getIndices()!.getArray()!;
+  const pos = p.getAttribute('POSITION')?.getArray();
+  const idx = p.getIndices()?.getArray();
+  if (!pos || !idx || idx.length === 0) throw new Error(`simplify não deixou geometria indexada para ${op.nome}`);
   p.setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(normaisSuaves(pos, idx)).setBuffer(buffer));
   const triangulosDepois = idx.length / 3;
   await doc.transform(prune(), meshopt({ encoder: MeshoptEncoder }));
