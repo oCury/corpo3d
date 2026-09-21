@@ -110,7 +110,8 @@ Sem Blender. Etapas, cada uma um script separado, idempotente, com cache em
    física do three.js funcionar. Os OBJ não trazem normais: calcular normais suaves com
    limiar de 60°.
 4. **otimizar**: `@gltf-transform` para soldar vértices, simplificar com meshoptimizer
-   até ≤ 40 mil triângulos por peça (razão ajustável por sistema no CSV), e comprimir
+   até ≤ 40 mil triângulos por peça (coluna `razaoSimplificacao` do CSV, por peça, com
+   padrão por sistema), e comprimir
    com meshopt. Sem texturas: os materiais são procedurais em código.
 5. **manifestar**: gera `public/models/manifest.json` com, por peça: `fmaId`,
    `nomeLatim`, `nomePt`, `nomeLeigo`, `sistema`, `paiFmaId`, `lado`, `glb`, `bbox`,
@@ -148,6 +149,7 @@ Um único objeto, validado por Zod, é a fonte da verdade da interface, do undo 
   destacadas: { fmaId, cor }[],
   notas: { fmaId, texto }[],               // texto ≤ 280 caracteres
   isolada: fmaId | null,
+  explosao: number,                        // 0–1, deslizante de explosão
   camera: { pos: [x, y, z], alvo: [x, y, z] }
 }
 ```
