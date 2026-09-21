@@ -52,6 +52,12 @@ Decisões tomadas no brainstorming (2026-09-21):
   dentro dos elementos sem nome do crânio), parótida, pênis; músculos **latíssimo do dorso,
   reto abdominal, masseter, temporal**. Deltoide, trapézio, bíceps, tríceps e gastrocnêmio
   existem só como partes/cabeças e são agrupados numa peça pelo CSV.
+- **Conceitos "direitos" do olho no BP3D contêm os DOIS olhos** (córnea/esclera/coroide/globo
+  direitos têm 70–81 mm de largura); só os esquerdos são um olho. E o **crânio (FMA46565) traz
+  os 17 elementos dos globos oculares embutidos**. Por isso: as 12 peças de olho do atlas saíram;
+  entram os globos `FMA12515`/`FMA12514` renderizados pelo olho paramétrico do Olho3D
+  (posição = globo esquerdo espelhado em x, raio 12,5 mm, 4 mm à frente pela fenda palpebral
+  estreita do atlas), e o crânio exclui `FMA12514;FMA12515`.
 - **Resultado do ensaio do pipeline (2026-09-21):** as 251 peças do CSV convertem sem
   falha para **8,9 MB no total** (2,04 milhões de triângulos); só crânio e intercostais
   passavam de 500 KB e receberam razão de simplificação própria.
@@ -177,6 +183,23 @@ Orçamentos, verificados por teste: ≤ 500 KB por GLB, ≤ 30 MB no total da v1
   tone mapping ACES via `@react-three/postprocessing`. Realismo vem daqui, não da malha.
 - Olho: a v1 usa as malhas do BodyParts3D. Substituir pelo modelo do Olho3D é uma
   tarefa da fase 1 **com portão**: se importar exigir mais de um dia, fica para depois.
+- **Pele (fase 1.5, 21/09):** malha em resolução total (203k tri, 777 KB) **inflada 3,5 mm** ao
+  longo das normais no pipeline; peças superficiais (safena, sartório, gastrocnêmio, ECM,
+  trapézio, carótida, femoral…) levam `confinar=pele`: uma BVH da pele empurra para 1 mm dentro
+  todo vértice que estivesse fora (`packages/pipeline/src/confinar.ts`). ⚠ Encolher uma veia fina
+  (inflar negativo) a colapsa e não resolve — só o confinamento resolveu. Material da pele =
+  subclasse `MaterialPele` de `MeshPhysicalMaterial` com GLSL injetado (`onBeforeCompile`):
+  ruído de valor em espaço de mundo → micro-bump com fade por distância (0,4–1,1 m), rugosidade
+  variável, manchas e leve vascularização; subclasse porque `clone()` do three descarta
+  `onBeforeCompile`. Sem UV nos GLBs, tudo é função da posição.
+- **Olhos (fase 1.5):** `OlhoParametrico` portado do Olho3D (mesmo autor): esclera com textura e
+  veias, íris em anel com fibras radiais, franja e cavidade pupilar, cristalino, córnea com
+  clearcoat (sem `transmission`: o passe de transmissão redesenha as 241 peças e amostra o
+  crânio como fundo). Texturas com PRNG semeado (mulberry32), não `Math.random`.
+- **Luz (fase 1.5):** luz direcional com sombra suave PCF 2048², 61 fps em 1440×900 (Metal).
+  ⚠ N8AO (`@react-three/postprocessing` 3.1.1 + `n8ao` 2.0.1 + `postprocessing` 6.39) foi
+  testado e removido: qualquer configuração lava os tons escuros da cena (luminância mínima
+  44 → ~90), incompatibilidade de pipeline, não parâmetro. Revisitar em versões futuras.
 - Hover e seleção por **brilho emissivo** no material da peça (0,18 e 0,30), destaque do médico
   por emissivo colorido (0,45). ⚠ Registrado na fase 1 (21/09): `Outlines` do drei e o
   contorno por pós-processamento não servem com a geometria quantizada dos GLBs (o contorno
