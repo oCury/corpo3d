@@ -55,20 +55,16 @@ export function lerCsvEstruturas(texto: string): LinhaEstrutura[] {
       fmaId: v.fmaId, arvore: v.arvore as Arvore, fmaIdsExtras: lista(v.fmaIdsExtras), excluirFmaIds: lista(v.excluirFmaIds),
       nomeLatim: v.nomeLatim, nomePt: v.nomePt, nomeLeigo: v.nomeLeigo, sistema: v.sistema as Sistema, lado: v.lado as Lado,
       vetorExplosao: vetor as [number, number, number] | undefined, razaoSimplificacao: razao,
-      _linha: i + 2,
     };
   });
-
+  // cada item de `resultado` corresponde à linha i+2 do arquivo (cabeçalho é a linha 1)
   const primeiraLinhaPorId = new Map<string, number>();
-  for (const l of resultado) {
+  resultado.forEach((l, i) => {
     const anterior = primeiraLinhaPorId.get(l.fmaId);
-    if (anterior !== undefined) {
-      throw new Error(`fmaId duplicado: ${l.fmaId} (linhas ${anterior} e ${l._linha})`);
-    }
-    primeiraLinhaPorId.set(l.fmaId, l._linha);
-  }
-
-  return resultado.map(({ _linha, ...resto }) => resto);
+    if (anterior !== undefined) throw new Error(`fmaId duplicado: ${l.fmaId} (linhas ${anterior} e ${i + 2})`);
+    primeiraLinhaPorId.set(l.fmaId, i + 2);
+  });
+  return resultado;
 }
 
 function elementosDe(id: string, preferida: Arvore, mapas: Mapas): { elementos: Set<string>; arvore: Arvore } | undefined {
