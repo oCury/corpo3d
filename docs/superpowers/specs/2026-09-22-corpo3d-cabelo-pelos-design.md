@@ -149,14 +149,17 @@ máscaras ficam no lugar errado sem ninguém avisar. O teste da seção 5 existe
 **E2E (Playwright, pixel real), `pelos.spec.ts`**, pulado abaixo de 500 px de largura como o
 teste do olho:
 
-1. Preset **Superior** (botão existente): a janela central (topo da cabeça) tem luminância
-   média pelo menos 25 unidades (escala 0–255) abaixo de um retalho de pele fora do couro
-   cabeludo, e esse retalho está acima de 100 (controle: a pele está iluminada, não está tudo
-   escuro). As posições e tamanhos das janelas são **medidos numa captura antes de virar
-   asserção**, e ficam fixos no teste com o comentário de como foram medidos.
-2. Close do olho esquerdo (mesmo caminho do `olho.spec.ts`: buscar, clicar, câmera `livre`):
-   a faixa da sobrancelha acima do centro é pelo menos 25 unidades mais escura que a faixa da
-   testa acima dela, e a testa está acima de 100.
+1. Close do olho esquerdo (mesmo caminho do `olho.spec.ts`: buscar, clicar, câmera `livre`). A
+   câmera é determinística (`enquadrar` do globo = 0,3 m de distância, FOV vertical 40°), então
+   cada faixa é um ponto do mundo sobre a pele projetado em linhas da captura pela mesma conta
+   que a câmera faz, sem calibração à mão. Três faixas na coluna central: **sobrancelha** (2,2 cm
+   acima do olho), **testa** (entre a sobrancelha e a linha do cabelo) e **couro cabeludo** (1,7 cm
+   acima da linha do cabelo). Sobrancelha e couro cabeludo têm luminância média pelo menos 25
+   unidades (escala 0–255) abaixo da testa; a testa está acima de 100 (controle: a pele está
+   iluminada, não está tudo escuro).
+2. Precondições que reprovam alto em vez de medir a coisa errada: as três faixas caem dentro do
+   canvas, e uma janela vazia devolve NaN, não zero. A captura na Mesa serve para confirmar a olho
+   que as faixas caem onde o nome diz.
 3. Captura de cada cena salva como artefato do teste e uma cópia na Mesa (`~/Desktop/corpo3d-pelos-*.png`)
    para inspeção humana. Capturas em pastas temporárias do sistema são ilegíveis para o revisor.
 
