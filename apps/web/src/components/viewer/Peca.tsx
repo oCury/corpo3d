@@ -6,6 +6,7 @@ import { useThree, type ThreeEvent } from '@react-three/fiber';
 import { Color, Mesh, Vector3, type BufferGeometry, type Group, type Matrix4, type MeshPhysicalMaterial } from 'three';
 import { MeshoptDecoder } from 'meshoptimizer';
 import { materialFantasma, materialPara } from '@/lib/materiais';
+import { MaterialPele } from '@/lib/materiais/pele';
 import type { PecaManifesto } from '@/lib/manifesto';
 import { useLoja, corDestaqueDe, notaDe, type Vec3 } from '@/lib/estado/store';
 import {
@@ -111,6 +112,13 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
     [peca.sistema, peca.nomeLatim],
   );
   useEffect(() => () => material.dispose(), [material]);
+  // --- pele: o shader ancora cabelo e sobrancelhas na posição de REPOUSO da malha; ao arrastar ou
+  // explodir, o grupo se move e o material precisa saber o deslocamento antes de cada desenho
+  const origemPele = material instanceof MaterialPele ? material.origem : null;
+  const sincronizarOrigemPele = useCallback(() => {
+    const g = grupo.current;
+    if (g && origemPele) origemPele.copy(g.position);
+  }, [origemPele]);
   const opacidade = opacidadeSistema * (isolada && isolada !== peca.fmaId ? OPACIDADE_FORA_DA_ISOLACAO : 1);
   useEffect(() => {
     material.opacity = opacidade;
@@ -280,6 +288,7 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
               material={material}
               castShadow
               receiveShadow
+              onBeforeRender={origemPele ? sincronizarOrigemPele : undefined}
               userData={{ fmaId: peca.fmaId, interativo: opacidade >= OPACIDADE_MINIMA_INTERATIVA }}
             />
           </group>

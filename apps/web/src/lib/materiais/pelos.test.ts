@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { MARCOS, mascaraCouroCabeludo, mascaraSobrancelha, mascaraPelosCorpo, alturaLinhaDoCabelo } from './pelos';
+import { AJUSTE, GLSL_PELOS, MARCOS, mascaraCouroCabeludo, mascaraSobrancelha, mascaraPelosCorpo, alturaLinhaDoCabelo } from './pelos';
+import { literalGlsl } from './glsl';
 import type { Vec3 } from '@/lib/estado/store';
 
 /** Pontos sobre (ou perto de) a pele do atlas, em metros. Ver spec §5. */
@@ -49,6 +50,33 @@ describe('máscaras geométricas dos pelos', () => {
             expect(v).toBeGreaterThanOrEqual(0);
             expect(v).toBeLessThanOrEqual(1);
           }
+  });
+});
+
+describe('GLSL gerado', () => {
+  it('carrega as mesmas constantes que as máscaras TS (os gêmeos não divergem quando AJUSTE muda)', () => {
+    const esperados = [
+      AJUSTE.yMinimoCabeca,
+      AJUSTE.couro.tempora,
+      AJUSTE.couro.testa - AJUSTE.couro.tempora,
+      AJUSTE.couro.nuca - AJUSTE.couro.tempora,
+      AJUSTE.couro.bordaM,
+      AJUSTE.couro.ruidoBordaM,
+      ...AJUSTE.sobrancelha.raios,
+      AJUSTE.sobrancelha.inclinacaoRad,
+      AJUSTE.sobrancelha.freqFiosVertical,
+      AJUSTE.corpo.peito.y0,
+      AJUSTE.corpo.peito.y1,
+      AJUSTE.corpo.peito.xMax,
+      AJUSTE.corpo.antebracos.xMin,
+      AJUSTE.corpo.pernas.y1,
+      AJUSTE.corpo.limiarPontilhado,
+    ];
+    for (const v of esperados) expect(GLSL_PELOS, `literal ${literalGlsl(v)} ausente`).toContain(literalGlsl(v));
+  });
+  it('só tem funções de pelos: relevo genérico mora no ruído da pele (pele.ts)', () => {
+    expect(GLSL_PELOS).not.toMatch(/gradienteRuidoPele|inclinarNormalPele/);
+    expect(GLSL_PELOS).toMatch(/float pelosCouro\(vec3 p\)/);
   });
 });
 

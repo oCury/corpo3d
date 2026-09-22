@@ -1,4 +1,5 @@
 import type { Vec3 } from '@/lib/estado/store';
+import { literalGlsl as f } from './glsl';
 
 /**
  * Marcos da cabeça do BodyParts3D (um único corpo, 2013), em metros nos eixos do three
@@ -18,9 +19,9 @@ const Y_OLHO = MARCOS.olhoEsquerdo[1];
 
 /** Todas as constantes de forma e intensidade. Ajuste visual = mudar aqui. */
 export const AJUSTE = {
+  /** Abaixo disto as máscaras da cabeça (couro cabeludo, sobrancelhas) nem são avaliadas: o corpo inteiro não paga o custo. */
+  yMinimoCabeca: 1.4,
   couro: {
-    /** Abaixo disto nem avalia (o corpo inteiro não paga o custo). */
-    yMinimo: 1.4,
     /** Altura da linha do cabelo por região, interpolada pelo ângulo ao redor da cabeça. */
     testa: Y_OLHO + 0.07,
     tempora: Y_OLHO + 0.03,
@@ -81,7 +82,7 @@ export function alturaLinhaDoCabelo(x: number, z: number): number {
 
 /** Couro cabeludo: 1 acima da linha do cabelo, 0 abaixo, transição de ±bordaM. Sem ruído (o ruído é só do shader). */
 export function mascaraCouroCabeludo([x, y, z]: Vec3): number {
-  if (y < AJUSTE.couro.yMinimo) return 0;
+  if (y < AJUSTE.yMinimoCabeca) return 0;
   const lim = alturaLinhaDoCabelo(x, z);
   const b = AJUSTE.couro.bordaM;
   return smoothstep(lim - b, lim + b, y);
@@ -103,7 +104,7 @@ function umaSobrancelha([x, y, z]: Vec3, lado: 1 | -1): number {
 
 /** Sobrancelhas: máximo das duas. */
 export function mascaraSobrancelha(p: Vec3): number {
-  if (p[1] < AJUSTE.couro.yMinimo) return 0;
+  if (p[1] < AJUSTE.yMinimoCabeca) return 0;
   return Math.max(umaSobrancelha(p, 1), umaSobrancelha(p, -1));
 }
 
@@ -122,9 +123,6 @@ export function mascaraPelosCorpo([x, y, z]: Vec3): number {
   return Math.max(mPeito, mAntebracos, mPernas);
 }
 
-/** Literal GLSL com ponto decimal garantido (`1` viraria int). */
-const f = (n: number) => n.toFixed(4);
-
 const [OX, OY, OZ] = MARCOS.olhoEsquerdo;
 const [CX, , CZ] = MARCOS.centroCabeca;
 const [DX, DY, DZ] = AJUSTE.sobrancelha.deslocamento;
@@ -132,8 +130,8 @@ const [RX, RY, RZ] = AJUSTE.sobrancelha.raios;
 const { peito, antebracos, pernas } = AJUSTE.corpo;
 
 /**
- * Funções GLSL dos pelos. Requer `ruidoPele`, `fbmPele` (GLSL_RUIDO de pele.ts) e o uniform
- * `viewMatrix`. Cada `pelos*` devolve a máscara em 0–1 já modulada por ruído.
+ * Funções GLSL dos pelos. Requer `ruidoPele` e `fbmPele` (GLSL_RUIDO de pele.ts). Cada `pelos*`
+ * devolve a máscara em 0–1 já modulada por ruído.
  */
 export const GLSL_PELOS = /* glsl */ `
 float faixaPelos(float a, float b, float borda, float v) {
@@ -148,8 +146,9 @@ float alturaLinhaDoCabelo(vec3 p) {
        + smoothstep(0.0, 1.0, max(-c, 0.0)) * ${f(AJUSTE.couro.nuca - AJUSTE.couro.tempora)};
 }
 float pelosCouro(vec3 p) {
-  if (p.y < ${f(AJUSTE.couro.yMinimo)}) return 0.0;
-  float lim = alturaLinhaDoCabelo(p) + (fbmPele(p * ${f(AJUSTE.couro.freqRuidoBorda)}) - 0.5) * ${f(AJUSTE.couro.ruidoBordaM)};
+  if (p.y < ${f(AJUSTE.yMinimoCabeca)}) return 0.0;
+  // fbmPele vai de 0 a 0,875: normaliza antes de centrar, para o ruído ficar em ±ruidoBordaM/2 sem viés
+  float lim = alturaLinhaDoCabelo(p) + (fbmPele(p * ${f(AJUSTE.couro.freqRuidoBorda)}) / 0.875 - 0.5) * ${f(AJUSTE.couro.ruidoBordaM)};
   return smoothstep(lim - ${f(AJUSTE.couro.bordaM)}, lim + ${f(AJUSTE.couro.bordaM)}, p.y);
 }
 float umaSobrancelhaPelos(vec3 p, float lado) {
@@ -160,7 +159,7 @@ float umaSobrancelhaPelos(vec3 p, float lado) {
   return 1.0 - smoothstep(0.8, 1.0, length(q));
 }
 float pelosSobrancelha(vec3 p) {
-  if (p.y < ${f(AJUSTE.couro.yMinimo)}) return 0.0;
+  if (p.y < ${f(AJUSTE.yMinimoCabeca)}) return 0.0;
   float m = max(umaSobrancelhaPelos(p, 1.0), umaSobrancelhaPelos(p, -1.0));
   if (m <= 0.0) return 0.0;
   float fios = ruidoPele(vec3(p.x * ${f(AJUSTE.sobrancelha.freqFiosLateral)}, p.y * ${f(AJUSTE.sobrancelha.freqFiosVertical)}, p.z * ${f(AJUSTE.sobrancelha.freqFiosLateral)}));
@@ -177,16 +176,5 @@ float pelosCorpo(vec3 p) {
   float densidade = smoothstep(0.45, 0.70, fbmPele(p * ${f(AJUSTE.corpo.freqDensidade)}));
   float pontilhado = step(${f(AJUSTE.corpo.limiarPontilhado)}, ruidoPele(p * ${f(AJUSTE.corpo.freqPontilhado)}));
   return faixa * densidade * pontilhado;
-}
-/** Gradiente do ruído por diferenças finitas (espaço de mundo escalado). */
-vec3 gradienteRuidoPele(vec3 P, float e) {
-  float h0 = ruidoPele(P);
-  return vec3(ruidoPele(P + vec3(e, 0.0, 0.0)) - h0, ruidoPele(P + vec3(0.0, e, 0.0)) - h0, ruidoPele(P + vec3(0.0, 0.0, e)) - h0) / e;
-}
-/** Inclina a normal (espaço de vista) pela componente tangencial de um gradiente em espaço de mundo. */
-vec3 inclinarNormalPele(vec3 n, vec3 gradMundo, float forca) {
-  vec3 gv = mat3(viewMatrix) * gradMundo;
-  gv -= n * dot(n, gv);
-  return normalize(n - gv * forca);
 }
 `;
