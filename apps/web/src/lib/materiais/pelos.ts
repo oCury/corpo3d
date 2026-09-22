@@ -121,3 +121,72 @@ export function mascaraPelosCorpo([x, y, z]: Vec3): number {
   const mPernas = faixa(pernas.y0, pernas.y1, b, y);
   return Math.max(mPeito, mAntebracos, mPernas);
 }
+
+/** Literal GLSL com ponto decimal garantido (`1` viraria int). */
+const f = (n: number) => n.toFixed(4);
+
+const [OX, OY, OZ] = MARCOS.olhoEsquerdo;
+const [CX, , CZ] = MARCOS.centroCabeca;
+const [DX, DY, DZ] = AJUSTE.sobrancelha.deslocamento;
+const [RX, RY, RZ] = AJUSTE.sobrancelha.raios;
+const { peito, antebracos, pernas } = AJUSTE.corpo;
+
+/**
+ * Funções GLSL dos pelos. Requer `ruidoPele`, `fbmPele` (GLSL_RUIDO de pele.ts) e o uniform
+ * `viewMatrix`. Cada `pelos*` devolve a máscara em 0–1 já modulada por ruído.
+ */
+export const GLSL_PELOS = /* glsl */ `
+float faixaPelos(float a, float b, float borda, float v) {
+  return smoothstep(a - borda, a + borda, v) * (1.0 - smoothstep(b - borda, b + borda, v));
+}
+float alturaLinhaDoCabelo(vec3 p) {
+  vec2 d = p.xz - vec2(${f(CX)}, ${f(CZ)});
+  float r = length(d);
+  float c = r < 1e-6 ? 0.0 : d.y / r;
+  return ${f(AJUSTE.couro.tempora)}
+       + smoothstep(0.0, 1.0, max(c, 0.0)) * ${f(AJUSTE.couro.testa - AJUSTE.couro.tempora)}
+       + smoothstep(0.0, 1.0, max(-c, 0.0)) * ${f(AJUSTE.couro.nuca - AJUSTE.couro.tempora)};
+}
+float pelosCouro(vec3 p) {
+  if (p.y < ${f(AJUSTE.couro.yMinimo)}) return 0.0;
+  float lim = alturaLinhaDoCabelo(p) + (fbmPele(p * ${f(AJUSTE.couro.freqRuidoBorda)}) - 0.5) * ${f(AJUSTE.couro.ruidoBordaM)};
+  return smoothstep(lim - ${f(AJUSTE.couro.bordaM)}, lim + ${f(AJUSTE.couro.bordaM)}, p.y);
+}
+float umaSobrancelhaPelos(vec3 p, float lado) {
+  vec3 l = p - vec3(lado * ${f(OX)} + ${f(DX)}, ${f(OY + DY)}, ${f(OZ + DZ)});
+  float ang = lado * ${f(AJUSTE.sobrancelha.inclinacaoRad)};
+  vec2 g = vec2(cos(ang) * l.x + sin(ang) * l.y, -sin(ang) * l.x + cos(ang) * l.y);
+  vec3 q = vec3(g, l.z) / vec3(${f(RX)}, ${f(RY)}, ${f(RZ)});
+  return 1.0 - smoothstep(0.8, 1.0, length(q));
+}
+float pelosSobrancelha(vec3 p) {
+  if (p.y < ${f(AJUSTE.couro.yMinimo)}) return 0.0;
+  float m = max(umaSobrancelhaPelos(p, 1.0), umaSobrancelhaPelos(p, -1.0));
+  if (m <= 0.0) return 0.0;
+  float fios = ruidoPele(vec3(p.x * ${f(AJUSTE.sobrancelha.freqFiosLateral)}, p.y * ${f(AJUSTE.sobrancelha.freqFiosVertical)}, p.z * ${f(AJUSTE.sobrancelha.freqFiosLateral)}));
+  return m * (0.55 + 0.45 * fios);
+}
+float pelosCorpo(vec3 p) {
+  const float b = ${f(AJUSTE.corpo.bordaM)};
+  float ax = abs(p.x);
+  float mPeito = faixaPelos(${f(peito.y0)}, ${f(peito.y1)}, b, p.y) * smoothstep(${f(peito.zMin)} - b, ${f(peito.zMin)} + b, p.z) * (1.0 - smoothstep(${f(peito.xMax)} - b, ${f(peito.xMax)} + b, ax));
+  float mAnte = faixaPelos(${f(antebracos.y0)}, ${f(antebracos.y1)}, b, p.y) * smoothstep(${f(antebracos.xMin)} - b, ${f(antebracos.xMin)} + b, ax);
+  float mPernas = faixaPelos(${f(pernas.y0)}, ${f(pernas.y1)}, b, p.y);
+  float faixa = max(mPeito, max(mAnte, mPernas));
+  if (faixa <= 0.0) return 0.0;
+  float densidade = smoothstep(0.45, 0.70, fbmPele(p * ${f(AJUSTE.corpo.freqDensidade)}));
+  float pontilhado = step(${f(AJUSTE.corpo.limiarPontilhado)}, ruidoPele(p * ${f(AJUSTE.corpo.freqPontilhado)}));
+  return faixa * densidade * pontilhado;
+}
+/** Gradiente do ruído por diferenças finitas (espaço de mundo escalado). */
+vec3 gradienteRuidoPele(vec3 P, float e) {
+  float h0 = ruidoPele(P);
+  return vec3(ruidoPele(P + vec3(e, 0.0, 0.0)) - h0, ruidoPele(P + vec3(0.0, e, 0.0)) - h0, ruidoPele(P + vec3(0.0, 0.0, e)) - h0) / e;
+}
+/** Inclina a normal (espaço de vista) pela componente tangencial de um gradiente em espaço de mundo. */
+vec3 inclinarNormalPele(vec3 n, vec3 gradMundo, float forca) {
+  vec3 gv = mat3(viewMatrix) * gradMundo;
+  gv -= n * dot(n, gv);
+  return normalize(n - gv * forca);
+}
+`;

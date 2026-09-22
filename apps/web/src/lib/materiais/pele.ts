@@ -1,4 +1,5 @@
 import { Color, DoubleSide, MeshPhysicalMaterial, type WebGLProgramParametersWithUniforms } from 'three';
+import { AJUSTE, GLSL_PELOS } from './pelos';
 
 /** Ruído de valor 3D barato (hash + interpolação suave), em GLSL. */
 const GLSL_RUIDO = /* glsl */ `
@@ -34,11 +35,18 @@ const FORCA_VERMELHO = 0.45;
 const DIST_BUMP_CHEIO = 0.4;
 const DIST_BUMP_ZERO = 1.1;
 
+/** Literal GLSL com ponto decimal garantido. */
+const f = (n: number) => n.toFixed(4);
+/** Cor dos pelos em linear (o three converte sRGB → linear no construtor). */
+const COR_PELO = new Color(AJUSTE.cor);
+const GLSL_COR_PELO = `vec3(${f(COR_PELO.r)}, ${f(COR_PELO.g)}, ${f(COR_PELO.b)})`;
+
 /**
  * Pele sem UV: todo detalhe é função da posição no mundo (metros).
  * - micro-bump (poros) perturbando a normal pelo gradiente do ruído;
  * - rugosidade variando (brilho não uniforme, como pele de verdade);
- * - manchas de cor e leve avermelhado (vascularização) em baixa frequência.
+ * - manchas de cor e leve avermelhado (vascularização) em baixa frequência;
+ * - pelos (couro cabeludo raspado, sobrancelhas, sugestão no corpo) por máscaras de posição (`pelos.ts`).
  *
  * O shader mora no PROTÓTIPO, não numa propriedade de instância: `Material.copy()` do three
  * não copia `onBeforeCompile`/`customProgramCacheKey`, e `Peca.tsx` clona o material por peça.
@@ -64,43 +72,59 @@ class MaterialPele extends MeshPhysicalMaterial {
       .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPosMundoPele = (modelMatrix * vec4(transformed, 1.0)).xyz;');
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;\n' + GLSL_RUIDO)
-      // cor: manchas em baixa frequência + leve vermelho (vasos sob a pele)
+      .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;\n' + GLSL_RUIDO + GLSL_PELOS)
+      // cor: manchas em baixa frequência + leve vermelho (vasos sob a pele) + pelos.
+      // As três máscaras ficam no escopo do main(): os trechos de rugosidade e normal as reusam.
       .replace(
         '#include <color_fragment>',
         `#include <color_fragment>
         float mancha = fbmPele(vPosMundoPele * ${FREQ_MANCHA.toFixed(1)});
         float vasc = fbmPele(vPosMundoPele * ${FREQ_VASC.toFixed(1)} + 7.0);
         diffuseColor.rgb *= ${(1 - AMPL_MANCHA / 2).toFixed(3)} + ${AMPL_MANCHA.toFixed(3)} * mancha;
-        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(1.06, 0.92, 0.90), ${FORCA_VERMELHO.toFixed(3)} * vasc);`,
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(1.06, 0.92, 0.90), ${FORCA_VERMELHO.toFixed(3)} * vasc);
+        float mCouroPelos = pelosCouro(vPosMundoPele);
+        float mSobrPelos = pelosSobrancelha(vPosMundoPele);
+        float mCorpoPelos = pelosCorpo(vPosMundoPele);
+        float pontilhadoCouro = ruidoPele(vPosMundoPele * ${f(AJUSTE.couro.freqPontilhado)});
+        diffuseColor.rgb = mix(diffuseColor.rgb, ${GLSL_COR_PELO}, ${f(AJUSTE.couro.mistura)} * mCouroPelos * (0.6 + 0.4 * pontilhadoCouro));
+        diffuseColor.rgb = mix(diffuseColor.rgb, ${GLSL_COR_PELO}, ${f(AJUSTE.sobrancelha.mistura)} * mSobrPelos);
+        diffuseColor.rgb *= 1.0 - ${f(AJUSTE.corpo.escurecimento)} * mCorpoPelos;`,
       )
-      // rugosidade: variação sutil
+      // rugosidade: variação sutil; couro cabeludo fosco; pelos do corpo um pouco mais foscos
       .replace(
         '#include <roughnessmap_fragment>',
         `#include <roughnessmap_fragment>
-        roughnessFactor *= 0.85 + 0.30 * ruidoPele(vPosMundoPele * ${FREQ_RUGOSIDADE.toFixed(1)});`,
+        roughnessFactor *= 0.85 + 0.30 * ruidoPele(vPosMundoPele * ${FREQ_RUGOSIDADE.toFixed(1)});
+        roughnessFactor = mix(roughnessFactor, ${f(AJUSTE.couro.rugosidade)}, mCouroPelos);
+        roughnessFactor = min(1.0, roughnessFactor + ${f(AJUSTE.corpo.rugosidadeExtra)} * mCorpoPelos);`,
       )
-      // micro-bump: gradiente do ruído em espaço de mundo levado ao espaço de vista
+      // micro-bump: gradiente do ruído em espaço de mundo levado ao espaço de vista; depois
+      // pontilhado do pelo raspado e fios da sobrancelha, com o mesmo esmaecimento por distância
       .replace(
         '#include <normal_fragment_maps>',
         `#include <normal_fragment_maps>
         {
-          float forca = ${FORCA_BUMP.toFixed(3)} * (1.0 - smoothstep(${DIST_BUMP_CHEIO.toFixed(2)}, ${DIST_BUMP_ZERO.toFixed(2)}, length(vViewPosition)));
-          if (forca > 0.001) {
+          float fadeBump = 1.0 - smoothstep(${DIST_BUMP_CHEIO.toFixed(2)}, ${DIST_BUMP_ZERO.toFixed(2)}, length(vViewPosition));
+          if (fadeBump > 0.001) {
             vec3 P = vPosMundoPele * ${FREQ_PORO.toFixed(1)};
             const float e = 0.35;
             float h0 = alturaPele(P);
             vec3 g = vec3(alturaPele(P + vec3(e, 0.0, 0.0)) - h0, alturaPele(P + vec3(0.0, e, 0.0)) - h0, alturaPele(P + vec3(0.0, 0.0, e)) - h0) / e;
-            vec3 gv = mat3(viewMatrix) * g;
-            gv -= normal * dot(normal, gv);        // só a componente tangencial inclina a normal
-            normal = normalize(normal - gv * forca);
+            normal = inclinarNormalPele(normal, g, ${FORCA_BUMP.toFixed(3)} * fadeBump);
+            if (mCouroPelos > 0.001) {
+              normal = inclinarNormalPele(normal, gradienteRuidoPele(vPosMundoPele * ${f(AJUSTE.couro.freqPontilhado)}, e), ${f(AJUSTE.couro.forcaBump)} * fadeBump * mCouroPelos);
+            }
+            if (mSobrPelos > 0.001) {
+              vec3 Pf = vPosMundoPele * vec3(${f(AJUSTE.sobrancelha.freqFiosLateral)}, ${f(AJUSTE.sobrancelha.freqFiosVertical)}, ${f(AJUSTE.sobrancelha.freqFiosLateral)});
+              normal = inclinarNormalPele(normal, gradienteRuidoPele(Pf, e), ${f(AJUSTE.sobrancelha.forcaBump)} * fadeBump * mSobrPelos);
+            }
           }
         }`,
       );
   }
 
   override customProgramCacheKey(): string {
-    return 'pele-procedural-v1';
+    return 'pele-procedural-v2';
   }
 }
 
