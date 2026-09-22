@@ -112,6 +112,8 @@ Decisões tomadas no brainstorming (2026-09-21):
   a resposta é compra de modelo avulso ou outro atlas, não este pipeline.
 - Nervos periféricos, vasos finos, ligamentos individuais: entram como linhas novas no
   CSV em versões seguintes, sem código novo.
+- Cabelo comprido, barba e cílios. O couro cabeludo raspado, as sobrancelhas e a sugestão de
+  pelos estão no shader da pele (spec `2026-09-22-corpo3d-cabelo-pelos-design.md`).
 - Planos de corte, animação fisiológica (batimento, respiração), VR, inglês.
 - Modelos premium comprados para peças "hero". Possível depois; mistura licenças.
 
