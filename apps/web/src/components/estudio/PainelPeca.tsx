@@ -12,7 +12,7 @@ export function PainelPeca() {
   const peca = useLoja((s) => s.manifesto?.pecas.find((p) => p.fmaId === fmaId) ?? null);
   const estado = useLoja((s) => s.estado);
   const { isolar, alternarOculta, soltar, encaixar, destacar, anotar, definirCamera, definirPreset } = useLoja.getState();
-  if (!peca) return <p className="dica">Clique numa peça do modelo, ou busque pelo nome, para ver os detalhes.</p>;
+  if (!peca) return <p className="dica">Clique numa peça para selecioná-la. Arraste a peça selecionada para desmontar; arrastar sobre qualquer outra gira o modelo.</p>;
 
   const cor = corDestaqueDe(estado, peca.fmaId);
   const nota = notaDe(estado, peca.fmaId);

@@ -127,7 +127,7 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
 
   // --- posição: animada, exceto durante o arrasto
   useAnimarPosicao(grupo, alvo, reduzirMovimento ? 0 : DURACAO_ENCAIXE_MS, arrastando);
-  useCursor(emHover && !arrastando, 'grab', 'auto');
+  useCursor(emHover && !arrastando, selecionada ? 'grab' : 'pointer', 'auto');
 
   // --- arrasto (spec §5): plano paralelo à câmera pelo centro da peça
   const inicio = useRef<{ x: number; y: number; deslocamento: Vector3; plano: Vector3 } | null>(null);
@@ -157,6 +157,7 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
       const ini = inicio.current;
       const g = grupo.current;
       if (!ini || !g) return;
+      if (!selecionada) return; // só a peça SELECIONADA arrasta; sobre as outras o gesto gira a câmera (OrbitControls segue ativo)
       const dx = e.nativeEvent.clientX - ini.x,
         dy = e.nativeEvent.clientY - ini.y;
       if (!virouArrasto) {
@@ -172,7 +173,7 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
       g.position.copy(p.sub(ini.deslocamento));
       invalidate();
     },
-    [virouArrasto, definirArrastando, peca.fmaId, controles, invalidate],
+    [virouArrasto, selecionada, definirArrastando, peca.fmaId, controles, invalidate],
   );
 
   const onPointerUp = useCallback(
@@ -183,7 +184,8 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
       if (!g || !ini) return;
       (e.target as Element).releasePointerCapture(e.pointerId);
       if (!virouArrasto) {
-        selecionar(peca.fmaId); // foi clique
+        const moveu = Math.hypot(e.nativeEvent.clientX - ini.x, e.nativeEvent.clientY - ini.y) >= LIMIAR_ARRASTO_PX;
+        if (!moveu) selecionar(peca.fmaId); // foi clique; se moveu sem ser a selecionada, foi giro de câmera
         return;
       }
       const c = controles as unknown as ControlesOrbita | null;
