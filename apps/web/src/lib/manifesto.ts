@@ -26,6 +26,7 @@ export interface PecaManifesto {
   bytes: number;
   triangulos: number;
   elementos: number;
+  numPartes?: number;
   bbox: { min: [number, number, number]; max: [number, number, number] };
   centro: [number, number, number];
   vetorExplosao: [number, number, number];
@@ -62,3 +63,16 @@ export const ROTULO_SISTEMA: Record<Sistema, string> = {
   nervoso: 'Nervoso',
   olho: 'Olho',
 };
+
+/** Uma parte é uma peça comum mais o pai, o nível (2–5) e o estado da curadoria do nome. */
+export interface PartePeca extends PecaManifesto { paiFmaId: string; nivel: number; status: 'auto' | 'revisado' }
+export interface ManifestoPartes { versao: 1; paiFmaId: string; partes: PartePeca[] }
+export const ehParte = (p: PecaManifesto): p is PartePeca => 'paiFmaId' in p;
+
+export async function carregarManifestoPartes(paiFmaId: string): Promise<PartePeca[]> {
+  const res = await fetch(`/models/partes/${paiFmaId}.json`, { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`partes/${paiFmaId}.json: HTTP ${res.status}`);
+  const m = (await res.json()) as ManifestoPartes;
+  if (m.versao !== 1 || m.paiFmaId !== paiFmaId || !Array.isArray(m.partes)) throw new Error(`partes/${paiFmaId}.json em formato inesperado`);
+  return m.partes;
+}

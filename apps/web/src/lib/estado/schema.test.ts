@@ -22,4 +22,13 @@ describe('EstadoCena', () => {
     expect(() => desserializar('{"v":1}')).toThrow(/estado inválido/);
     expect(() => desserializar('não é json')).toThrow(/estado inválido/);
   });
+  it('aceita ids -resto e a pilha de detalhe; link antigo sem detalhe vira []', () => {
+    const e: EstadoCena = { ...ESTADO_INICIAL, detalhe: ['FMA7088', 'FMA7101'], ocultas: ['FMA7088-resto'] };
+    expect(desserializar(serializar(e))).toEqual(e);
+    const semDetalhe = JSON.parse(serializar(ESTADO_INICIAL)) as Record<string, unknown>;
+    delete semDetalhe.detalhe;
+    expect(desserializar(JSON.stringify(semDetalhe)).detalhe).toEqual([]);
+    expect(EstadoCenaSchema.safeParse({ ...ESTADO_INICIAL, detalhe: ['coração'] }).success).toBe(false);
+    expect(EstadoCenaSchema.safeParse({ ...ESTADO_INICIAL, ocultas: ['FMA1-lixo'] }).success).toBe(false);
+  });
 });

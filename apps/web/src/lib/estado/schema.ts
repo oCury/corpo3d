@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { SISTEMAS, type Sistema } from '@/lib/manifesto';
 
 const Vec3 = z.tuple([z.number(), z.number(), z.number()]);
-const FmaId = z.string().regex(/^FMA\d+$/);
+const FmaId = z.string().regex(/^FMA\d+(-resto)?$/); // "-resto" = o que sobra de um nó depois das partes nomeadas
 export const CORES_DESTAQUE = ['#ffd166', '#06d6a0', '#118ab2', '#ef476f', '#c77dff'] as const;
 export const MAX_NOTA = 280;
 export const MAX_HISTORICO = 50;
@@ -17,6 +17,8 @@ export const EstadoCenaSchema = z.object({
   isolada: FmaId.nullable(),
   explosao: z.number().min(0).max(1),
   camera: z.object({ pos: Vec3, alvo: Vec3 }),
+  /** Pilha de nós abertos no modo detalhe (peça → parte → parte…), da raiz ao mais fundo. Ausente em links antigos → []. */
+  detalhe: z.array(FmaId).default([]),
 });
 export type EstadoCena = z.infer<typeof EstadoCenaSchema>;
 
@@ -32,6 +34,7 @@ export const ESTADO_INICIAL: EstadoCena = {
   isolada: null,
   explosao: 0,
   camera: CAMERA_INICIAL,
+  detalhe: [],
 };
 
 export const serializar = (e: EstadoCena): string => JSON.stringify(EstadoCenaSchema.parse(e));

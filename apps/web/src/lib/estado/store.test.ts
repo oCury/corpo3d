@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { useLoja } from './store';
 import { ESTADO_INICIAL, MAX_HISTORICO } from './schema';
 
@@ -85,5 +85,43 @@ describe('loja: peças', () => {
     expect(loja().selecionada).toBe('FMA1'); expect(loja().hover).toBe('FMA2'); expect(loja().arrastando).toBe('FMA1');
     expect(loja().historico).toEqual([]);
     expect('selecionada' in loja().estado).toBe(false);
+  });
+});
+
+describe('loja: modo detalhe', () => {
+  const peca = { fmaId: 'FMA1', nomeLatim: 'Cor', nomePt: 'Coração', nomeLeigo: 'coração', sistema: 'cardiovascular' as const, lado: '-' as const, glb: 'cardiovascular/FMA1.glb', bytes: 1, triangulos: 1, elementos: 1, numPartes: 1, bbox: { min: [0, 1, 0] as [number, number, number], max: [0.1, 1.1, 0.1] as [number, number, number] }, centro: [0.05, 1.05, 0.05] as [number, number, number], vetorExplosao: [0, 0, 1] as [number, number, number] };
+  const json = { versao: 1, paiFmaId: 'FMA1', partes: [{ ...peca, fmaId: 'FMA10', glb: 'partes/FMA1/FMA10.glb', paiFmaId: 'FMA1', nivel: 2, status: 'auto', numPartes: 0 }] };
+  /** `carregarManifestoPartes` confere que `paiFmaId` do JSON é o pedido: o mock responde com o pai que está na URL. */
+  const mockFetch = () => vi.stubGlobal('fetch', vi.fn(async (url: string) => ({ ok: true, json: async () => ({ ...json, paiFmaId: /partes\/(.+)\.json/.exec(url)?.[1] ?? '' }) })));
+  afterEach(() => vi.unstubAllGlobals());
+  it('abrirPartes carrega o JSON, encaixa, empilha, tira a seleção, enquadra e registra histórico', async () => {
+    mockFetch();
+    loja().soltar('FMA1', [0.3, 0, 0]); loja().selecionar('FMA1');
+    expect(await loja().abrirPartes(peca)).toBe(true);
+    expect(loja().estado.detalhe).toEqual(['FMA1']);
+    expect(loja().estado.soltas).toEqual([]);
+    expect(loja().selecionada).toBeNull();
+    expect(loja().presetCamera).toBe('livre');
+    expect(loja().estado.camera.alvo).toEqual(peca.centro);
+    expect(Array.isArray(loja().partes.FMA1)).toBe(true);
+    loja().desfazer();
+    expect(loja().estado.detalhe).toEqual([]);
+  });
+  it('JSON indisponível: registra erro e não muda o estado', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: false, status: 404, json: async () => ({}) })));
+    expect(await loja().abrirPartes(peca)).toBe(false);
+    expect(loja().partes.FMA1).toBe('erro');
+    expect(loja().estado.detalhe).toEqual([]);
+    expect(loja().historico).toEqual([]);
+  });
+  it('fecharPartes(n) mantém n níveis', async () => {
+    mockFetch();
+    await loja().abrirPartes(peca);
+    await loja().abrirPartes({ ...peca, fmaId: 'FMA10' });
+    expect(loja().estado.detalhe).toEqual(['FMA1', 'FMA10']);
+    loja().fecharPartes(1);
+    expect(loja().estado.detalhe).toEqual(['FMA1']);
+    loja().fecharPartes(0);
+    expect(loja().estado.detalhe).toEqual([]);
   });
 });
