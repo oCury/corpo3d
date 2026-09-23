@@ -96,6 +96,8 @@ Decisões tomadas no brainstorming (2026-09-21):
   arrasto com fantasma no lugar de origem; encaixe por raio; explodir e remontar tudo;
   desfazer/refazer; anotação do médico (destaque + nota curta); busca por nome; presets
   de câmera.
+- Modo detalhe: um órgão abre nas partes dele, recursivo, com partes automáticas do atlas e
+  curadoria em `conteudo/partes.csv` (spec `2026-09-22-corpo3d-modo-detalhe-design.md`).
 - Login do médico; geração de link com estado salvo; snapshot PNG; lista e revogação de
   links; página do paciente só leitura, responsiva, com fallback estático.
 - Conteúdo: nome leigo, nome em português (Terminologia Anatômica), nome em latim (TA2),
