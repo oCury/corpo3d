@@ -662,7 +662,7 @@ Run: `pnpm --filter @corpo3d/pipeline test` → PASS (todos, incluindo o teste n
 
 - [ ] **Step A7: Portão das partes**
 
-Em `packages/pipeline/tests/portao.test.ts`, acrescentar:
+Em `packages/pipeline/tests/portao.test.ts`: no helper `base()`, acrescentar `numPartes: 0,` ao objeto de cada peça (depois de `elementos: 1,`) — o tipo `PecaManifesto` do pipeline passou a exigir o campo. Depois acrescentar:
 
 ```ts
 import { verificarPartes } from '../src/portao';
@@ -907,9 +907,11 @@ Em `apps/web/src/lib/estado/store.test.ts`, acrescentar (com `vi` importado de v
 describe('loja: modo detalhe', () => {
   const peca = { fmaId: 'FMA1', nomeLatim: 'Cor', nomePt: 'Coração', nomeLeigo: 'coração', sistema: 'cardiovascular' as const, lado: '-' as const, glb: 'cardiovascular/FMA1.glb', bytes: 1, triangulos: 1, elementos: 1, numPartes: 1, bbox: { min: [0, 1, 0] as [number, number, number], max: [0.1, 1.1, 0.1] as [number, number, number] }, centro: [0.05, 1.05, 0.05] as [number, number, number], vetorExplosao: [0, 0, 1] as [number, number, number] };
   const json = { versao: 1, paiFmaId: 'FMA1', partes: [{ ...peca, fmaId: 'FMA10', glb: 'partes/FMA1/FMA10.glb', paiFmaId: 'FMA1', nivel: 2, status: 'auto', numPartes: 0 }] };
+  /** `carregarManifestoPartes` confere que `paiFmaId` do JSON é o pedido: o mock responde com o pai que está na URL. */
+  const mockFetch = () => vi.stubGlobal('fetch', vi.fn(async (url: string) => ({ ok: true, json: async () => ({ ...json, paiFmaId: /partes\/(.+)\.json/.exec(url)?.[1] ?? '' }) })));
   afterEach(() => vi.unstubAllGlobals());
   it('abrirPartes carrega o JSON, encaixa, empilha, tira a seleção, enquadra e registra histórico', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => json })));
+    mockFetch();
     loja().soltar('FMA1', [0.3, 0, 0]); loja().selecionar('FMA1');
     expect(await loja().abrirPartes(peca)).toBe(true);
     expect(loja().estado.detalhe).toEqual(['FMA1']);
@@ -929,7 +931,7 @@ describe('loja: modo detalhe', () => {
     expect(loja().historico).toEqual([]);
   });
   it('fecharPartes(n) mantém n níveis', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => json })));
+    mockFetch();
     await loja().abrirPartes(peca);
     await loja().abrirPartes({ ...peca, fmaId: 'FMA10' });
     expect(loja().estado.detalhe).toEqual(['FMA1', 'FMA10']);
@@ -940,7 +942,7 @@ describe('loja: modo detalhe', () => {
   });
 });
 ```
-(`abrirPartes({ ...peca, fmaId: 'FMA10' })` funciona porque o mock devolve o mesmo JSON para qualquer URL; o teste só verifica a pilha.)
+(`abrirPartes({ ...peca, fmaId: 'FMA10' })` funciona porque o mock devolve o `paiFmaId` da URL; o teste só verifica a pilha.)
 
 Run: `pnpm --filter @corpo3d/web test` → FAIL (`detalhe` não existe no schema, `./detalhe` não existe, `abrirPartes` não existe).
 
@@ -1132,7 +1134,7 @@ git commit -m "feat(web): modo detalhe no estado (pilha), carga de partes sob de
 
 - [ ] **Step D1: E2E primeiro (RED)**
 
-Criar `apps/web/e2e/detalhe.spec.ts` (o `AxeBuilder` é o mesmo que `e2e/acessibilidade.spec.ts` já usa — copie a linha de import de lá se o nome do pacote diferir):
+Criar `apps/web/e2e/detalhe.spec.ts` (`AxeBuilder` vem de `@axe-core/playwright`, como em `e2e/acessibilidade.spec.ts`):
 
 ```ts
 import { test, expect } from '@playwright/test';
@@ -1183,7 +1185,7 @@ test('abre as partes do coração, seleciona um ventrículo, explode dentro do �
   await page.getByRole('button', { name: 'Remontar tudo' }).click();
 
   // acessibilidade com detalhe aberto
-  const axe = await new AxeBuilder({ page }).analyze();
+  const axe = await new AxeBuilder({ page }).exclude('canvas').analyze(); // mesmo recorte do acessibilidade.spec: o canvas WebGL não é conteúdo
   expect(axe.violations).toEqual([]);
 
   // caminho: "Corpo" fecha tudo; desfazer reabre
