@@ -1,0 +1,504 @@
+paiFmaId,fmaId,nomeEn,nomePt,nomeLeigo,status
+FMA46565,FMA53672,neurocranium,,,auto
+FMA46565,FMA59654,osseous skeleton of nose,,,auto
+FMA46565,FMA52741,lacrimal bone,,,auto
+FMA46565,FMA52746,palatine bone,,,auto
+FMA46565,FMA52747,zygomatic bone,,,auto
+FMA46565,FMA9711,maxilla,,,auto
+FMA46565,FMA52736,sphenoid bone,,,auto
+FMA7485,FMA45734,body of organ,,,auto
+FMA7485,FMA67601,process of organ,,,auto
+FMA7485,FMA7486,manubrium,,,auto
+FMA7875,FMA7886,right second costal cartilage,,,auto
+FMA7875,FMA7913,right third costal cartilage,,,auto
+FMA7875,FMA7976,right fourth costal cartilage,,,auto
+FMA7875,FMA8070,right fifth costal cartilage,,,auto
+FMA7875,FMA8194,right sixth costal cartilage,,,auto
+FMA7875,FMA8248,right seventh costal cartilage,,,auto
+FMA7875,FMA7875-resto,rest of Cartilagines costales,Outras partes de Cartilagens costais direitas,,auto
+FMA8005,FMA8031,left second costal cartilage,,,auto
+FMA8005,FMA8058,left third costal cartilage,,,auto
+FMA8005,FMA8112,left fifth costal cartilage,,,auto
+FMA8005,FMA8167,left fourth costal cartilage,,,auto
+FMA8005,FMA8221,left sixth costal cartilage,,,auto
+FMA8005,FMA8275,left seventh costal cartilage,,,auto
+FMA8005,FMA8005-resto,rest of Cartilagines costales,Outras partes de Cartilagens costais esquerdas,,auto
+FMA9713,FMA60327,right little finger,,,auto
+FMA9713,FMA60329,right ring finger,,,auto
+FMA9713,FMA60331,right middle finger,,,auto
+FMA9713,FMA60333,right index finger,,,auto
+FMA9713,FMA60325,right thumb,,,auto
+FMA9713,FMA23725,right trapezoid,,,auto
+FMA9713,FMA24435,right scaphoid,,,auto
+FMA9713,FMA24437,right lunate,,,auto
+FMA9713,FMA24439,right triquetral,,,auto
+FMA9713,FMA24441,right pisiform,,,auto
+FMA9713,FMA24443,right trapezium,,,auto
+FMA9713,FMA24446,right capitate,,,auto
+FMA9713,FMA24448,right hamate,,,auto
+FMA9713,FMA24464,right first metacarpal bone,,,auto
+FMA9713,FMA24466,right second metacarpal bone,,,auto
+FMA9713,FMA24468,right third metacarpal bone,,,auto
+FMA9713,FMA24470,right fourth metacarpal bone,,,auto
+FMA9713,FMA24472,right fifth metacarpal bone,,,auto
+FMA9714,FMA60328,left little finger,,,auto
+FMA9714,FMA60332,left middle finger,,,auto
+FMA9714,FMA60334,left index finger,,,auto
+FMA9714,FMA60326,left thumb,,,auto
+FMA9714,FMA23942,middle phalanx of left ring finger,,,auto
+FMA9714,FMA23957,distal phalanx of left ring finger,,,auto
+FMA9714,FMA24436,left scaphoid,,,auto
+FMA9714,FMA24438,left lunate,,,auto
+FMA9714,FMA24440,left triquetral,,,auto
+FMA9714,FMA24442,left pisiform,,,auto
+FMA9714,FMA24444,left trapezium,,,auto
+FMA9714,FMA24445,left trapezoid,,,auto
+FMA9714,FMA24447,left capitate,,,auto
+FMA9714,FMA24449,left hamate,,,auto
+FMA9714,FMA24465,left first metacarpal bone,,,auto
+FMA9714,FMA24467,left second metacarpal bone,,,auto
+FMA9714,FMA24469,left third metacarpal bone,,,auto
+FMA9714,FMA24471,left fourth metacarpal bone,,,auto
+FMA9714,FMA24473,left fifth metacarpal bone,,,auto
+FMA11343,FMA60337,right second toe,,,auto
+FMA11343,FMA60339,right third toe,,,auto
+FMA11343,FMA60341,right fourth toe,,,auto
+FMA11343,FMA60343,right little toe,,,auto
+FMA11343,FMA60335,right big toe,,,auto
+FMA11343,FMA24482,right talus,,,auto
+FMA11343,FMA24497,right calcaneus,,,auto
+FMA11343,FMA24500,navicular bone of right foot,,,auto
+FMA11343,FMA24507,right first metatarsal bone,,,auto
+FMA11343,FMA24509,right second metatarsal bone,,,auto
+FMA11343,FMA24511,right third metatarsal bone,,,auto
+FMA11343,FMA24513,right fourth metatarsal bone,,,auto
+FMA11343,FMA24515,right fifth metatarsal bone,,,auto
+FMA11343,FMA24521,right medial cuneiform bone,,,auto
+FMA11343,FMA24523,right intermediate cuneiform bone,,,auto
+FMA11343,FMA24525,right lateral cuneiform bone,,,auto
+FMA11343,FMA24528,right cuboid bone,,,auto
+FMA11344,FMA60338,left second toe,,,auto
+FMA11344,FMA60340,left third toe,,,auto
+FMA11344,FMA60342,left fourth toe,,,auto
+FMA11344,FMA60344,left little toe,,,auto
+FMA11344,FMA60336,left big toe,,,auto
+FMA11344,FMA24483,left talus,,,auto
+FMA11344,FMA24498,left calcaneus,,,auto
+FMA11344,FMA24501,navicular bone of left foot,,,auto
+FMA11344,FMA24508,left first metatarsal bone,,,auto
+FMA11344,FMA24510,left second metatarsal bone,,,auto
+FMA11344,FMA24512,left third metatarsal bone,,,auto
+FMA11344,FMA24514,left fourth metatarsal bone,,,auto
+FMA11344,FMA24516,left fifth metatarsal bone,,,auto
+FMA11344,FMA24522,left medial cuneiform bone,,,auto
+FMA11344,FMA24524,left intermediate cuneiform bone,,,auto
+FMA11344,FMA24526,left lateral cuneiform bone,,,auto
+FMA11344,FMA24529,left cuboid bone,,,auto
+FMA37686,FMA37684,short head of right biceps brachii,,,auto
+FMA37686,FMA37686-resto,rest of Musculus biceps brachii,Outras partes de Bíceps braquial direito,,auto
+FMA37687,FMA37685,short head of left biceps brachii,,,auto
+FMA37687,FMA37687-resto,rest of Musculus biceps brachii,Outras partes de Bíceps braquial esquerdo,,auto
+FMA37699,FMA37695,medial head of right triceps brachii,,,auto
+FMA37699,FMA37697,lateral head of right triceps brachii,,,auto
+FMA37699,FMA37699-resto,rest of Musculus triceps brachii,Outras partes de Tríceps braquial direito,,auto
+FMA37700,FMA37696,medial head of left triceps brachii,,,auto
+FMA37700,FMA37698,lateral head of left triceps brachii,,,auto
+FMA37700,FMA37700-resto,rest of Musculus triceps brachii,Outras partes de Tríceps braquial esquerdo,,auto
+FMA38928,FMA38930,right vastus lateralis,,,auto
+FMA38928,FMA38932,right vastus medialis,,,auto
+FMA38928,FMA38934,right vastus intermedius,,,auto
+FMA38928,FMA38928-resto,rest of Musculus quadriceps femoris,Outras partes de Quadríceps femoral direito,,auto
+FMA38929,FMA38931,left vastus lateralis,,,auto
+FMA38929,FMA38933,left vastus medialis,,,auto
+FMA38929,FMA38935,left vastus intermedius,,,auto
+FMA38929,FMA38929-resto,rest of Musculus quadriceps femoris,Outras partes de Quadríceps femoral esquerdo,,auto
+FMA22459,FMA22452,right adductor brevis,,,auto
+FMA22459,FMA22456,right adductor longus,,,auto
+FMA22459,FMA43883,right gracilis,,,auto
+FMA22459,FMA22459-resto,rest of Musculi adductores,Outras partes de Adutores da coxa direitos,,auto
+FMA22460,FMA22454,left adductor brevis,,,auto
+FMA22460,FMA22457,left adductor longus,,,auto
+FMA22460,FMA43884,left gracilis,,,auto
+FMA22460,FMA22460-resto,rest of Musculi adductores,Outras partes de Adutores da coxa esquerdos,,auto
+FMA22358,FMA22448,right semimembranosus,,,auto
+FMA22358,FMA45888,long head of right biceps femoris,,,auto
+FMA22358,FMA45891,short head of right biceps femoris,,,auto
+FMA22358,FMA22358-resto,rest of Musculi ischiocrurales,Outras partes de Isquiotibiais direitos,,auto
+FMA22359,FMA22449,left semimembranosus,,,auto
+FMA22359,FMA45889,long head of left biceps femoris,,,auto
+FMA22359,FMA45892,short head of left biceps femoris,,,auto
+FMA22359,FMA22359-resto,rest of Musculi ischiocrurales,Outras partes de Isquiotibiais esquerdos,,auto
+FMA45957,FMA45960,lateral head of right gastrocnemius,,,auto
+FMA45957,FMA45957-resto,rest of Musculus gastrocnemius,Outras partes de Gastrocnêmio direito,,auto
+FMA45958,FMA45961,lateral head of left gastrocnemius,,,auto
+FMA45958,FMA45958-resto,rest of Musculus gastrocnemius,Outras partes de Gastrocnêmio esquerdo,,auto
+FMA22740,FMA22742,right iliocostalis thoracis,,,auto
+FMA22740,FMA22744,right iliocostalis cervicis,,,auto
+FMA22740,FMA22751,right longissimus thoracis,,,auto
+FMA22740,FMA22754,right longissimus capitis,,,auto
+FMA22740,FMA22757,right longissimus cervicis,,,auto
+FMA22740,FMA22779,right spinalis thoracis,,,auto
+FMA22740,FMA22740-resto,rest of Musculus erector spinae,Outras partes de Eretor da espinha direito,,auto
+FMA22741,FMA22743,left iliocostalis thoracis,,,auto
+FMA22741,FMA22745,left iliocostalis cervicis,,,auto
+FMA22741,FMA22753,left longissimus thoracis,,,auto
+FMA22741,FMA22756,left longissimus capitis,,,auto
+FMA22741,FMA22758,left longissimus cervicis,,,auto
+FMA22741,FMA22780,left spinalis thoracis,,,auto
+FMA22741,FMA22741-resto,rest of Musculus erector spinae,Outras partes de Eretor da espinha esquerdo,,auto
+FMA13354,FMA9756,external intercostal muscle,,,auto
+FMA13354,FMA9757,internal intercostal muscle,,,auto
+FMA13354,FMA9758,innermost intercostal muscle,,,auto
+FMA7088,FMA7098,right ventricle,,,auto
+FMA7088,FMA7101,left ventricle,,,auto
+FMA7088,FMA4716,right marginal vein,,,auto
+FMA7088,FMA4714,small cardiac vein,,,auto
+FMA7088,FMA4706,coronary sinus,,,auto
+FMA7088,FMA4707,great cardiac vein,,,auto
+FMA7088,FMA7088-resto,rest of Cor,Outras partes de Coração,,auto
+FMA3734,FMA3784,descending aorta,,,auto
+FMA3734,FMA3736,ascending aorta,,,auto
+FMA3734,FMA3768,arch of aorta,,,auto
+FMA4694,FMA22798,left ulnar artery,,,auto
+FMA4694,FMA70348,left thyrocervical artery,,,auto
+FMA4694,FMA22673,left thoraco-acromial artery,,,auto
+FMA4694,FMA22679,left subscapular artery,,,auto
+FMA4694,FMA22734,left radial artery,,,auto
+FMA4694,FMA4068,left internal thoracic artery,,,auto
+FMA4694,FMA70352,left costocervical artery,,,auto
+FMA4694,FMA22687,left posterior circumflex humeral artery,,,auto
+FMA4694,FMA22676,left lateral thoracic artery,,,auto
+FMA4694,FMA22683,left anterior circumflex humeral artery,,,auto
+FMA4694,FMA22697,left deep brachial artery,,,auto
+FMA4694,FMA22708,left superior ulnar collateral artery,,,auto
+FMA4694,FMA22713,left inferior ulnar collateral artery,,,auto
+FMA4694,FMA4694-resto,rest of Arteria subclavia,Outras partes de Artéria subclávia esquerda,,auto
+FMA14749,FMA14815,ileocolic artery,,,auto
+FMA14749,FMA14805,inferior pancreaticoduodenal artery,,,auto
+FMA14749,FMA14809,ileal artery,,,auto
+FMA14749,FMA14810,middle colic artery,,,auto
+FMA14749,FMA14811,right colic artery,,,auto
+FMA14749,FMA14749-resto,rest of Arteria mesenterica superior,Outras partes de Artéria mesentérica superior,,auto
+FMA14750,FMA70483,subdivision of inferior mesenteric artery,,,auto
+FMA14750,FMA14750-resto,rest of Arteria mesenterica inferior,Outras partes de Artéria mesentérica inferior,,auto
+FMA14752,FMA69265,right inferior suprarenal artery,,,auto
+FMA14752,FMA14752-resto,rest of Arteria renalis,Outras partes de Artéria renal direita,,auto
+FMA14753,FMA69266,left inferior suprarenal artery,,,auto
+FMA14753,FMA14753-resto,rest of Arteria renalis,Outras partes de Artéria renal esquerda,,auto
+FMA14765,FMA43898,right posterior tibial artery,,,auto
+FMA14765,FMA43896,right anterior tibial artery,,,auto
+FMA14765,FMA18809,right internal iliac artery,,,auto
+FMA14765,FMA20688,right inferior epigastric artery,,,auto
+FMA14765,FMA14765-resto,rest of Arteria iliaca communis,Outras partes de Artéria ilíaca comum direita,,auto
+FMA14766,FMA43899,left posterior tibial artery,,,auto
+FMA14766,FMA43897,left anterior tibial artery,,,auto
+FMA14766,FMA18810,left internal iliac artery,,,auto
+FMA14766,FMA20689,left inferior epigastric artery,,,auto
+FMA14766,FMA14766-resto,rest of Arteria iliaca communis,Outras partes de Artéria ilíaca comum esquerda,,auto
+FMA7309,FMA8655,right upper lobar vein,,,auto
+FMA7309,FMA8671,right common basal vein,,,auto
+FMA7309,FMA8656,middle lobar vein,,,auto
+FMA7309,FMA13445,superior segmental vein,,,auto
+FMA7309,FMA7309-resto,rest of Pulmo,Outras partes de Pulmão direito,,auto
+FMA7310,FMA8657,left upper lobar vein,,,auto
+FMA7310,FMA8676,left common basal vein,,,auto
+FMA7310,FMA8639,superior lingular artery,,,auto
+FMA7310,FMA8658,lingular vein,,,auto
+FMA7310,FMA8640,inferior lingular artery,,,auto
+FMA7310,FMA7310-resto,rest of Pulmo,Outras partes de Pulmão esquerdo,,auto
+FMA7197,FMA13362,right lobe of liver,,,auto
+FMA7197,FMA14779,left hepatic artery,,,auto
+FMA7197,FMA15809,right hemiliver,,,auto
+FMA7197,FMA15810,left hemiliver,,,auto
+FMA7197,FMA13365,caudate lobe of liver,,,auto
+FMA7197,FMA14339,left hepatic vein,,,auto
+FMA7197,FMA14670,left hepatic duct,,,auto
+FMA7197,FMA7197-resto,rest of Hepar,Outras partes de Fígado,,auto
+FMA7198,FMA10419,pancreatic duct,,,auto
+FMA7198,FMA7198-resto,rest of Pancreas,Outras partes de Pâncreas,,auto
+FMA71194,FMA71195,left lobe of thymus,,,auto
+FMA71194,FMA71194-resto,rest of Thymus,Outras partes de Timo,,auto
+FMA72969,FMA242180,cortex of right cerebral hemisphere,,,auto
+FMA72969,FMA72661,right precentral gyrus,,,auto
+FMA72970,FMA242182,cortex of left cerebral hemisphere,,,auto
+FMA72970,FMA72662,left precentral gyrus,,,auto
+FMA72973,FMA72665,right postcentral gyrus,,,auto
+FMA72973,FMA72667,right supramarginal gyrus,,,auto
+FMA72973,FMA72669,right angular gyrus,,,auto
+FMA72973,FMA72671,right superior parietal lobule,,,auto
+FMA72974,FMA72666,left postcentral gyrus,,,auto
+FMA72974,FMA72668,left supramarginal gyrus,,,auto
+FMA72974,FMA72670,left angular gyrus,,,auto
+FMA72974,FMA72672,left superior parietal lobule,,,auto
+FMA72971,FMA72685,right middle temporal gyrus,,,auto
+FMA72971,FMA72687,right inferior temporal gyrus,,,auto
+FMA72971,FMA72689,right fusiform gyrus,,,auto
+FMA72972,FMA72686,left middle temporal gyrus,,,auto
+FMA72972,FMA72688,left inferior temporal gyrus,,,auto
+FMA72972,FMA72690,left fusiform gyrus,,,auto
+FMA72972,FMA72706,left parahippocampal gyrus,,,auto
+FMA72980,FMA242609,right archicortex,,,auto
+FMA72980,FMA72717,right cingulate gyrus,,,auto
+FMA72981,FMA242611,left archicortex,,,auto
+FMA72981,FMA72718,left cingulate gyrus,,,auto
+FMA79876,FMA61993,midbrain,,,auto
+FMA79876,FMA62004,medulla oblongata,,,auto
+FMA79876,FMA67943,pons,,,auto
+FMA62001,FMA62008,hypothalamus,,,auto
+FMA62001,FMA62009,epithalamus,,,auto
+FMA62001,FMA78454,third ventricle,,,auto
+FMA12515,FMA58300,left choroid,,,auto
+FMA12515,FMA58082,anterior chamber of left eyeball,,,auto
+FMA12515,FMA58237,left iris,,,auto
+FMA12515,FMA58240,left cornea,,,auto
+FMA12515,FMA58243,left lens,,,auto
+FMA12515,FMA58272,left sclera,,,auto
+FMA12515,FMA58829,left vitreous body,,,auto
+FMA12515,FMA58840,suspensory ligament of left lens,,,auto
+FMA49044,FMA49046,right inferior rectus,,,auto
+FMA49044,FMA49050,right inferior oblique,,,auto
+FMA49044,FMA49052,right superior oblique,,,auto
+FMA49044,FMA49054,right lateral rectus,,,auto
+FMA49044,FMA49056,right medial rectus,,,auto
+FMA49044,FMA49044-resto,rest of Musculi externi bulbi oculi,Outras partes de Músculos do olho direitos,,auto
+FMA49045,FMA49047,left inferior rectus,,,auto
+FMA49045,FMA49051,left inferior oblique,,,auto
+FMA49045,FMA49053,left superior oblique,,,auto
+FMA49045,FMA49055,left lateral rectus,,,auto
+FMA49045,FMA49057,left medial rectus,,,auto
+FMA49045,FMA49045-resto,rest of Musculi externi bulbi oculi,Outras partes de Músculos do olho esquerdos,,auto
+FMA53672,FMA52737,temporal bone,,,auto
+FMA53672,FMA9613,parietal bone,,,auto
+FMA53672,FMA52734,frontal bone,,,auto
+FMA53672,FMA52735,occipital bone,,,auto
+FMA53672,FMA52740,ethmoid,,,auto
+FMA59654,FMA59656,osseous skeleton of internal nose,,,auto
+FMA59654,FMA52745,nasal bone,,,auto
+FMA52741,FMA53645,right lacrimal bone,,,auto
+FMA52741,FMA53646,left lacrimal bone,,,auto
+FMA52746,FMA53655,right palatine bone,,,auto
+FMA52746,FMA53656,left palatine bone,,,auto
+FMA52747,FMA52892,right zygomatic bone,,,auto
+FMA52747,FMA52893,left zygomatic bone,,,auto
+FMA9711,FMA53649,right maxilla,,,auto
+FMA9711,FMA53650,left maxilla,,,auto
+FMA60327,FMA24454,proximal phalanx of right little finger,,,auto
+FMA60327,FMA24458,middle phalanx of right little finger,,,auto
+FMA60327,FMA24463,distal phalanx of right little finger,,,auto
+FMA60329,FMA24453,proximal phalanx of right ring finger,,,auto
+FMA60329,FMA24457,middle phalanx of right ring finger,,,auto
+FMA60329,FMA24462,distal phalanx of right ring finger,,,auto
+FMA60331,FMA24452,proximal phalanx of right middle finger,,,auto
+FMA60331,FMA24456,middle phalanx of right middle finger,,,auto
+FMA60331,FMA24461,distal phalanx of right middle finger,,,auto
+FMA60333,FMA24451,proximal phalanx of right index finger,,,auto
+FMA60333,FMA24455,middle phalanx of right index finger,,,auto
+FMA60333,FMA24460,distal phalanx of right index finger,,,auto
+FMA60325,FMA24450,proximal phalanx of right thumb,,,auto
+FMA60325,FMA24459,distal phalanx of right thumb,,,auto
+FMA60328,FMA23944,middle phalanx of left little finger,,,auto
+FMA60328,FMA23959,distal phalanx of left little finger,,,auto
+FMA60328,FMA66791,proximal phalanx of left little finger,,,auto
+FMA60328,FMA71916,proximal phalanx of left ring finger,,,auto
+FMA60332,FMA23940,middle phalanx of left middle finger,,,auto
+FMA60332,FMA23955,distal phalanx of left middle finger,,,auto
+FMA60332,FMA71908,proximal phalanx of left middle finger,,,auto
+FMA60334,FMA23938,middle phalanx of left index finger,,,auto
+FMA60334,FMA23953,distal phalanx of left index finger,,,auto
+FMA60334,FMA71915,proximal phalanx of left index finger,,,auto
+FMA60326,FMA23951,distal phalanx of left thumb,,,auto
+FMA60326,FMA65470,proximal phalanx of left thumb,,,auto
+FMA60337,FMA32634,proximal phalanx of right second toe,,,auto
+FMA60337,FMA32642,middle phalanx of right second toe,,,auto
+FMA60337,FMA32652,distal phalanx of right second toe,,,auto
+FMA60339,FMA32636,proximal phalanx of right third toe,,,auto
+FMA60339,FMA32644,middle phalanx of right third toe,,,auto
+FMA60339,FMA32654,distal phalanx of right third toe,,,auto
+FMA60341,FMA32638,proximal phalanx of right fourth toe,,,auto
+FMA60341,FMA32646,middle phalanx of right fourth toe,,,auto
+FMA60341,FMA32656,distal phalanx of right fourth toe,,,auto
+FMA60343,FMA230986,middle phalanx of right little toe,,,auto
+FMA60343,FMA32640,proximal phalanx of right little toe,,,auto
+FMA60343,FMA32658,distal phalanx of right little toe,,,auto
+FMA60335,FMA32650,distal phalanx of right big toe,,,auto
+FMA60335,FMA43253,proximal phalanx of right big toe,,,auto
+FMA60338,FMA32635,proximal phalanx of left second toe,,,auto
+FMA60338,FMA32643,middle phalanx of left second toe,,,auto
+FMA60338,FMA32653,distal phalanx of left second toe,,,auto
+FMA60340,FMA32637,proximal phalanx of left third toe,,,auto
+FMA60340,FMA32645,middle phalanx of left third toe,,,auto
+FMA60340,FMA32655,distal phalanx of left third toe,,,auto
+FMA60342,FMA32639,proximal phalanx of left fourth toe,,,auto
+FMA60342,FMA32647,middle phalanx of left fourth toe,,,auto
+FMA60342,FMA32657,distal phalanx of left fourth toe,,,auto
+FMA60344,FMA230988,middle phalanx of left little toe,,,auto
+FMA60344,FMA32641,proximal phalanx of left little toe,,,auto
+FMA60344,FMA32659,distal phalanx of left little toe,,,auto
+FMA60336,FMA32651,distal phalanx of left big toe,,,auto
+FMA60336,FMA43254,proximal phalanx of left big toe,,,auto
+FMA7098,FMA7234,tricuspid valve,,,auto
+FMA7098,FMA7246,pulmonary valve,,,auto
+FMA7098,FMA7259,papillary muscle of right ventricle,,,auto
+FMA7098,FMA7098-resto,rest of right ventricle,Outras partes de right ventricle,,auto
+FMA7101,FMA7235,mitral valve,,,auto
+FMA7101,FMA7264,lateral papillary muscle of left ventricle,,,auto
+FMA7101,FMA7253,anterior cusp of aortic valve,,,auto
+FMA7101,FMA7101-resto,rest of left ventricle,Outras partes de left ventricle,,auto
+FMA3784,FMA3789,abdominal aorta,,,auto
+FMA3784,FMA87217,descending thoracic aorta,,,auto
+FMA3784,FMA3784-resto,rest of descending aorta,Outras partes de descending aorta,,auto
+FMA22798,FMA22808,left common interosseous artery,,,auto
+FMA22798,FMA22802,left anterior ulnar recurrent artery,,,auto
+FMA22798,FMA22805,left posterior ulnar recurrent artery,,,auto
+FMA22798,FMA22822,left dorsal carpal branch of ulnar artery,,,auto
+FMA22798,FMA22798-resto,rest of left ulnar artery,Outras partes de left ulnar artery,,auto
+FMA70348,FMA10682,left transverse cervical artery,,,auto
+FMA70348,FMA10680,left inferior thyroid artery,,,auto
+FMA70348,FMA10681,left suprascapular artery,,,auto
+FMA70348,FMA4084,left thyrocervical trunk,,,auto
+FMA22673,FMA23064,pectoral branch of left thoraco-acromial artery,,,auto
+FMA22673,FMA23069,acromial branch of left thoraco-acromial artery,,,auto
+FMA22673,FMA23073,deltoid branch of left thoraco-acromial artery,,,auto
+FMA22673,FMA22673-resto,rest of left thoraco-acromial artery,Outras partes de left thoraco-acromial artery,,auto
+FMA22679,FMA23181,left circumflex scapular artery,,,auto
+FMA22679,FMA66322,left thoracodorsal artery,,,auto
+FMA22679,FMA22679-resto,rest of left subscapular artery,Outras partes de left subscapular artery,,auto
+FMA22734,FMA22766,left radial recurrent artery,,,auto
+FMA22734,FMA22773,dorsal carpal branch of left radial artery,,,auto
+FMA22734,FMA22734-resto,rest of left radial artery,Outras partes de left radial artery,,auto
+FMA4068,FMA4077,left musculophrenic artery,,,auto
+FMA4068,FMA4083,left superior epigastric artery,,,auto
+FMA4068,FMA4068-resto,rest of left internal thoracic artery,Outras partes de left internal thoracic artery,,auto
+FMA70352,FMA4086,left costocervical trunk,,,auto
+FMA70352,FMA4088,left superior intercostal artery,,,auto
+FMA70352,FMA4134,left deep cervical artery,,,auto
+FMA14815,FMA14821,branch of ileocolic artery,,,auto
+FMA14815,FMA14815-resto,rest of ileocolic artery,Outras partes de ileocolic artery,,auto
+FMA70483,FMA14826,left colic artery,,,auto
+FMA70483,FMA14830,sigmoid artery,,,auto
+FMA70483,FMA14831,marginal artery of colon,,,auto
+FMA70483,FMA14832,superior rectal artery,,,auto
+FMA43898,FMA43929,right medial plantar artery,,,auto
+FMA43898,FMA43931,right lateral plantar artery,,,auto
+FMA43898,FMA43898-resto,rest of right posterior tibial artery,Outras partes de right posterior tibial artery,,auto
+FMA43896,FMA43916,right dorsalis pedis artery,,,auto
+FMA43896,FMA43896-resto,rest of right anterior tibial artery,Outras partes de right anterior tibial artery,,auto
+FMA43899,FMA43930,left medial plantar artery,,,auto
+FMA43899,FMA43932,left lateral plantar artery,,,auto
+FMA43899,FMA43899-resto,rest of left posterior tibial artery,Outras partes de left posterior tibial artery,,auto
+FMA43897,FMA43917,left dorsalis pedis artery,,,auto
+FMA43897,FMA43897-resto,rest of left anterior tibial artery,Outras partes de left anterior tibial artery,,auto
+FMA8655,FMA8663,right posterior segmental vein,,,auto
+FMA8655,FMA8661,right apical segmental vein,,,auto
+FMA8655,FMA8662,right anterior segmental vein,,,auto
+FMA8671,FMA8674,right inferior basal vein,,,auto
+FMA8671,FMA8672,right superior basal vein,,,auto
+FMA8656,FMA8664,lateral segmental vein,,,auto
+FMA8656,FMA8665,medial segmental vein,,,auto
+FMA8657,FMA8666,apicoposterior segmental vein,,,auto
+FMA8657,FMA8667,left anterior segmental vein,,,auto
+FMA8676,FMA8677,left superior basal vein,,,auto
+FMA8676,FMA8679,left inferior basal vein,,,auto
+FMA8658,FMA8668,superior lingular vein,,,auto
+FMA8658,FMA8669,inferior lingular vein,,,auto
+FMA13362,FMA14778,right hepatic artery,,,auto
+FMA13362,FMA15800,anterior inferior segmental tributary of middle hepatic vein,,,auto
+FMA13362,FMA14338,right hepatic vein,,,auto
+FMA13362,FMA14669,right hepatic duct,,,auto
+FMA13362,FMA13362-resto,rest of right lobe of liver,Outras partes de right lobe of liver,,auto
+FMA14779,FMA71736,subdivision of left lobe branch of left hepatic artery,,,auto
+FMA14779,FMA70455,caudate lobe branch of left hepatic artery,,,auto
+FMA14779,FMA14779-resto,rest of left hepatic artery,Outras partes de left hepatic artery,,auto
+FMA15809,FMA15748,anterior sector of right liver,,,auto
+FMA15809,FMA15749,posterior sector of right liver,,,auto
+FMA15810,FMA15750,anterior sector of left liver,,,auto
+FMA15810,FMA15751,posterior sector of left liver,,,auto
+FMA242180,FMA72653,right superior frontal gyrus,,,auto
+FMA242180,FMA72655,right middle frontal gyrus,,,auto
+FMA242180,FMA72657,right inferior frontal gyrus,,,auto
+FMA242182,FMA72654,left superior frontal gyrus,,,auto
+FMA242182,FMA72656,left middle frontal gyrus,,,auto
+FMA242182,FMA72658,left inferior frontal gyrus,,,auto
+FMA61993,FMA83902,midbrain tectum,,,auto
+FMA61993,FMA78467,cerebral aqueduct,,,auto
+FMA61993,FMA61993-resto,rest of midbrain,Outras partes de midbrain,,auto
+FMA62008,FMA62327,tuber cinereum,,,auto
+FMA62008,FMA62008-resto,rest of hypothalamus,Outras partes de hypothalamus,,auto
+FMA62009,FMA62032,habenula,,,auto
+FMA62009,FMA62033,pineal body,,,auto
+FMA52737,FMA52738,right temporal bone,,,auto
+FMA52737,FMA52739,left temporal bone,,,auto
+FMA9613,FMA52788,right parietal bone,,,auto
+FMA9613,FMA52789,left parietal bone,,,auto
+FMA59656,FMA54736,inferior nasal concha,,,auto
+FMA59656,FMA9710,vomer,,,auto
+FMA52745,FMA53647,right nasal bone,,,auto
+FMA52745,FMA53648,left nasal bone,,,auto
+FMA7234,FMA7238,anterior leaflet of tricuspid valve,,,auto
+FMA7234,FMA7239,posterior leaflet of tricuspid valve,,,auto
+FMA7234,FMA7240,septal leaflet of tricuspid valve,,,auto
+FMA7246,FMA7247,left anterior cusp of pulmonary valve,,,auto
+FMA7246,FMA7249,right anterior cusp of pulmonary valve,,,auto
+FMA7246,FMA7250,posterior cusp of pulmonary valve,,,auto
+FMA7259,FMA7260,anterior papillary muscle of right ventricle,,,auto
+FMA7259,FMA7261,posterior papillary muscle of right ventricle,,,auto
+FMA7259,FMA7262,septal papillary muscle of right ventricle,,,auto
+FMA7235,FMA9348,subaortic curtain of left ventricle,,,auto
+FMA7235,FMA7243,posterior leaflet of mitral valve,,,auto
+FMA7264,FMA7265,anterolateral head of lateral papillary muscle of left ventricle,,,auto
+FMA7264,FMA7264-resto,rest of lateral papillary muscle of left ventricle,Outras partes de lateral papillary muscle of left ventricle,,auto
+FMA22808,FMA22813,left anterior interosseous artery,,,auto
+FMA22808,FMA22808-resto,rest of left common interosseous artery,Outras partes de left common interosseous artery,,auto
+FMA10682,FMA10552,left dorsal scapular artery,,,auto
+FMA10682,FMA10683,left superficial cervical artery,,,auto
+FMA10682,FMA10682-resto,rest of left transverse cervical artery,Outras partes de left transverse cervical artery,,auto
+FMA14821,FMA14816,anterior cecal artery,,,auto
+FMA14821,FMA14817,posterior cecal artery,,,auto
+FMA14821,FMA14818,appendicular artery,,,auto
+FMA14821,FMA14819,ileal branch of inferior branch of ileocolic artery,,,auto
+FMA14821,FMA14820,ascending branch of inferior branch of ileocolic artery,,,auto
+FMA14821,FMA14824,marginal colic artery,,,auto
+FMA43929,FMA43937,right superficial medial plantar artery,,,auto
+FMA43929,FMA43929-resto,rest of right medial plantar artery,Outras partes de right medial plantar artery,,auto
+FMA43931,FMA43943,right plantar arch,,,auto
+FMA43931,FMA43931-resto,rest of right lateral plantar artery,Outras partes de right lateral plantar artery,,auto
+FMA43916,FMA69490,right lateral tarsal artery,,,auto
+FMA43916,FMA69494,right arcuate artery,,,auto
+FMA43916,FMA43916-resto,rest of right dorsalis pedis artery,Outras partes de right dorsalis pedis artery,,auto
+FMA43930,FMA43938,left superficial medial plantar artery,,,auto
+FMA43930,FMA43930-resto,rest of left medial plantar artery,Outras partes de left medial plantar artery,,auto
+FMA43932,FMA43944,left plantar arch,,,auto
+FMA43932,FMA43932-resto,rest of left lateral plantar artery,Outras partes de left lateral plantar artery,,auto
+FMA43917,FMA69491,left lateral tarsal artery,,,auto
+FMA43917,FMA69495,left arcuate artery,,,auto
+FMA43917,FMA43917-resto,rest of left dorsalis pedis artery,Outras partes de left dorsalis pedis artery,,auto
+FMA8674,FMA9428,right posterior basal segmental vein,,,auto
+FMA8674,FMA13289,medial basal segmental vein,,,auto
+FMA8672,FMA9425,right lateral basal segmental vein,,,auto
+FMA8672,FMA8673,right anterior basal segmental vein,,,auto
+FMA8666,FMA9438,left posterior segmental vein,,,auto
+FMA8666,FMA13444,apical segmental vein,,,auto
+FMA8677,FMA8678,left anterior basal segmental vein,,,auto
+FMA8677,FMA9450,left lateral basal segmental vein,,,auto
+FMA14778,FMA71709,subdivision of right lobe branch of right hepatic artery,,,auto
+FMA14778,FMA70447,caudate lobe branch of right hepatic artery,,,auto
+FMA14778,FMA14778-resto,rest of right hepatic artery,Outras partes de right hepatic artery,,auto
+FMA71736,FMA70451,lateral segmental hepatic artery,,,auto
+FMA71736,FMA70448,medial segmental hepatic artery,,,auto
+FMA83902,FMA62403,superior colliculus,,,auto
+FMA83902,FMA62404,inferior colliculus,,,auto
+FMA54736,FMA54737,right inferior nasal concha,,,auto
+FMA54736,FMA54738,left inferior nasal concha,,,auto
+FMA9348,FMA7242,anterior leaflet of mitral valve,,,auto
+FMA9348,FMA7252,right posterior cusp of aortic valve,,,auto
+FMA9348,FMA7254,left posterior cusp of aortic valve,,,auto
+FMA71709,FMA70444,posterior segmental hepatic artery,,,auto
+FMA71709,FMA70441,anterior segmental hepatic artery,,,auto
+FMA70451,FMA70452,lateral superior segmental hepatic artery,,,auto
+FMA70451,FMA70453,lateral inferior segmental hepatic artery,,,auto
+FMA70448,FMA70449,medial superior segmental hepatic artery,,,auto
+FMA70448,FMA70450,medial inferior segmental hepatic artery,,,auto
+FMA62403,FMA73422,right superior colliculus,,,auto
+FMA62403,FMA73423,left superior colliculus,,,auto
+FMA62404,FMA73434,right inferior colliculus,,,auto
+FMA62404,FMA73435,left inferior colliculus,,,auto

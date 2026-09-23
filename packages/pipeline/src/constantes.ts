@@ -44,3 +44,19 @@ export const RAZAO_PADRAO: Record<Sistema, number> = {
 };
 export const ORCAMENTO_BYTES_POR_PECA = 1024 * 1024;
 export const ORCAMENTO_BYTES_TOTAL = 30 * 1024 * 1024;
+/** Fonte da verdade das partes (curadoria); gerado/atualizado por `propor-partes`. */
+export const CSV_PARTES = resolve(RAIZ, 'conteudo', 'partes.csv');
+/** Subpasta de DIR_SAIDA: models/partes/<pai>/<parte>.glb e models/partes/<pai>.json */
+export const DIR_PARTES = 'partes';
+/** Nível 1 = peça do CSV de estruturas; até quatro aberturas (níveis 2–5). */
+export const NIVEL_MAXIMO = 5;
+/** Espelha DESLOCAMENTO_MAXIMO do web (geometria.ts): alcance da explosão com o slider em 1. */
+export const DESLOCAMENTO_MAXIMO_M = 0.4;
+export const ORCAMENTO_BYTES_PARTES_TOTAL = 12 * 1024 * 1024;
+/**
+ * Peças que nunca têm partes, com o motivo. FMA12514 (globo ocular direito): cada arquivo
+ * "direito" do atlas já traz OS DOIS olhos dentro de si (córnea direita = 81 mm de largura) sem
+ * repetir elemento do esquerdo, então nenhuma regra por elementos o pega; o olho é desenhado
+ * paramétrico de qualquer jeito (Peca.tsx).
+ */
+export const PECAS_SEM_PARTES = new Set(['FMA12514']);

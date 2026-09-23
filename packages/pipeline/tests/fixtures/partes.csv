@@ -1,0 +1,3 @@
+paiFmaId,fmaId,nomeEn,nomePt,nomeLeigo,status
+FMA1,FMA7,ventriculo,Ventrículo,câmara,auto
+FMA1,FMA1-resto,rest of coracao,Outras partes de Coração,,auto

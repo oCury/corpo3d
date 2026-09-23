@@ -34,6 +34,27 @@ describe('construir', () => {
     expect(lido.pecas.map((p: { fmaId: string }) => p.fmaId)).toEqual(['FMA1', 'FMA3', 'FMA4', 'FMA5']);
     expect(lido.bytesTotal).toBe(manifesto.pecas.reduce((a, p) => a + p.bytes, 0));
   });
+
+  it('gera partes do CSV: GLB por parte, JSON por pai, numPartes no manifesto e vetor radial', async () => {
+    const saida = mkdtempSync(join(tmpdir(), 'models-'));
+    const manifesto = await construir({
+      csv: join(FX, 'estruturas.csv'), csvPartes: join(FX, 'partes.csv'),
+      elementParts: { partof: join(FX, 'partof_element_parts.txt'), isa: join(FX, 'isa_element_parts.txt') },
+      dirObj: join(FX, 'obj'), dirSaida: saida,
+    });
+    expect(manifesto.pecas.find((p) => p.fmaId === 'FMA1')!.numPartes).toBe(2);
+    expect(manifesto.pecas.find((p) => p.fmaId === 'FMA4')!.numPartes).toBe(0);
+    const json = JSON.parse(readFileSync(join(saida, 'partes', 'FMA1.json'), 'utf8'));
+    expect(json.versao).toBe(1); expect(json.paiFmaId).toBe('FMA1');
+    expect(json.partes.map((p: { fmaId: string }) => p.fmaId)).toEqual(['FMA7', 'FMA1-resto']);
+    const v = json.partes[0];
+    expect(v.glb).toBe('partes/FMA1/FMA7.glb'); expect(existsSync(join(saida, v.glb))).toBe(true);
+    expect(v.sistema).toBe('cardiovascular'); expect(v.paiFmaId).toBe('FMA1'); expect(v.nivel).toBe(2); expect(v.status).toBe('auto'); expect(v.numPartes).toBe(0);
+    expect(v.nomePt).toBe('Ventrículo'); expect(v.nomeLatim).toBe('ventriculo');
+    expect(Math.hypot(...(v.vetorExplosao as [number, number, number]))).toBeGreaterThan(0);
+    expect(existsSync(join(saida, 'partes', 'FMA1', 'FMA1-resto.glb'))).toBe(true);
+    expect(json.partes[1].elementos).toBe(1);                                  // FJ11
+  });
 });
 
 describe('vetorExplosaoPadrao', () => {

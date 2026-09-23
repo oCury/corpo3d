@@ -4,6 +4,7 @@ import type { Bbox } from './glb';
 export interface PecaManifesto {
   fmaId: string; nomeLatim: string; nomePt: string; nomeLeigo: string; sistema: Sistema; lado: Lado;
   glb: string; bytes: number; triangulos: number; elementos: number;
+  numPartes: number;
   bbox: Bbox; centro: [number, number, number]; vetorExplosao: [number, number, number];
 }
 export interface Manifesto {
@@ -30,3 +31,6 @@ export function vetorExplosaoPadrao(centro: [number, number, number], sistema: S
 }
 
 export const FONTE = 'BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International';
+/** Uma parte é uma peça comum, mais o pai, o nível (2–5), o estado da curadoria e quantas partes ela mesma tem. */
+export interface PartePeca extends PecaManifesto { paiFmaId: string; nivel: number; status: 'auto' | 'revisado' }
+export interface ManifestoPartes { versao: 1; paiFmaId: string; partes: PartePeca[] }
