@@ -15,7 +15,7 @@
 - `escreverGlb(g, saida, { razao, nome, inflarM?, confinarEm?, devolverGeometria? })` devolve `{ bytes, triangulosAntes, triangulosDepois, bbox, centro }`; `bboxDe(pos)`; `parseObj(texto, g)` acumula em `Geometria`.
 - `construir.ts` monta `PecaManifesto` e escreve `manifest.json`; `portao.ts` tem `verificarOrcamento(m, idsCsv, orc)` e CLI.
 - Web: `EstadoCenaSchema` Zod com `FmaId = /^FMA\d+$/`; store Zustand com `aplicar(parcial, {historico})`; `Cena.tsx` calcula `visiveis` e expõe `data-*`; `Peca.tsx` calcula `opacidade = opacidadeSistema * (isolada && isolada !== fmaId ? 0.1 : 1)`; `PainelPeca` acha a peça em `manifesto.pecas`; `ListaPecas` é um `<ul role="listbox">` achatado; `useAtalhos` trata Escape; `enquadrar(peca)` em geometria.ts.
-- Dados: coração `FMA7088` tem 83 elementos; por continência, dá 8 partes automáticas no nível 1 (coronárias D/E, ventrículos D/E, veia marginal direita, veia cardíaca pequena, seio coronário, veia cardíaca magna) + resto de 4 elementos. Os E2E leem `public/models/partes/FMA7088.json` para saber N.
+- Dados (corrigido em 22/09 ao executar a Tarefa A): coração `FMA7088` tem 83 elementos, mas 54 são das coronárias D/E (`FMA50039`/`FMA50040`), que já são peças de nível 1 → 29 elementos próprios → **6 partes automáticas** no nível 1 (ventrículos D/E, veia marginal direita, veia cardíaca pequena, seio coronário, veia cardíaca magna) + resto de 4 elementos (cavidades e paredes dos átrios). No total: 503 linhas, 138 pais (50 de nível 1), 445 nomes distintos, 6,2 MB de partes. Os E2E leem `public/models/partes/FMA7088.json` para saber N.
 - Comandos: `pnpm --filter @corpo3d/pipeline test|typecheck|construir|portao`; `pnpm --filter @corpo3d/web test|typecheck`; `cd apps/web && pnpm test:e2e`.
 
 ---
@@ -733,7 +733,7 @@ Run: `pnpm --filter @corpo3d/pipeline test` → PASS. `typecheck` → limpo.
 ```bash
 pnpm --filter @corpo3d/pipeline propor-partes
 ```
-Expected: cria `conteudo/partes.csv` com ~800 linhas e ~200 pais (56 de nível 1). Conferir: `grep -c '^FMA7088,' conteudo/partes.csv` → 9 (8 partes + resto); `grep '^FMA12514,' conteudo/partes.csv` → nada (exceção); `grep -c ',auto$' conteudo/partes.csv` ≈ todas.
+Expected: cria `conteudo/partes.csv` com ≈ 503 linhas e 138 pais (50 de nível 1). Conferir: `grep -c '^FMA7088,' conteudo/partes.csv` → 7 (6 partes + resto); `grep '^FMA12514,' conteudo/partes.csv` → nada (exceção); `grep -c ',auto$' conteudo/partes.csv` ≈ todas.
 
 ```bash
 pnpm --filter @corpo3d/pipeline construir && pnpm --filter @corpo3d/pipeline portao
@@ -765,7 +765,7 @@ pend=sorted({r['nomeEn'] for r in rows if r['status']=='auto' and (not r['nomePt
 json.dump(pend,open('/tmp/corpo3d-nomes-pendentes.json','w',encoding='utf8'),ensure_ascii=False,indent=0)
 print(len(pend),'nomes distintos pendentes')"
 ```
-Expected: ≈ 579 nomes.
+Expected: ≈ 445 nomes.
 
 - [ ] **Step B2: Rascunhar as traduções**
 
@@ -817,7 +817,7 @@ grep '^FMA7088,' conteudo/partes.csv               # deve listar átrios com sta
 pnpm --filter @corpo3d/pipeline construir && pnpm --filter @corpo3d/pipeline portao
 pnpm --filter @corpo3d/pipeline test
 ```
-Expected: o coração passa a ter 11 linhas (8 auto + 2 revisado + resto); `construir` não falha nas linhas revisadas (átrios são subconjunto do coração); portão 0 problemas. Abrir `apps/web/public/models/partes/FMA7088.json` e conferir que `nomePt` dos átrios e ventrículos está em português.
+Expected: o coração passa a ter 8 linhas (6 auto + 2 revisado; os átrios cobrem os 4 elementos do resto, então a linha `-resto` some — se sobrar algum elemento, a linha fica e são 9); `construir` não falha nas linhas revisadas (átrios são subconjunto do coração); portão 0 problemas. Abrir `apps/web/public/models/partes/FMA7088.json` e conferir que `nomePt` dos átrios e ventrículos está em português.
 
 Conferência humana obrigatória: listar 30 linhas ao acaso (`shuf -n 30 conteudo/partes.csv`) no relatório para o revisor ler.
 

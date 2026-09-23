@@ -37,6 +37,15 @@ possível depois, um órgão por spec. Aqui entra só **estrutura**: partes e no
   | Bytes OBJ das 241 peças → GLB | 298 MB → 8,0 MB (razão ≈ 37:1) |
 
   Logo as partes pesam **≈ 8 MB de GLB no total**, e nada disso carrega ao abrir o app.
+
+  **Correção (22/09, ao executar a Tarefa A):** a medição acima não descontava os elementos das
+  coronárias D/E (`FMA50039`/`FMA50040`), que já são peças de nível 1 e são subconjuntos do coração
+  (54 dos 83 elementos). Com a regra da seção 3 como implementada: **50** peças de nível 1 com ≥ 2
+  partes, **138** nós com partes, **503** linhas (58 restos), **445** nomes distintos, **6,2 MB** de
+  GLB de partes. Coração nível 1: ventrículos D/E, veia marginal direita, veia cardíaca pequena, seio
+  coronário, veia cardíaca magna + resto (cavidades e paredes dos átrios, que a curadoria dos átrios
+  cobre). As coronárias seguem peças próprias e ficam esmaecidas com o coração aberto; rebaixá-las a
+  partes exigiria tirá-las de `estruturas.csv` — decisão de conteúdo pendente, fora deste spec.
 - Exemplos do que a regra automática dá no nível 1: **coração** → coronárias D/E, ventrículos
   D/E, seio coronário, veias cardíacas (os **átrios ficam de fora**: a valva mitral pertence
   ao átrio e ao ventrículo, e a regra "sem elemento repetido" fica com o ventrículo, maior);
