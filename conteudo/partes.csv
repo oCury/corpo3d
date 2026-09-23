@@ -1,0 +1,509 @@
+paiFmaId,fmaId,nomeEn,nomePt,nomeLeigo,status
+FMA46565,FMA53672,neurocranium,Neurocrânio,parte do crânio que envolve o cérebro,auto
+FMA46565,FMA59654,osseous skeleton of nose,Esqueleto ósseo do nariz,ossos que formam o nariz,auto
+FMA46565,FMA52741,lacrimal bone,Osso lacrimal,"pequeno osso perto do canto do olho, junto ao nariz",auto
+FMA46565,FMA52746,palatine bone,Osso palatino,osso do céu da boca,auto
+FMA46565,FMA52747,zygomatic bone,Osso zigomático,osso da bochecha,auto
+FMA46565,FMA9711,maxilla,Maxila,osso do maxilar superior,auto
+FMA46565,FMA52736,sphenoid bone,Osso esfenoide,osso no meio da base do crânio,auto
+FMA7485,FMA45734,body of organ,Corpo do órgão,corpo do órgão,auto
+FMA7485,FMA67601,process of organ,Processo do órgão,processo do órgão,auto
+FMA7485,FMA7486,manubrium,Manúbrio do esterno,parte de cima do osso do esterno,auto
+FMA7875,FMA7886,right second costal cartilage,Segunda cartilagem costal direita,cartilagem que liga a segunda costela direita ao esterno,auto
+FMA7875,FMA7913,right third costal cartilage,Terceira cartilagem costal direita,cartilagem que liga a terceira costela direita ao esterno,auto
+FMA7875,FMA7976,right fourth costal cartilage,Quarta cartilagem costal direita,cartilagem que liga a quarta costela direita ao esterno,auto
+FMA7875,FMA8070,right fifth costal cartilage,Quinta cartilagem costal direita,cartilagem que liga a quinta costela direita ao esterno,auto
+FMA7875,FMA8194,right sixth costal cartilage,Sexta cartilagem costal direita,cartilagem que liga a sexta costela direita ao esterno,auto
+FMA7875,FMA8248,right seventh costal cartilage,Sétima cartilagem costal direita,cartilagem que liga a sétima costela direita ao esterno,auto
+FMA7875,FMA7875-resto,rest of Cartilagines costales,Outras partes de Cartilagens costais direitas,o que sobra depois das partes nomeadas,auto
+FMA8005,FMA8031,left second costal cartilage,Segunda cartilagem costal esquerda,cartilagem que liga a segunda costela esquerda ao esterno,auto
+FMA8005,FMA8058,left third costal cartilage,Terceira cartilagem costal esquerda,cartilagem que liga a terceira costela esquerda ao esterno,auto
+FMA8005,FMA8112,left fifth costal cartilage,Quinta cartilagem costal esquerda,cartilagem que liga a quinta costela esquerda ao esterno,auto
+FMA8005,FMA8167,left fourth costal cartilage,Quarta cartilagem costal esquerda,cartilagem que liga a quarta costela esquerda ao esterno,auto
+FMA8005,FMA8221,left sixth costal cartilage,Sexta cartilagem costal esquerda,cartilagem que liga a sexta costela esquerda ao esterno,auto
+FMA8005,FMA8275,left seventh costal cartilage,Sétima cartilagem costal esquerda,cartilagem que liga a sétima costela esquerda ao esterno,auto
+FMA8005,FMA8005-resto,rest of Cartilagines costales,Outras partes de Cartilagens costais esquerdas,o que sobra depois das partes nomeadas,auto
+FMA9713,FMA60327,right little finger,Dedo mínimo direito,dedo mindinho direito,auto
+FMA9713,FMA60329,right ring finger,Dedo anular direito,dedo anelar direito,auto
+FMA9713,FMA60331,right middle finger,Dedo médio direito,dedo médio direito,auto
+FMA9713,FMA60333,right index finger,Indicador direito,dedo indicador direito,auto
+FMA9713,FMA60325,right thumb,Polegar direito,dedão da mão direita,auto
+FMA9713,FMA23725,right trapezoid,Osso trapezoide direito,osso do pulso ao lado do trapézio direito,auto
+FMA9713,FMA24435,right scaphoid,Osso escafoide direito,osso em forma de barco do pulso direito,auto
+FMA9713,FMA24437,right lunate,Osso semilunar direito,osso em forma de lua do pulso direito,auto
+FMA9713,FMA24439,right triquetral,Osso piramidal direito,osso triangular do pulso direito,auto
+FMA9713,FMA24441,right pisiform,Osso pisiforme direito,pequeno osso redondo do pulso direito,auto
+FMA9713,FMA24443,right trapezium,Osso trapézio direito,osso do pulso perto do polegar direito,auto
+FMA9713,FMA24446,right capitate,Osso capitato direito,osso do meio do pulso direito,auto
+FMA9713,FMA24448,right hamate,Osso hamato direito,osso em forma de gancho do pulso direito,auto
+FMA9713,FMA24464,right first metacarpal bone,Primeiro osso metacarpal direito,osso da mão direita ligado ao polegar,auto
+FMA9713,FMA24466,right second metacarpal bone,Segundo osso metacarpal direito,osso da mão direita ligado ao indicador,auto
+FMA9713,FMA24468,right third metacarpal bone,Terceiro osso metacarpal direito,osso da mão direita ligado ao dedo médio,auto
+FMA9713,FMA24470,right fourth metacarpal bone,Quarto osso metacarpal direito,osso da mão direita ligado ao dedo anular,auto
+FMA9713,FMA24472,right fifth metacarpal bone,Quinto osso metacarpal direito,osso da mão direita ligado ao dedo mínimo,auto
+FMA9714,FMA60328,left little finger,Dedo mínimo esquerdo,dedo mindinho esquerdo,auto
+FMA9714,FMA60332,left middle finger,Dedo médio esquerdo,dedo médio esquerdo,auto
+FMA9714,FMA60334,left index finger,Indicador esquerdo,dedo indicador esquerdo,auto
+FMA9714,FMA60326,left thumb,Polegar esquerdo,dedão da mão esquerda,auto
+FMA9714,FMA23942,middle phalanx of left ring finger,Falange média do dedo anular esquerdo,osso do meio do dedo anelar esquerdo,auto
+FMA9714,FMA23957,distal phalanx of left ring finger,Falange distal do dedo anular esquerdo,osso da ponta do dedo anelar esquerdo,auto
+FMA9714,FMA24436,left scaphoid,Osso escafoide esquerdo,osso em forma de barco do pulso esquerdo,auto
+FMA9714,FMA24438,left lunate,Osso semilunar esquerdo,osso em forma de lua do pulso esquerdo,auto
+FMA9714,FMA24440,left triquetral,Osso piramidal esquerdo,osso triangular do pulso esquerdo,auto
+FMA9714,FMA24442,left pisiform,Osso pisiforme esquerdo,pequeno osso redondo do pulso esquerdo,auto
+FMA9714,FMA24444,left trapezium,Osso trapézio esquerdo,osso do pulso perto do polegar esquerdo,auto
+FMA9714,FMA24445,left trapezoid,Osso trapezoide esquerdo,osso do pulso ao lado do trapézio esquerdo,auto
+FMA9714,FMA24447,left capitate,Osso capitato esquerdo,osso do meio do pulso esquerdo,auto
+FMA9714,FMA24449,left hamate,Osso hamato esquerdo,osso em forma de gancho do pulso esquerdo,auto
+FMA9714,FMA24465,left first metacarpal bone,Primeiro osso metacarpal esquerdo,osso da mão esquerda ligado ao polegar,auto
+FMA9714,FMA24467,left second metacarpal bone,Segundo osso metacarpal esquerdo,osso da mão esquerda ligado ao indicador,auto
+FMA9714,FMA24469,left third metacarpal bone,Terceiro osso metacarpal esquerdo,osso da mão esquerda ligado ao dedo médio,auto
+FMA9714,FMA24471,left fourth metacarpal bone,Quarto osso metacarpal esquerdo,osso da mão esquerda ligado ao dedo anular,auto
+FMA9714,FMA24473,left fifth metacarpal bone,Quinto osso metacarpal esquerdo,osso da mão esquerda ligado ao dedo mínimo,auto
+FMA11343,FMA60337,right second toe,Segundo dedo do pé direito,segundo dedo do pé direito,auto
+FMA11343,FMA60339,right third toe,Terceiro dedo do pé direito,terceiro dedo do pé direito,auto
+FMA11343,FMA60341,right fourth toe,Quarto dedo do pé direito,quarto dedo do pé direito,auto
+FMA11343,FMA60343,right little toe,Dedo mínimo do pé direito,dedo mindinho do pé direito,auto
+FMA11343,FMA60335,right big toe,Hálux direito,dedão do pé direito,auto
+FMA11343,FMA24482,right talus,Tálus direito,osso do tornozelo direito que se articula com a perna,auto
+FMA11343,FMA24497,right calcaneus,Calcâneo direito,osso do calcanhar direito,auto
+FMA11343,FMA24500,navicular bone of right foot,Osso navicular do pé direito,osso do meio do pé direito,auto
+FMA11343,FMA24507,right first metatarsal bone,Primeiro osso metatarsal direito,osso do pé direito ligado ao hálux,auto
+FMA11343,FMA24509,right second metatarsal bone,Segundo osso metatarsal direito,osso do pé direito ligado ao segundo dedo do pé,auto
+FMA11343,FMA24511,right third metatarsal bone,Terceiro osso metatarsal direito,osso do pé direito ligado ao terceiro dedo do pé,auto
+FMA11343,FMA24513,right fourth metatarsal bone,Quarto osso metatarsal direito,osso do pé direito ligado ao quarto dedo do pé,auto
+FMA11343,FMA24515,right fifth metatarsal bone,Quinto osso metatarsal direito,osso do pé direito ligado ao dedo mínimo do pé,auto
+FMA11343,FMA24521,right medial cuneiform bone,Osso cuneiforme medial direito,"osso do meio do pé direito, do lado de dentro",auto
+FMA11343,FMA24523,right intermediate cuneiform bone,Osso cuneiforme intermédio direito,osso do meio do pé direito,auto
+FMA11343,FMA24525,right lateral cuneiform bone,Osso cuneiforme lateral direito,"osso do meio do pé direito, do lado de fora",auto
+FMA11343,FMA24528,right cuboid bone,Osso cuboide direito,"osso do meio do pé direito, do lado de fora",auto
+FMA11344,FMA60338,left second toe,Segundo dedo do pé esquerdo,segundo dedo do pé esquerdo,auto
+FMA11344,FMA60340,left third toe,Terceiro dedo do pé esquerdo,terceiro dedo do pé esquerdo,auto
+FMA11344,FMA60342,left fourth toe,Quarto dedo do pé esquerdo,quarto dedo do pé esquerdo,auto
+FMA11344,FMA60344,left little toe,Dedo mínimo do pé esquerdo,dedo mindinho do pé esquerdo,auto
+FMA11344,FMA60336,left big toe,Hálux esquerdo,dedão do pé esquerdo,auto
+FMA11344,FMA24483,left talus,Tálus esquerdo,osso do tornozelo esquerdo que se articula com a perna,auto
+FMA11344,FMA24498,left calcaneus,Calcâneo esquerdo,osso do calcanhar esquerdo,auto
+FMA11344,FMA24501,navicular bone of left foot,Osso navicular do pé esquerdo,osso do meio do pé esquerdo,auto
+FMA11344,FMA24508,left first metatarsal bone,Primeiro osso metatarsal esquerdo,osso do pé esquerdo ligado ao hálux,auto
+FMA11344,FMA24510,left second metatarsal bone,Segundo osso metatarsal esquerdo,osso do pé esquerdo ligado ao segundo dedo do pé,auto
+FMA11344,FMA24512,left third metatarsal bone,Terceiro osso metatarsal esquerdo,osso do pé esquerdo ligado ao terceiro dedo do pé,auto
+FMA11344,FMA24514,left fourth metatarsal bone,Quarto osso metatarsal esquerdo,osso do pé esquerdo ligado ao quarto dedo do pé,auto
+FMA11344,FMA24516,left fifth metatarsal bone,Quinto osso metatarsal esquerdo,osso do pé esquerdo ligado ao dedo mínimo do pé,auto
+FMA11344,FMA24522,left medial cuneiform bone,Osso cuneiforme medial esquerdo,"osso do meio do pé esquerdo, do lado de dentro",auto
+FMA11344,FMA24524,left intermediate cuneiform bone,Osso cuneiforme intermédio esquerdo,osso do meio do pé esquerdo,auto
+FMA11344,FMA24526,left lateral cuneiform bone,Osso cuneiforme lateral esquerdo,"osso do meio do pé esquerdo, do lado de fora",auto
+FMA11344,FMA24529,left cuboid bone,Osso cuboide esquerdo,"osso do meio do pé esquerdo, do lado de fora",auto
+FMA37686,FMA37684,short head of right biceps brachii,Cabeça curta do bíceps braquial direito,parte do músculo da frente do braço direito,auto
+FMA37686,FMA37686-resto,rest of Musculus biceps brachii,Outras partes de Bíceps braquial direito,o que sobra depois das partes nomeadas,auto
+FMA37687,FMA37685,short head of left biceps brachii,Cabeça curta do bíceps braquial esquerdo,parte do músculo da frente do braço esquerdo,auto
+FMA37687,FMA37687-resto,rest of Musculus biceps brachii,Outras partes de Bíceps braquial esquerdo,o que sobra depois das partes nomeadas,auto
+FMA37699,FMA37695,medial head of right triceps brachii,Cabeça medial do tríceps braquial direito,parte do músculo de trás do braço direito,auto
+FMA37699,FMA37697,lateral head of right triceps brachii,Cabeça lateral do tríceps braquial direito,parte do músculo de trás do braço direito,auto
+FMA37699,FMA37699-resto,rest of Musculus triceps brachii,Outras partes de Tríceps braquial direito,o que sobra depois das partes nomeadas,auto
+FMA37700,FMA37696,medial head of left triceps brachii,Cabeça medial do tríceps braquial esquerdo,parte do músculo de trás do braço esquerdo,auto
+FMA37700,FMA37698,lateral head of left triceps brachii,Cabeça lateral do tríceps braquial esquerdo,parte do músculo de trás do braço esquerdo,auto
+FMA37700,FMA37700-resto,rest of Musculus triceps brachii,Outras partes de Tríceps braquial esquerdo,o que sobra depois das partes nomeadas,auto
+FMA38928,FMA38930,right vastus lateralis,Vasto lateral direito,músculo da parte externa da coxa direita,auto
+FMA38928,FMA38932,right vastus medialis,Vasto medial direito,músculo da parte interna da coxa direita,auto
+FMA38928,FMA38934,right vastus intermedius,Vasto intermédio direito,músculo da parte da frente da coxa direita,auto
+FMA38928,FMA38928-resto,rest of Musculus quadriceps femoris,Outras partes de Quadríceps femoral direito,o que sobra depois das partes nomeadas,auto
+FMA38929,FMA38931,left vastus lateralis,Vasto lateral esquerdo,músculo da parte externa da coxa esquerda,auto
+FMA38929,FMA38933,left vastus medialis,Vasto medial esquerdo,músculo da parte interna da coxa esquerda,auto
+FMA38929,FMA38935,left vastus intermedius,Vasto intermédio esquerdo,músculo da parte da frente da coxa esquerda,auto
+FMA38929,FMA38929-resto,rest of Musculus quadriceps femoris,Outras partes de Quadríceps femoral esquerdo,o que sobra depois das partes nomeadas,auto
+FMA22459,FMA22452,right adductor brevis,Adutor curto direito,músculo que aproxima a coxa direita do corpo,auto
+FMA22459,FMA22456,right adductor longus,Adutor longo direito,músculo que aproxima a coxa direita do corpo,auto
+FMA22459,FMA43883,right gracilis,Grácil direito,músculo fino da parte interna da coxa direita,auto
+FMA22459,FMA22459-resto,rest of Musculi adductores,Outras partes de Adutores da coxa direitos,o que sobra depois das partes nomeadas,auto
+FMA22460,FMA22454,left adductor brevis,Adutor curto esquerdo,músculo que aproxima a coxa esquerda do corpo,auto
+FMA22460,FMA22457,left adductor longus,Adutor longo esquerdo,músculo que aproxima a coxa esquerda do corpo,auto
+FMA22460,FMA43884,left gracilis,Grácil esquerdo,músculo fino da parte interna da coxa esquerda,auto
+FMA22460,FMA22460-resto,rest of Musculi adductores,Outras partes de Adutores da coxa esquerdos,o que sobra depois das partes nomeadas,auto
+FMA22358,FMA22448,right semimembranosus,Semimembranoso direito,músculo da parte de trás da coxa direita,auto
+FMA22358,FMA45888,long head of right biceps femoris,Cabeça longa do bíceps femoral direito,parte do músculo de trás da coxa direita,auto
+FMA22358,FMA45891,short head of right biceps femoris,Cabeça curta do bíceps femoral direito,parte do músculo de trás da coxa direita,auto
+FMA22358,FMA22358-resto,rest of Musculi ischiocrurales,Outras partes de Isquiotibiais direitos,o que sobra depois das partes nomeadas,auto
+FMA22359,FMA22449,left semimembranosus,Semimembranoso esquerdo,músculo da parte de trás da coxa esquerda,auto
+FMA22359,FMA45889,long head of left biceps femoris,Cabeça longa do bíceps femoral esquerdo,parte do músculo de trás da coxa esquerda,auto
+FMA22359,FMA45892,short head of left biceps femoris,Cabeça curta do bíceps femoral esquerdo,parte do músculo de trás da coxa esquerda,auto
+FMA22359,FMA22359-resto,rest of Musculi ischiocrurales,Outras partes de Isquiotibiais esquerdos,o que sobra depois das partes nomeadas,auto
+FMA45957,FMA45960,lateral head of right gastrocnemius,Cabeça lateral do gastrocnêmio direito,parte externa do músculo da panturrilha direita,auto
+FMA45957,FMA45957-resto,rest of Musculus gastrocnemius,Outras partes de Gastrocnêmio direito,o que sobra depois das partes nomeadas,auto
+FMA45958,FMA45961,lateral head of left gastrocnemius,Cabeça lateral do gastrocnêmio esquerdo,parte externa do músculo da panturrilha esquerda,auto
+FMA45958,FMA45958-resto,rest of Musculus gastrocnemius,Outras partes de Gastrocnêmio esquerdo,o que sobra depois das partes nomeadas,auto
+FMA22740,FMA22742,right iliocostalis thoracis,Iliocostal torácico direito,"músculo das costas que ajuda a esticar o tronco, do lado direito",auto
+FMA22740,FMA22744,right iliocostalis cervicis,Iliocostal cervical direito,"músculo das costas que ajuda a esticar o pescoço, do lado direito",auto
+FMA22740,FMA22751,right longissimus thoracis,Longuíssimo do tórax direito,"músculo das costas que ajuda a manter a postura, do lado direito",auto
+FMA22740,FMA22754,right longissimus capitis,Longuíssimo da cabeça direito,"músculo das costas que ajuda a esticar e virar a cabeça, do lado direito",auto
+FMA22740,FMA22757,right longissimus cervicis,Longuíssimo do pescoço direito,"músculo das costas que ajuda a esticar o pescoço, do lado direito",auto
+FMA22740,FMA22779,right spinalis thoracis,Espinal do tórax direito,"músculo das costas, perto da coluna, que ajuda a esticar o tronco, do lado direito",auto
+FMA22740,FMA22740-resto,rest of Musculus erector spinae,Outras partes de Eretor da espinha direito,o que sobra depois das partes nomeadas,auto
+FMA22741,FMA22743,left iliocostalis thoracis,Iliocostal torácico esquerdo,"músculo das costas que ajuda a esticar o tronco, do lado esquerdo",auto
+FMA22741,FMA22745,left iliocostalis cervicis,Iliocostal cervical esquerdo,"músculo das costas que ajuda a esticar o pescoço, do lado esquerdo",auto
+FMA22741,FMA22753,left longissimus thoracis,Longuíssimo do tórax esquerdo,"músculo das costas que ajuda a manter a postura, do lado esquerdo",auto
+FMA22741,FMA22756,left longissimus capitis,Longuíssimo da cabeça esquerdo,"músculo das costas que ajuda a esticar e virar a cabeça, do lado esquerdo",auto
+FMA22741,FMA22758,left longissimus cervicis,Longuíssimo do pescoço esquerdo,"músculo das costas que ajuda a esticar o pescoço, do lado esquerdo",auto
+FMA22741,FMA22780,left spinalis thoracis,Espinal do tórax esquerdo,"músculo das costas, perto da coluna, que ajuda a esticar o tronco, do lado esquerdo",auto
+FMA22741,FMA22741-resto,rest of Musculus erector spinae,Outras partes de Eretor da espinha esquerdo,o que sobra depois das partes nomeadas,auto
+FMA13354,FMA9756,external intercostal muscle,Músculo intercostal externo,"músculo entre as costelas, o mais superficial",auto
+FMA13354,FMA9757,internal intercostal muscle,Músculo intercostal interno,"músculo entre as costelas, camada do meio",auto
+FMA13354,FMA9758,innermost intercostal muscle,Músculo intercostal íntimo,"músculo entre as costelas, o mais profundo",auto
+FMA7088,FMA7098,right ventricle,Ventrículo direito,câmara que bombeia sangue para os pulmões,auto
+FMA7088,FMA7101,left ventricle,Ventrículo esquerdo,câmara que bombeia sangue para o corpo,auto
+FMA7088,FMA7097,left atrium,Átrio esquerdo,câmara que recebe o sangue dos pulmões,revisado
+FMA7088,FMA7096,right atrium,Átrio direito,câmara que recebe o sangue do corpo,revisado
+FMA7088,FMA4716,right marginal vein,Veia marginal direita,vaso que drena a borda direita do coração,auto
+FMA7088,FMA4714,small cardiac vein,Veia cardíaca parva,pequeno vaso que recolhe o sangue usado pelo coração,auto
+FMA7088,FMA4706,coronary sinus,Seio coronário,vaso que recolhe o sangue usado pelo próprio coração,auto
+FMA7088,FMA4707,great cardiac vein,Veia cardíaca magna,vaso que recolhe o sangue usado pelo coração,auto
+FMA3734,FMA3784,descending aorta,Aorta descendente,trecho da aorta que desce pelo corpo,auto
+FMA3734,FMA3736,ascending aorta,Aorta ascendente,trecho da aorta que sobe a partir do coração,auto
+FMA3734,FMA3768,arch of aorta,Arco da aorta,curva da aorta logo depois de sair do coração,auto
+FMA4694,FMA22798,left ulnar artery,Artéria ulnar esquerda,"vaso do antebraço esquerdo, do lado do dedo mínimo",auto
+FMA4694,FMA70348,left thyrocervical artery,Artéria tireocervical esquerda,ramo que irriga a tireoide e a base do pescoço do lado esquerdo,auto
+FMA4694,FMA22673,left thoraco-acromial artery,Artéria toracoacromial esquerda,ramo que irriga o ombro e a parte de cima do tórax esquerdo,auto
+FMA4694,FMA22679,left subscapular artery,Artéria subescapular esquerda,ramo que irriga a região abaixo da omoplata esquerda,auto
+FMA4694,FMA22734,left radial artery,Artéria radial esquerda,vaso do antebraço esquerdo onde se sente o pulso,auto
+FMA4694,FMA4068,left internal thoracic artery,Artéria torácica interna esquerda,"ramo que irriga a parte da frente do tórax esquerdo, perto do esterno",auto
+FMA4694,FMA70352,left costocervical artery,Artéria costocervical esquerda,ramo que irriga a base do pescoço e as primeiras costelas do lado esquerdo,auto
+FMA4694,FMA22687,left posterior circumflex humeral artery,Artéria circunflexa posterior do úmero esquerdo,ramo que irriga a parte de trás do ombro esquerdo,auto
+FMA4694,FMA22676,left lateral thoracic artery,Artéria torácica lateral esquerda,ramo que irriga a parte lateral do tórax esquerdo,auto
+FMA4694,FMA22683,left anterior circumflex humeral artery,Artéria circunflexa anterior do úmero esquerdo,ramo que irriga a frente do ombro esquerdo,auto
+FMA4694,FMA22697,left deep brachial artery,Artéria braquial profunda esquerda,ramo que irriga a parte de trás do braço esquerdo,auto
+FMA4694,FMA22708,left superior ulnar collateral artery,Artéria colateral ulnar superior esquerda,ramo que irriga o cotovelo esquerdo,auto
+FMA4694,FMA22713,left inferior ulnar collateral artery,Artéria colateral ulnar inferior esquerda,ramo que irriga o cotovelo esquerdo,auto
+FMA4694,FMA4694-resto,rest of Arteria subclavia,Outras partes de Artéria subclávia esquerda,o que sobra depois das partes nomeadas,auto
+FMA14749,FMA14815,ileocolic artery,Artéria ileocólica,vaso que irriga a junção do intestino delgado com o grosso,auto
+FMA14749,FMA14805,inferior pancreaticoduodenal artery,Artéria pancreaticoduodenal inferior,vaso que irriga o pâncreas e o duodeno,auto
+FMA14749,FMA14809,ileal artery,Artéria ileal,"vaso que irriga o íleo, a parte final do intestino delgado",auto
+FMA14749,FMA14810,middle colic artery,Artéria cólica média,vaso que irriga a parte central do intestino grosso,auto
+FMA14749,FMA14811,right colic artery,Artéria cólica direita,vaso que irriga o lado direito do intestino grosso,auto
+FMA14749,FMA14749-resto,rest of Arteria mesenterica superior,Outras partes de Artéria mesentérica superior,o que sobra depois das partes nomeadas,auto
+FMA14750,FMA70483,subdivision of inferior mesenteric artery,Subdivisão da artéria mesentérica inferior,pequeno ramo do vaso que irriga a parte final do intestino,auto
+FMA14750,FMA14750-resto,rest of Arteria mesenterica inferior,Outras partes de Artéria mesentérica inferior,o que sobra depois das partes nomeadas,auto
+FMA14752,FMA69265,right inferior suprarenal artery,Artéria suprarrenal inferior direita,ramo que irriga a parte baixa da glândula suprarrenal direita,auto
+FMA14752,FMA14752-resto,rest of Arteria renalis,Outras partes de Artéria renal direita,o que sobra depois das partes nomeadas,auto
+FMA14753,FMA69266,left inferior suprarenal artery,Artéria suprarrenal inferior esquerda,ramo que irriga a parte baixa da glândula suprarrenal esquerda,auto
+FMA14753,FMA14753-resto,rest of Arteria renalis,Outras partes de Artéria renal esquerda,o que sobra depois das partes nomeadas,auto
+FMA14765,FMA43898,right posterior tibial artery,Artéria tibial posterior direita,vaso que irriga a parte de trás da perna direita,auto
+FMA14765,FMA43896,right anterior tibial artery,Artéria tibial anterior direita,vaso que irriga a frente da perna direita,auto
+FMA14765,FMA18809,right internal iliac artery,Artéria ilíaca interna direita,vaso que irriga os órgãos da pelve do lado direito,auto
+FMA14765,FMA20688,right inferior epigastric artery,Artéria epigástrica inferior direita,ramo que irriga a parte baixa da parede abdominal direita,auto
+FMA14765,FMA14765-resto,rest of Arteria iliaca communis,Outras partes de Artéria ilíaca comum direita,o que sobra depois das partes nomeadas,auto
+FMA14766,FMA43899,left posterior tibial artery,Artéria tibial posterior esquerda,vaso que irriga a parte de trás da perna esquerda,auto
+FMA14766,FMA43897,left anterior tibial artery,Artéria tibial anterior esquerda,vaso que irriga a frente da perna esquerda,auto
+FMA14766,FMA18810,left internal iliac artery,Artéria ilíaca interna esquerda,vaso que irriga os órgãos da pelve do lado esquerdo,auto
+FMA14766,FMA20689,left inferior epigastric artery,Artéria epigástrica inferior esquerda,ramo que irriga a parte baixa da parede abdominal esquerda,auto
+FMA14766,FMA14766-resto,rest of Arteria iliaca communis,Outras partes de Artéria ilíaca comum esquerda,o que sobra depois das partes nomeadas,auto
+FMA7309,FMA8655,right upper lobar vein,Veia lobar superior direita,vaso que drena o lobo superior do pulmão direito,auto
+FMA7309,FMA8671,right common basal vein,Veia basal comum direita,vaso que drena a base do pulmão direito,auto
+FMA7309,FMA8656,middle lobar vein,Veia lobar média,vaso que drena o lobo médio do pulmão direito,auto
+FMA7309,FMA13445,superior segmental vein,Veia segmentar superior,vaso que drena a parte superior do pulmão,auto
+FMA7309,FMA7309-resto,rest of Pulmo,Outras partes de Pulmão direito,o que sobra depois das partes nomeadas,auto
+FMA7310,FMA8657,left upper lobar vein,Veia lobar superior esquerda,vaso que drena o lobo superior do pulmão esquerdo,auto
+FMA7310,FMA8676,left common basal vein,Veia basal comum esquerda,vaso que drena a base do pulmão esquerdo,auto
+FMA7310,FMA8639,superior lingular artery,Artéria lingular superior,ramo que irriga a parte alta da língula do pulmão esquerdo,auto
+FMA7310,FMA8658,lingular vein,Veia lingular,vaso que drena a língula do pulmão esquerdo,auto
+FMA7310,FMA8640,inferior lingular artery,Artéria lingular inferior,ramo que irriga a parte baixa da língula do pulmão esquerdo,auto
+FMA7310,FMA7310-resto,rest of Pulmo,Outras partes de Pulmão esquerdo,o que sobra depois das partes nomeadas,auto
+FMA7197,FMA13362,right lobe of liver,Lobo direito do fígado,"maior parte do fígado, do lado direito",auto
+FMA7197,FMA14779,left hepatic artery,Artéria hepática esquerda,vaso que irriga o lado esquerdo do fígado,auto
+FMA7197,FMA15809,right hemiliver,Hemifígado direito,metade direita do fígado,auto
+FMA7197,FMA15810,left hemiliver,Hemifígado esquerdo,metade esquerda do fígado,auto
+FMA7197,FMA13365,caudate lobe of liver,Lobo caudado do fígado,pequeno lobo na parte de trás do fígado,auto
+FMA7197,FMA14339,left hepatic vein,Veia hepática esquerda,vaso que drena o sangue do lado esquerdo do fígado,auto
+FMA7197,FMA14670,left hepatic duct,Ducto hepático esquerdo,canal que drena a bile do lado esquerdo do fígado,auto
+FMA7197,FMA7197-resto,rest of Hepar,Outras partes de Fígado,o que sobra depois das partes nomeadas,auto
+FMA7198,FMA10419,pancreatic duct,Ducto pancreático,canal que leva o suco do pâncreas até o intestino,auto
+FMA7198,FMA7198-resto,rest of Pancreas,Outras partes de Pâncreas,o que sobra depois das partes nomeadas,auto
+FMA71194,FMA71195,left lobe of thymus,Lobo esquerdo do timo,parte esquerda de uma glândula do peito que ajuda o sistema de defesa do corpo na infância,auto
+FMA71194,FMA71194-resto,rest of Thymus,Outras partes de Timo,o que sobra depois das partes nomeadas,auto
+FMA72969,FMA242180,cortex of right cerebral hemisphere,Córtex do hemisfério cerebral direito,camada externa do lado direito do cérebro,auto
+FMA72969,FMA72661,right precentral gyrus,Giro pré-central direito,faixa do cérebro que comanda os movimentos,auto
+FMA72970,FMA242182,cortex of left cerebral hemisphere,Córtex do hemisfério cerebral esquerdo,camada externa do lado esquerdo do cérebro,auto
+FMA72970,FMA72662,left precentral gyrus,Giro pré-central esquerdo,faixa do cérebro que comanda os movimentos,auto
+FMA72973,FMA72665,right postcentral gyrus,Giro pós-central direito,faixa do cérebro que recebe as sensações do corpo,auto
+FMA72973,FMA72667,right supramarginal gyrus,Giro supramarginal direito,faixa do cérebro ligada à linguagem,auto
+FMA72973,FMA72669,right angular gyrus,Giro angular direito,faixa do cérebro ligada à linguagem e aos números,auto
+FMA72973,FMA72671,right superior parietal lobule,Lóbulo parietal superior direito,área do cérebro ligada à noção do espaço ao redor do corpo,auto
+FMA72974,FMA72666,left postcentral gyrus,Giro pós-central esquerdo,faixa do cérebro que recebe as sensações do corpo,auto
+FMA72974,FMA72668,left supramarginal gyrus,Giro supramarginal esquerdo,faixa do cérebro ligada à linguagem,auto
+FMA72974,FMA72670,left angular gyrus,Giro angular esquerdo,faixa do cérebro ligada à linguagem e aos números,auto
+FMA72974,FMA72672,left superior parietal lobule,Lóbulo parietal superior esquerdo,área do cérebro ligada à noção do espaço ao redor do corpo,auto
+FMA72971,FMA72685,right middle temporal gyrus,Giro temporal médio direito,faixa do cérebro ligada à linguagem e à memória,auto
+FMA72971,FMA72687,right inferior temporal gyrus,Giro temporal inferior direito,faixa do cérebro ligada ao reconhecimento visual,auto
+FMA72971,FMA72689,right fusiform gyrus,Giro fusiforme direito,faixa do cérebro ligada ao reconhecimento de rostos e palavras,auto
+FMA72972,FMA72686,left middle temporal gyrus,Giro temporal médio esquerdo,faixa do cérebro ligada à linguagem e à memória,auto
+FMA72972,FMA72688,left inferior temporal gyrus,Giro temporal inferior esquerdo,faixa do cérebro ligada ao reconhecimento visual,auto
+FMA72972,FMA72690,left fusiform gyrus,Giro fusiforme esquerdo,faixa do cérebro ligada ao reconhecimento de rostos e palavras,auto
+FMA72972,FMA72706,left parahippocampal gyrus,Giro para-hipocampal esquerdo,faixa do cérebro ligada à memória e ao reconhecimento de lugares,auto
+FMA72980,FMA242609,right archicortex,Arquicórtex direito,"parte mais antiga do córtex cerebral do lado direito, ligada à memória",auto
+FMA72980,FMA72717,right cingulate gyrus,Giro do cíngulo direito,faixa do cérebro ligada às emoções,auto
+FMA72981,FMA242611,left archicortex,Arquicórtex esquerdo,"parte mais antiga do córtex cerebral do lado esquerdo, ligada à memória",auto
+FMA72981,FMA72718,left cingulate gyrus,Giro do cíngulo esquerdo,faixa do cérebro ligada às emoções,auto
+FMA79876,FMA61993,midbrain,Mesencéfalo,parte do tronco cerebral entre o cérebro e a ponte,auto
+FMA79876,FMA62004,medulla oblongata,Medula oblonga,parte do tronco cerebral que controla a respiração e os batimentos do coração,auto
+FMA79876,FMA67943,pons,Ponte,parte do tronco cerebral entre o mesencéfalo e o bulbo,auto
+FMA62001,FMA62008,hypothalamus,Hipotálamo,região do cérebro que regula hormônios e funções do corpo,auto
+FMA62001,FMA62009,epithalamus,Epitálamo,pequena região do cérebro perto do tálamo,auto
+FMA62001,FMA78454,third ventricle,Terceiro ventrículo,pequena cavidade no centro do cérebro cheia de líquido,auto
+FMA12515,FMA58300,left choroid,Corioide esquerda,camada de vasos sanguíneos atrás da retina do olho esquerdo,auto
+FMA12515,FMA58082,anterior chamber of left eyeball,Câmara anterior do olho esquerdo,espaço cheio de líquido na frente do olho esquerdo,auto
+FMA12515,FMA58237,left iris,Íris esquerda,parte colorida do olho esquerdo,auto
+FMA12515,FMA58240,left cornea,Córnea esquerda,parte transparente na frente do olho esquerdo,auto
+FMA12515,FMA58243,left lens,Cristalino esquerdo,lente natural dentro do olho esquerdo,auto
+FMA12515,FMA58272,left sclera,Esclera esquerda,parte branca do olho esquerdo,auto
+FMA12515,FMA58829,left vitreous body,Corpo vítreo esquerdo,gel transparente que preenche o olho esquerdo,auto
+FMA12515,FMA58840,suspensory ligament of left lens,Ligamento suspensor do cristalino esquerdo,fibras finas que prendem o cristalino dentro do olho esquerdo,auto
+FMA49044,FMA49046,right inferior rectus,Músculo reto inferior direito,músculo que movimenta o olho direito para baixo,auto
+FMA49044,FMA49050,right inferior oblique,Músculo oblíquo inferior direito,músculo que movimenta o olho direito,auto
+FMA49044,FMA49052,right superior oblique,Músculo oblíquo superior direito,músculo que movimenta o olho direito,auto
+FMA49044,FMA49054,right lateral rectus,Músculo reto lateral direito,músculo que movimenta o olho direito para o lado de fora,auto
+FMA49044,FMA49056,right medial rectus,Músculo reto medial direito,músculo que movimenta o olho direito para dentro,auto
+FMA49044,FMA49044-resto,rest of Musculi externi bulbi oculi,Outras partes de Músculos do olho direitos,o que sobra depois das partes nomeadas,auto
+FMA49045,FMA49047,left inferior rectus,Músculo reto inferior esquerdo,músculo que movimenta o olho esquerdo para baixo,auto
+FMA49045,FMA49051,left inferior oblique,Músculo oblíquo inferior esquerdo,músculo que movimenta o olho esquerdo,auto
+FMA49045,FMA49053,left superior oblique,Músculo oblíquo superior esquerdo,músculo que movimenta o olho esquerdo,auto
+FMA49045,FMA49055,left lateral rectus,Músculo reto lateral esquerdo,músculo que movimenta o olho esquerdo para o lado de fora,auto
+FMA49045,FMA49057,left medial rectus,Músculo reto medial esquerdo,músculo que movimenta o olho esquerdo para dentro,auto
+FMA49045,FMA49045-resto,rest of Musculi externi bulbi oculi,Outras partes de Músculos do olho esquerdos,o que sobra depois das partes nomeadas,auto
+FMA53672,FMA52737,temporal bone,Osso temporal,osso do crânio perto do ouvido,auto
+FMA53672,FMA9613,parietal bone,Osso parietal,osso do topo do crânio,auto
+FMA53672,FMA52734,frontal bone,Osso frontal,osso da testa,auto
+FMA53672,FMA52735,occipital bone,Osso occipital,osso da parte de trás do crânio,auto
+FMA53672,FMA52740,ethmoid,Osso etmoide,"osso esponjoso no meio da face, entre os olhos",auto
+FMA59654,FMA59656,osseous skeleton of internal nose,Esqueleto ósseo do nariz interno,ossos que formam a parte interna do nariz,auto
+FMA59654,FMA52745,nasal bone,Osso nasal,osso do nariz,auto
+FMA52741,FMA53645,right lacrimal bone,Osso lacrimal direito,"pequeno osso do lado direito, perto do canto do olho",auto
+FMA52741,FMA53646,left lacrimal bone,Osso lacrimal esquerdo,"pequeno osso do lado esquerdo, perto do canto do olho",auto
+FMA52746,FMA53655,right palatine bone,Osso palatino direito,osso do lado direito do céu da boca,auto
+FMA52746,FMA53656,left palatine bone,Osso palatino esquerdo,osso do lado esquerdo do céu da boca,auto
+FMA52747,FMA52892,right zygomatic bone,Osso zigomático direito,osso da bochecha direita,auto
+FMA52747,FMA52893,left zygomatic bone,Osso zigomático esquerdo,osso da bochecha esquerda,auto
+FMA9711,FMA53649,right maxilla,Maxila direita,osso do lado direito do maxilar superior,auto
+FMA9711,FMA53650,left maxilla,Maxila esquerda,osso do lado esquerdo do maxilar superior,auto
+FMA60327,FMA24454,proximal phalanx of right little finger,Falange proximal do dedo mínimo direito,osso da base do dedo mindinho direito,auto
+FMA60327,FMA24458,middle phalanx of right little finger,Falange média do dedo mínimo direito,osso do meio do dedo mindinho direito,auto
+FMA60327,FMA24463,distal phalanx of right little finger,Falange distal do dedo mínimo direito,osso da ponta do dedo mindinho direito,auto
+FMA60329,FMA24453,proximal phalanx of right ring finger,Falange proximal do dedo anular direito,osso da base do dedo anelar direito,auto
+FMA60329,FMA24457,middle phalanx of right ring finger,Falange média do dedo anular direito,osso do meio do dedo anelar direito,auto
+FMA60329,FMA24462,distal phalanx of right ring finger,Falange distal do dedo anular direito,osso da ponta do dedo anelar direito,auto
+FMA60331,FMA24452,proximal phalanx of right middle finger,Falange proximal do dedo médio direito,osso da base do dedo médio direito,auto
+FMA60331,FMA24456,middle phalanx of right middle finger,Falange média do dedo médio direito,osso do meio do dedo médio direito,auto
+FMA60331,FMA24461,distal phalanx of right middle finger,Falange distal do dedo médio direito,osso da ponta do dedo médio direito,auto
+FMA60333,FMA24451,proximal phalanx of right index finger,Falange proximal do indicador direito,osso da base do dedo indicador direito,auto
+FMA60333,FMA24455,middle phalanx of right index finger,Falange média do indicador direito,osso do meio do dedo indicador direito,auto
+FMA60333,FMA24460,distal phalanx of right index finger,Falange distal do indicador direito,osso da ponta do dedo indicador direito,auto
+FMA60325,FMA24450,proximal phalanx of right thumb,Falange proximal do polegar direito,osso da base do dedão da mão direita,auto
+FMA60325,FMA24459,distal phalanx of right thumb,Falange distal do polegar direito,osso da ponta do dedão da mão direita,auto
+FMA60328,FMA23944,middle phalanx of left little finger,Falange média do dedo mínimo esquerdo,osso do meio do dedo mindinho esquerdo,auto
+FMA60328,FMA23959,distal phalanx of left little finger,Falange distal do dedo mínimo esquerdo,osso da ponta do dedo mindinho esquerdo,auto
+FMA60328,FMA66791,proximal phalanx of left little finger,Falange proximal do dedo mínimo esquerdo,osso da base do dedo mindinho esquerdo,auto
+FMA60328,FMA71916,proximal phalanx of left ring finger,Falange proximal do dedo anular esquerdo,osso da base do dedo anelar esquerdo,auto
+FMA60332,FMA23940,middle phalanx of left middle finger,Falange média do dedo médio esquerdo,osso do meio do dedo médio esquerdo,auto
+FMA60332,FMA23955,distal phalanx of left middle finger,Falange distal do dedo médio esquerdo,osso da ponta do dedo médio esquerdo,auto
+FMA60332,FMA71908,proximal phalanx of left middle finger,Falange proximal do dedo médio esquerdo,osso da base do dedo médio esquerdo,auto
+FMA60334,FMA23938,middle phalanx of left index finger,Falange média do indicador esquerdo,osso do meio do dedo indicador esquerdo,auto
+FMA60334,FMA23953,distal phalanx of left index finger,Falange distal do indicador esquerdo,osso da ponta do dedo indicador esquerdo,auto
+FMA60334,FMA71915,proximal phalanx of left index finger,Falange proximal do indicador esquerdo,osso da base do dedo indicador esquerdo,auto
+FMA60326,FMA23951,distal phalanx of left thumb,Falange distal do polegar esquerdo,osso da ponta do dedão da mão esquerda,auto
+FMA60326,FMA65470,proximal phalanx of left thumb,Falange proximal do polegar esquerdo,osso da base do dedão da mão esquerda,auto
+FMA60337,FMA32634,proximal phalanx of right second toe,Falange proximal do segundo dedo do pé direito,osso da base do segundo dedo do pé direito,auto
+FMA60337,FMA32642,middle phalanx of right second toe,Falange média do segundo dedo do pé direito,osso do meio do segundo dedo do pé direito,auto
+FMA60337,FMA32652,distal phalanx of right second toe,Falange distal do segundo dedo do pé direito,osso da ponta do segundo dedo do pé direito,auto
+FMA60339,FMA32636,proximal phalanx of right third toe,Falange proximal do terceiro dedo do pé direito,osso da base do terceiro dedo do pé direito,auto
+FMA60339,FMA32644,middle phalanx of right third toe,Falange média do terceiro dedo do pé direito,osso do meio do terceiro dedo do pé direito,auto
+FMA60339,FMA32654,distal phalanx of right third toe,Falange distal do terceiro dedo do pé direito,osso da ponta do terceiro dedo do pé direito,auto
+FMA60341,FMA32638,proximal phalanx of right fourth toe,Falange proximal do quarto dedo do pé direito,osso da base do quarto dedo do pé direito,auto
+FMA60341,FMA32646,middle phalanx of right fourth toe,Falange média do quarto dedo do pé direito,osso do meio do quarto dedo do pé direito,auto
+FMA60341,FMA32656,distal phalanx of right fourth toe,Falange distal do quarto dedo do pé direito,osso da ponta do quarto dedo do pé direito,auto
+FMA60343,FMA230986,middle phalanx of right little toe,Falange média do dedo mínimo do pé direito,osso do meio do dedo mindinho do pé direito,auto
+FMA60343,FMA32640,proximal phalanx of right little toe,Falange proximal do dedo mínimo do pé direito,osso da base do dedo mindinho do pé direito,auto
+FMA60343,FMA32658,distal phalanx of right little toe,Falange distal do dedo mínimo do pé direito,osso da ponta do dedo mindinho do pé direito,auto
+FMA60335,FMA32650,distal phalanx of right big toe,Falange distal do hálux direito,osso da ponta do dedão do pé direito,auto
+FMA60335,FMA43253,proximal phalanx of right big toe,Falange proximal do hálux direito,osso da base do dedão do pé direito,auto
+FMA60338,FMA32635,proximal phalanx of left second toe,Falange proximal do segundo dedo do pé esquerdo,osso da base do segundo dedo do pé esquerdo,auto
+FMA60338,FMA32643,middle phalanx of left second toe,Falange média do segundo dedo do pé esquerdo,osso do meio do segundo dedo do pé esquerdo,auto
+FMA60338,FMA32653,distal phalanx of left second toe,Falange distal do segundo dedo do pé esquerdo,osso da ponta do segundo dedo do pé esquerdo,auto
+FMA60340,FMA32637,proximal phalanx of left third toe,Falange proximal do terceiro dedo do pé esquerdo,osso da base do terceiro dedo do pé esquerdo,auto
+FMA60340,FMA32645,middle phalanx of left third toe,Falange média do terceiro dedo do pé esquerdo,osso do meio do terceiro dedo do pé esquerdo,auto
+FMA60340,FMA32655,distal phalanx of left third toe,Falange distal do terceiro dedo do pé esquerdo,osso da ponta do terceiro dedo do pé esquerdo,auto
+FMA60342,FMA32639,proximal phalanx of left fourth toe,Falange proximal do quarto dedo do pé esquerdo,osso da base do quarto dedo do pé esquerdo,auto
+FMA60342,FMA32647,middle phalanx of left fourth toe,Falange média do quarto dedo do pé esquerdo,osso do meio do quarto dedo do pé esquerdo,auto
+FMA60342,FMA32657,distal phalanx of left fourth toe,Falange distal do quarto dedo do pé esquerdo,osso da ponta do quarto dedo do pé esquerdo,auto
+FMA60344,FMA230988,middle phalanx of left little toe,Falange média do dedo mínimo do pé esquerdo,osso do meio do dedo mindinho do pé esquerdo,auto
+FMA60344,FMA32641,proximal phalanx of left little toe,Falange proximal do dedo mínimo do pé esquerdo,osso da base do dedo mindinho do pé esquerdo,auto
+FMA60344,FMA32659,distal phalanx of left little toe,Falange distal do dedo mínimo do pé esquerdo,osso da ponta do dedo mindinho do pé esquerdo,auto
+FMA60336,FMA32651,distal phalanx of left big toe,Falange distal do hálux esquerdo,osso da ponta do dedão do pé esquerdo,auto
+FMA60336,FMA43254,proximal phalanx of left big toe,Falange proximal do hálux esquerdo,osso da base do dedão do pé esquerdo,auto
+FMA7098,FMA7234,tricuspid valve,Valva tricúspide,porta entre o átrio e o ventrículo direitos,auto
+FMA7098,FMA7246,pulmonary valve,Valva pulmonar,porta de saída do sangue do coração para os pulmões,auto
+FMA7098,FMA7259,papillary muscle of right ventricle,Músculo papilar do ventrículo direito,músculo que ajuda a fechar a valva do lado direito do coração,auto
+FMA7098,FMA7098-resto,rest of right ventricle,Outras partes de Ventrículo direito,o que sobra depois das partes nomeadas,auto
+FMA7101,FMA7235,mitral valve,Valva mitral,porta entre o átrio e o ventrículo esquerdos,auto
+FMA7101,FMA7264,lateral papillary muscle of left ventricle,Músculo papilar lateral do ventrículo esquerdo,músculo que ajuda a fechar a valva do lado esquerdo do coração,auto
+FMA7101,FMA7253,anterior cusp of aortic valve,Cúspide anterior da valva aórtica,parte anterior da porta de saída do sangue do coração para o corpo,auto
+FMA7101,FMA7101-resto,rest of left ventricle,Outras partes de Ventrículo esquerdo,o que sobra depois das partes nomeadas,auto
+FMA7097,FMA7235,mitral valve,Valva mitral,porta entre o átrio e o ventrículo esquerdos,auto
+FMA7097,FMA7097-resto,rest of left atrium,Outras partes de Átrio esquerdo,o que sobra depois das partes nomeadas,auto
+FMA7096,FMA7234,tricuspid valve,Valva tricúspide,porta entre o átrio e o ventrículo direitos,auto
+FMA7096,FMA7096-resto,rest of right atrium,Outras partes de Átrio direito,o que sobra depois das partes nomeadas,auto
+FMA3784,FMA3789,abdominal aorta,Aorta abdominal,trecho da aorta que passa pela barriga,auto
+FMA3784,FMA87217,descending thoracic aorta,Aorta torácica descendente,trecho da aorta que desce pelo tórax,auto
+FMA3784,FMA3784-resto,rest of descending aorta,Outras partes de Aorta descendente,o que sobra depois das partes nomeadas,auto
+FMA22798,FMA22808,left common interosseous artery,Artéria interóssea comum esquerda,"ramo que irriga o meio do antebraço esquerdo, entre os ossos",auto
+FMA22798,FMA22802,left anterior ulnar recurrent artery,Artéria recorrente ulnar anterior esquerda,ramo que irriga a frente do cotovelo esquerdo,auto
+FMA22798,FMA22805,left posterior ulnar recurrent artery,Artéria recorrente ulnar posterior esquerda,ramo que irriga a parte de trás do cotovelo esquerdo,auto
+FMA22798,FMA22822,left dorsal carpal branch of ulnar artery,Ramo carpal dorsal da artéria ulnar esquerda,pequeno ramo que irriga a parte de trás do pulso esquerdo,auto
+FMA22798,FMA22798-resto,rest of left ulnar artery,Outras partes de Artéria ulnar esquerda,o que sobra depois das partes nomeadas,auto
+FMA70348,FMA10682,left transverse cervical artery,Artéria cervical transversa esquerda,ramo que irriga a parte de trás do pescoço e do ombro esquerdo,auto
+FMA70348,FMA10680,left inferior thyroid artery,Artéria tireóidea inferior esquerda,ramo que irriga a parte baixa da tireoide esquerda,auto
+FMA70348,FMA10681,left suprascapular artery,Artéria supraescapular esquerda,ramo que irriga a região acima da omoplata esquerda,auto
+FMA70348,FMA4084,left thyrocervical trunk,Tronco tireocervical esquerdo,vaso que dá origem a ramos para a tireoide e a base do pescoço do lado esquerdo,auto
+FMA22673,FMA23064,pectoral branch of left thoraco-acromial artery,Ramo peitoral da artéria toracoacromial esquerda,pequeno ramo que irriga o músculo peitoral esquerdo,auto
+FMA22673,FMA23069,acromial branch of left thoraco-acromial artery,Ramo acromial da artéria toracoacromial esquerda,pequeno ramo que irriga o ombro esquerdo,auto
+FMA22673,FMA23073,deltoid branch of left thoraco-acromial artery,Ramo deltóideo da artéria toracoacromial esquerda,pequeno ramo que irriga o músculo deltoide esquerdo,auto
+FMA22673,FMA22673-resto,rest of left thoraco-acromial artery,Outras partes de Artéria toracoacromial esquerda,o que sobra depois das partes nomeadas,auto
+FMA22679,FMA23181,left circumflex scapular artery,Artéria circunflexa da escápula esquerda,ramo que contorna a omoplata esquerda,auto
+FMA22679,FMA66322,left thoracodorsal artery,Artéria toracodorsal esquerda,ramo que irriga a parte lateral das costas do lado esquerdo,auto
+FMA22679,FMA22679-resto,rest of left subscapular artery,Outras partes de Artéria subescapular esquerda,o que sobra depois das partes nomeadas,auto
+FMA22734,FMA22766,left radial recurrent artery,Artéria recorrente radial esquerda,ramo que irriga a frente do cotovelo esquerdo,auto
+FMA22734,FMA22773,dorsal carpal branch of left radial artery,Ramo carpal dorsal da artéria radial esquerda,pequeno ramo que irriga a parte de trás do pulso esquerdo,auto
+FMA22734,FMA22734-resto,rest of left radial artery,Outras partes de Artéria radial esquerda,o que sobra depois das partes nomeadas,auto
+FMA4068,FMA4077,left musculophrenic artery,Artéria musculofrênica esquerda,ramo que irriga a parte baixa das costelas e o diafragma do lado esquerdo,auto
+FMA4068,FMA4083,left superior epigastric artery,Artéria epigástrica superior esquerda,ramo que irriga a parte alta da parede abdominal esquerda,auto
+FMA4068,FMA4068-resto,rest of left internal thoracic artery,Outras partes de Artéria torácica interna esquerda,o que sobra depois das partes nomeadas,auto
+FMA70352,FMA4086,left costocervical trunk,Tronco costocervical esquerdo,vaso que dá origem a ramos para a base do pescoço e as primeiras costelas do lado esquerdo,auto
+FMA70352,FMA4088,left superior intercostal artery,Artéria intercostal superior esquerda,ramo que irriga as primeiras costelas do lado esquerdo,auto
+FMA70352,FMA4134,left deep cervical artery,Artéria cervical profunda esquerda,ramo que irriga a parte de trás do pescoço esquerdo,auto
+FMA14815,FMA14821,branch of ileocolic artery,Ramo da artéria ileocólica,ramo que irriga a junção do intestino delgado com o grosso,auto
+FMA14815,FMA14815-resto,rest of ileocolic artery,Outras partes de Artéria ileocólica,o que sobra depois das partes nomeadas,auto
+FMA70483,FMA14826,left colic artery,Artéria cólica esquerda,vaso que irriga o lado esquerdo do intestino grosso,auto
+FMA70483,FMA14830,sigmoid artery,Artéria sigmóidea,vaso que irriga a parte final do intestino grosso,auto
+FMA70483,FMA14831,marginal artery of colon,Artéria marginal do cólon,vaso que liga entre si os ramos que irrigam o intestino grosso,auto
+FMA70483,FMA14832,superior rectal artery,Artéria retal superior,vaso que irriga a parte alta do reto,auto
+FMA43898,FMA43929,right medial plantar artery,Artéria plantar medial direita,vaso que irriga a parte interna da sola do pé direito,auto
+FMA43898,FMA43931,right lateral plantar artery,Artéria plantar lateral direita,vaso que irriga a parte externa da sola do pé direito,auto
+FMA43898,FMA43898-resto,rest of right posterior tibial artery,Outras partes de Artéria tibial posterior direita,o que sobra depois das partes nomeadas,auto
+FMA43896,FMA43916,right dorsalis pedis artery,Artéria dorsal do pé direito,vaso do dorso do pé direito onde se sente o pulso,auto
+FMA43896,FMA43896-resto,rest of right anterior tibial artery,Outras partes de Artéria tibial anterior direita,o que sobra depois das partes nomeadas,auto
+FMA43899,FMA43930,left medial plantar artery,Artéria plantar medial esquerda,vaso que irriga a parte interna da sola do pé esquerdo,auto
+FMA43899,FMA43932,left lateral plantar artery,Artéria plantar lateral esquerda,vaso que irriga a parte externa da sola do pé esquerdo,auto
+FMA43899,FMA43899-resto,rest of left posterior tibial artery,Outras partes de Artéria tibial posterior esquerda,o que sobra depois das partes nomeadas,auto
+FMA43897,FMA43917,left dorsalis pedis artery,Artéria dorsal do pé esquerdo,vaso do dorso do pé esquerdo onde se sente o pulso,auto
+FMA43897,FMA43897-resto,rest of left anterior tibial artery,Outras partes de Artéria tibial anterior esquerda,o que sobra depois das partes nomeadas,auto
+FMA8655,FMA8663,right posterior segmental vein,Veia segmentar posterior direita,vaso que drena a parte posterior do pulmão direito,auto
+FMA8655,FMA8661,right apical segmental vein,Veia segmentar apical direita,vaso que drena o ápice do pulmão direito,auto
+FMA8655,FMA8662,right anterior segmental vein,Veia segmentar anterior direita,vaso que drena a parte anterior do pulmão direito,auto
+FMA8671,FMA8674,right inferior basal vein,Veia basal inferior direita,vaso que drena a base inferior do pulmão direito,auto
+FMA8671,FMA8672,right superior basal vein,Veia basal superior direita,vaso que drena a base superior do pulmão direito,auto
+FMA8656,FMA8664,lateral segmental vein,Veia segmentar lateral,vaso que drena a parte lateral do pulmão,auto
+FMA8656,FMA8665,medial segmental vein,Veia segmentar medial,vaso que drena a parte medial do pulmão,auto
+FMA8657,FMA8666,apicoposterior segmental vein,Veia segmentar apicoposterior,vaso que drena a parte alta e posterior do pulmão,auto
+FMA8657,FMA8667,left anterior segmental vein,Veia segmentar anterior esquerda,vaso que drena a parte anterior do pulmão esquerdo,auto
+FMA8676,FMA8677,left superior basal vein,Veia basal superior esquerda,vaso que drena a base superior do pulmão esquerdo,auto
+FMA8676,FMA8679,left inferior basal vein,Veia basal inferior esquerda,vaso que drena a base inferior do pulmão esquerdo,auto
+FMA8658,FMA8668,superior lingular vein,Veia lingular superior,vaso que drena a parte alta da língula do pulmão esquerdo,auto
+FMA8658,FMA8669,inferior lingular vein,Veia lingular inferior,vaso que drena a parte baixa da língula do pulmão esquerdo,auto
+FMA13362,FMA14778,right hepatic artery,Artéria hepática direita,vaso que irriga o lado direito do fígado,auto
+FMA13362,FMA15800,anterior inferior segmental tributary of middle hepatic vein,Tributária segmentar anteroinferior da veia hepática média,pequeno vaso que drena parte central do fígado,auto
+FMA13362,FMA14338,right hepatic vein,Veia hepática direita,vaso que drena o sangue do lado direito do fígado,auto
+FMA13362,FMA14669,right hepatic duct,Ducto hepático direito,canal que drena a bile do lado direito do fígado,auto
+FMA13362,FMA13362-resto,rest of right lobe of liver,Outras partes de Lobo direito do fígado,o que sobra depois das partes nomeadas,auto
+FMA14779,FMA71736,subdivision of left lobe branch of left hepatic artery,Subdivisão do ramo do lobo esquerdo da artéria hepática esquerda,pequeno ramo da artéria que irriga o lobo esquerdo do fígado,auto
+FMA14779,FMA70455,caudate lobe branch of left hepatic artery,Ramo do lobo caudado da artéria hepática esquerda,ramo da artéria do fígado que irriga o lobo caudado,auto
+FMA14779,FMA14779-resto,rest of left hepatic artery,Outras partes de Artéria hepática esquerda,o que sobra depois das partes nomeadas,auto
+FMA15809,FMA15748,anterior sector of right liver,Setor anterior do fígado direito,parte da frente do lado direito do fígado,auto
+FMA15809,FMA15749,posterior sector of right liver,Setor posterior do fígado direito,parte de trás do lado direito do fígado,auto
+FMA15810,FMA15750,anterior sector of left liver,Setor anterior do fígado esquerdo,parte da frente do lado esquerdo do fígado,auto
+FMA15810,FMA15751,posterior sector of left liver,Setor posterior do fígado esquerdo,parte de trás do lado esquerdo do fígado,auto
+FMA242180,FMA72653,right superior frontal gyrus,Giro frontal superior direito,faixa do cérebro ligada ao raciocínio e ao controle dos impulsos,auto
+FMA242180,FMA72655,right middle frontal gyrus,Giro frontal médio direito,faixa do cérebro ligada ao planejamento,auto
+FMA242180,FMA72657,right inferior frontal gyrus,Giro frontal inferior direito,faixa do cérebro ligada à fala,auto
+FMA242182,FMA72654,left superior frontal gyrus,Giro frontal superior esquerdo,faixa do cérebro ligada ao raciocínio e ao controle dos impulsos,auto
+FMA242182,FMA72656,left middle frontal gyrus,Giro frontal médio esquerdo,faixa do cérebro ligada ao planejamento,auto
+FMA242182,FMA72658,left inferior frontal gyrus,Giro frontal inferior esquerdo,faixa do cérebro ligada à fala,auto
+FMA61993,FMA83902,midbrain tectum,Teto do mesencéfalo,"parte de trás do mesencéfalo, ligada à visão e à audição",auto
+FMA61993,FMA78467,cerebral aqueduct,Aqueduto cerebral,canal estreito dentro do cérebro por onde circula o líquido que banha o sistema nervoso,auto
+FMA61993,FMA61993-resto,rest of midbrain,Outras partes de Mesencéfalo,o que sobra depois das partes nomeadas,auto
+FMA62008,FMA62327,tuber cinereum,Túber cinéreo,pequena região na base do cérebro ligada ao hipotálamo,auto
+FMA62008,FMA62008-resto,rest of hypothalamus,Outras partes de Hipotálamo,o que sobra depois das partes nomeadas,auto
+FMA62009,FMA62032,habenula,Habênula,pequena estrutura do cérebro ligada ao epitálamo,auto
+FMA62009,FMA62033,pineal body,Corpo pineal,pequena glândula do cérebro que regula o sono,auto
+FMA52737,FMA52738,right temporal bone,Osso temporal direito,"osso do lado direito do crânio, perto do ouvido",auto
+FMA52737,FMA52739,left temporal bone,Osso temporal esquerdo,"osso do lado esquerdo do crânio, perto do ouvido",auto
+FMA9613,FMA52788,right parietal bone,Osso parietal direito,osso do lado direito do topo do crânio,auto
+FMA9613,FMA52789,left parietal bone,Osso parietal esquerdo,osso do lado esquerdo do topo do crânio,auto
+FMA59656,FMA54736,inferior nasal concha,Concha nasal inferior,pequeno osso curvo dentro do nariz,auto
+FMA59656,FMA9710,vomer,Vômer,fino osso vertical dentro do nariz,auto
+FMA52745,FMA53647,right nasal bone,Osso nasal direito,osso do lado direito do nariz,auto
+FMA52745,FMA53648,left nasal bone,Osso nasal esquerdo,osso do lado esquerdo do nariz,auto
+FMA7234,FMA7238,anterior leaflet of tricuspid valve,Folheto anterior da valva tricúspide,parte anterior da porta entre o átrio e o ventrículo direitos,auto
+FMA7234,FMA7239,posterior leaflet of tricuspid valve,Folheto posterior da valva tricúspide,parte posterior da porta entre o átrio e o ventrículo direitos,auto
+FMA7234,FMA7240,septal leaflet of tricuspid valve,Folheto septal da valva tricúspide,parte da porta entre o átrio e o ventrículo direitos que fica do lado do septo,auto
+FMA7246,FMA7247,left anterior cusp of pulmonary valve,Cúspide anterior esquerda da valva pulmonar,parte da porta de saída do sangue do coração para os pulmões,auto
+FMA7246,FMA7249,right anterior cusp of pulmonary valve,Cúspide anterior direita da valva pulmonar,parte da porta de saída do sangue do coração para os pulmões,auto
+FMA7246,FMA7250,posterior cusp of pulmonary valve,Cúspide posterior da valva pulmonar,parte posterior da porta de saída do sangue do coração para os pulmões,auto
+FMA7259,FMA7260,anterior papillary muscle of right ventricle,Músculo papilar anterior do ventrículo direito,músculo que ajuda a fechar a valva do lado direito do coração,auto
+FMA7259,FMA7261,posterior papillary muscle of right ventricle,Músculo papilar posterior do ventrículo direito,músculo que ajuda a fechar a valva do lado direito do coração,auto
+FMA7259,FMA7262,septal papillary muscle of right ventricle,Músculo papilar septal do ventrículo direito,músculo que ajuda a fechar a valva do lado direito do coração,auto
+FMA7235,FMA9348,subaortic curtain of left ventricle,Cortina subaórtica do ventrículo esquerdo,cortina subaórtica do ventrículo esquerdo,auto
+FMA7235,FMA7243,posterior leaflet of mitral valve,Folheto posterior da valva mitral,parte posterior da porta entre o átrio e o ventrículo esquerdos,auto
+FMA7264,FMA7265,anterolateral head of lateral papillary muscle of left ventricle,Cabeça anterolateral do músculo papilar lateral do ventrículo esquerdo,parte do músculo que ajuda a fechar a valva do lado esquerdo do coração,auto
+FMA7264,FMA7264-resto,rest of lateral papillary muscle of left ventricle,Outras partes de Músculo papilar lateral do ventrículo esquerdo,o que sobra depois das partes nomeadas,auto
+FMA22808,FMA22813,left anterior interosseous artery,Artéria interóssea anterior esquerda,"ramo que irriga a parte da frente do antebraço esquerdo, entre os ossos",auto
+FMA22808,FMA22808-resto,rest of left common interosseous artery,Outras partes de Artéria interóssea comum esquerda,o que sobra depois das partes nomeadas,auto
+FMA10682,FMA10552,left dorsal scapular artery,Artéria escapular dorsal esquerda,ramo que irriga a parte de trás da omoplata esquerda,auto
+FMA10682,FMA10683,left superficial cervical artery,Artéria cervical superficial esquerda,ramo que irriga a parte superficial do pescoço esquerdo,auto
+FMA10682,FMA10682-resto,rest of left transverse cervical artery,Outras partes de Artéria cervical transversa esquerda,o que sobra depois das partes nomeadas,auto
+FMA14821,FMA14816,anterior cecal artery,Artéria cecal anterior,"ramo que irriga a parte da frente do ceco, no início do intestino grosso",auto
+FMA14821,FMA14817,posterior cecal artery,Artéria cecal posterior,"ramo que irriga a parte de trás do ceco, no início do intestino grosso",auto
+FMA14821,FMA14818,appendicular artery,Artéria apendicular,vaso que irriga o apêndice,auto
+FMA14821,FMA14819,ileal branch of inferior branch of ileocolic artery,Ramo ileal do ramo inferior da artéria ileocólica,ramo que irriga o íleo,auto
+FMA14821,FMA14820,ascending branch of inferior branch of ileocolic artery,Ramo ascendente do ramo inferior da artéria ileocólica,pequeno ramo que irriga a junção do intestino delgado com o grosso,auto
+FMA14821,FMA14824,marginal colic artery,Artéria cólica marginal,vaso que liga entre si os ramos que irrigam o intestino grosso,auto
+FMA43929,FMA43937,right superficial medial plantar artery,Artéria plantar medial superficial direita,pequeno vaso da parte interna da sola do pé direito,auto
+FMA43929,FMA43929-resto,rest of right medial plantar artery,Outras partes de Artéria plantar medial direita,o que sobra depois das partes nomeadas,auto
+FMA43931,FMA43943,right plantar arch,Arco plantar direito,vaso em forma de arco na sola do pé direito,auto
+FMA43931,FMA43931-resto,rest of right lateral plantar artery,Outras partes de Artéria plantar lateral direita,o que sobra depois das partes nomeadas,auto
+FMA43916,FMA69490,right lateral tarsal artery,Artéria tarsal lateral direita,vaso que irriga a parte externa do meio do pé direito,auto
+FMA43916,FMA69494,right arcuate artery,Artéria arqueada direita,pequeno vaso arqueado no dorso do pé direito,auto
+FMA43916,FMA43916-resto,rest of right dorsalis pedis artery,Outras partes de Artéria dorsal do pé direito,o que sobra depois das partes nomeadas,auto
+FMA43930,FMA43938,left superficial medial plantar artery,Artéria plantar medial superficial esquerda,pequeno vaso da parte interna da sola do pé esquerdo,auto
+FMA43930,FMA43930-resto,rest of left medial plantar artery,Outras partes de Artéria plantar medial esquerda,o que sobra depois das partes nomeadas,auto
+FMA43932,FMA43944,left plantar arch,Arco plantar esquerdo,vaso em forma de arco na sola do pé esquerdo,auto
+FMA43932,FMA43932-resto,rest of left lateral plantar artery,Outras partes de Artéria plantar lateral esquerda,o que sobra depois das partes nomeadas,auto
+FMA43917,FMA69491,left lateral tarsal artery,Artéria tarsal lateral esquerda,vaso que irriga a parte externa do meio do pé esquerdo,auto
+FMA43917,FMA69495,left arcuate artery,Artéria arqueada esquerda,pequeno vaso arqueado no dorso do pé esquerdo,auto
+FMA43917,FMA43917-resto,rest of left dorsalis pedis artery,Outras partes de Artéria dorsal do pé esquerdo,o que sobra depois das partes nomeadas,auto
+FMA8674,FMA9428,right posterior basal segmental vein,Veia segmentar basal posterior direita,vaso que drena a base posterior do pulmão direito,auto
+FMA8674,FMA13289,medial basal segmental vein,Veia segmentar basal medial,vaso que drena a base medial do pulmão,auto
+FMA8672,FMA9425,right lateral basal segmental vein,Veia segmentar basal lateral direita,vaso que drena a base lateral do pulmão direito,auto
+FMA8672,FMA8673,right anterior basal segmental vein,Veia segmentar basal anterior direita,vaso que drena a base anterior do pulmão direito,auto
+FMA8666,FMA9438,left posterior segmental vein,Veia segmentar posterior esquerda,vaso que drena a parte posterior do pulmão esquerdo,auto
+FMA8666,FMA13444,apical segmental vein,Veia segmentar apical,vaso que drena o ápice do pulmão,auto
+FMA8677,FMA8678,left anterior basal segmental vein,Veia segmentar basal anterior esquerda,vaso que drena a base anterior do pulmão esquerdo,auto
+FMA8677,FMA9450,left lateral basal segmental vein,Veia segmentar basal lateral esquerda,vaso que drena a base lateral do pulmão esquerdo,auto
+FMA14778,FMA71709,subdivision of right lobe branch of right hepatic artery,Subdivisão do ramo do lobo direito da artéria hepática direita,pequeno ramo da artéria que irriga o lobo direito do fígado,auto
+FMA14778,FMA70447,caudate lobe branch of right hepatic artery,Ramo do lobo caudado da artéria hepática direita,ramo da artéria do fígado que irriga o lobo caudado,auto
+FMA14778,FMA14778-resto,rest of right hepatic artery,Outras partes de Artéria hepática direita,o que sobra depois das partes nomeadas,auto
+FMA71736,FMA70451,lateral segmental hepatic artery,Artéria hepática segmentar lateral,ramo da artéria do fígado que irriga a parte lateral,auto
+FMA71736,FMA70448,medial segmental hepatic artery,Artéria hepática segmentar medial,ramo da artéria do fígado que irriga a parte medial,auto
+FMA83902,FMA62403,superior colliculus,Colículo superior,pequena saliência do cérebro ligada à visão,auto
+FMA83902,FMA62404,inferior colliculus,Colículo inferior,pequena saliência do cérebro ligada à audição,auto
+FMA54736,FMA54737,right inferior nasal concha,Concha nasal inferior direita,pequeno osso curvo dentro do lado direito do nariz,auto
+FMA54736,FMA54738,left inferior nasal concha,Concha nasal inferior esquerda,pequeno osso curvo dentro do lado esquerdo do nariz,auto
+FMA9348,FMA7242,anterior leaflet of mitral valve,Folheto anterior da valva mitral,parte anterior da porta entre o átrio e o ventrículo esquerdos,auto
+FMA9348,FMA7252,right posterior cusp of aortic valve,Cúspide posterior direita da valva aórtica,parte posterior da porta de saída do sangue do coração para o corpo,auto
+FMA9348,FMA7254,left posterior cusp of aortic valve,Cúspide posterior esquerda da valva aórtica,parte posterior da porta de saída do sangue do coração para o corpo,auto
+FMA71709,FMA70444,posterior segmental hepatic artery,Artéria hepática segmentar posterior,ramo da artéria do fígado que irriga a parte de trás,auto
+FMA71709,FMA70441,anterior segmental hepatic artery,Artéria hepática segmentar anterior,ramo da artéria do fígado que irriga a parte da frente,auto
+FMA70451,FMA70452,lateral superior segmental hepatic artery,Artéria hepática segmentar lateral superior,ramo da artéria do fígado que irriga a parte lateral superior,auto
+FMA70451,FMA70453,lateral inferior segmental hepatic artery,Artéria hepática segmentar lateral inferior,ramo da artéria do fígado que irriga a parte lateral inferior,auto
+FMA70448,FMA70449,medial superior segmental hepatic artery,Artéria hepática segmentar medial superior,ramo da artéria do fígado que irriga a parte medial superior,auto
+FMA70448,FMA70450,medial inferior segmental hepatic artery,Artéria hepática segmentar medial inferior,ramo da artéria do fígado que irriga a parte medial inferior,auto
+FMA62403,FMA73422,right superior colliculus,Colículo superior direito,"pequena saliência do cérebro ligada à visão, do lado direito",auto
+FMA62403,FMA73423,left superior colliculus,Colículo superior esquerdo,"pequena saliência do cérebro ligada à visão, do lado esquerdo",auto
+FMA62404,FMA73434,right inferior colliculus,Colículo inferior direito,"pequena saliência do cérebro ligada à audição, do lado direito",auto
+FMA62404,FMA73435,left inferior colliculus,Colículo inferior esquerdo,"pequena saliência do cérebro ligada à audição, do lado esquerdo",auto

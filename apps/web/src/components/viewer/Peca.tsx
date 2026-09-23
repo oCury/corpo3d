@@ -9,6 +9,7 @@ import { materialFantasma, materialPara } from '@/lib/materiais';
 import { MaterialPele } from '@/lib/materiais/pele';
 import type { PecaManifesto } from '@/lib/manifesto';
 import { useLoja, corDestaqueDe, notaDe, type Vec3 } from '@/lib/estado/store';
+import { dentroDoDetalhe } from '@/lib/estado/detalhe';
 import {
   posicaoAlvo,
   estaEmCasa,
@@ -97,6 +98,11 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
   // --- estado que afeta esta peça (seletores finos: só re-renderiza quando algo dela muda)
   const opacidadeSistema = useLoja((s) => s.estado.opacidade[peca.sistema]);
   const isolada = useLoja((s) => s.estado.isolada);
+  // modo detalhe: tudo que não é parte do nó mais fundo esmaece, como no isolar
+  const foraDoDetalhe = useLoja((s) => {
+    const dentro = dentroDoDetalhe(s.partes, s.estado);
+    return dentro !== null && !dentro.has(peca.fmaId);
+  });
   const alvo = useLoja(useShallow((s) => posicaoAlvo(peca, s.estado))); // igualdade rasa: [x,y,z] iguais → sem re-render
   const solta = useLoja((s) => s.estado.soltas.some((x) => x.fmaId === peca.fmaId));
   const cor = useLoja((s) => corDestaqueDe(s.estado, peca.fmaId));
@@ -119,7 +125,7 @@ export const Peca = memo(function Peca({ peca, reduzirMovimento }: { peca: PecaM
     const g = grupo.current;
     if (g && origemPele) origemPele.copy(g.position);
   }, [origemPele]);
-  const opacidade = opacidadeSistema * (isolada && isolada !== peca.fmaId ? OPACIDADE_FORA_DA_ISOLACAO : 1);
+  const opacidade = opacidadeSistema * (isolada && isolada !== peca.fmaId ? OPACIDADE_FORA_DA_ISOLACAO : 1) * (foraDoDetalhe ? OPACIDADE_FORA_DA_ISOLACAO : 1);
   useEffect(() => {
     material.opacity = opacidade;
     material.transparent = opacidade < 1;

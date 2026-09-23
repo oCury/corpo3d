@@ -7,6 +7,7 @@
     "typecheck": "tsc --noEmit",
     "baixar": "tsx src/baixar.ts",
     "construir": "tsx src/construir.ts",
+    "propor-partes": "tsx src/propor-partes.ts",
     "portao": "tsx src/portao.ts"
   },
   "dependencies": {

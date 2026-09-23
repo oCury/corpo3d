@@ -1,17 +1,19 @@
 'use client';
-import { useLoja, corDestaqueDe, notaDe, type CorDestaque } from '@/lib/estado/store';
+import { useLoja, corDestaqueDe, notaDe, pecaDe, type CorDestaque } from '@/lib/estado/store';
 import { CORES_DESTAQUE, MAX_NOTA } from '@/lib/estado/schema';
 import { enquadrar } from '@/lib/estado/geometria';
 import { ROTULO_SISTEMA } from '@/lib/manifesto';
+import { ehParte } from '@/lib/manifesto';
 
 const NOME_COR: Record<CorDestaque, string> = { '#ffd166': 'amarelo', '#06d6a0': 'verde', '#118ab2': 'azul', '#ef476f': 'rosa', '#c77dff': 'roxo' };
 const BLOCOS = ['O que é', 'O que faz', 'O que costuma dar errado'] as const;
 
 export function PainelPeca() {
   const fmaId = useLoja((s) => s.selecionada);
-  const peca = useLoja((s) => s.manifesto?.pecas.find((p) => p.fmaId === fmaId) ?? null);
+  const peca = useLoja((s) => pecaDe(s, fmaId));
+  const estadoPartes = useLoja((s) => (fmaId ? s.partes[fmaId] : undefined));
   const estado = useLoja((s) => s.estado);
-  const { isolar, alternarOculta, soltar, encaixar, destacar, anotar, definirCamera, definirPreset } = useLoja.getState();
+  const { isolar, alternarOculta, soltar, encaixar, destacar, anotar, definirCamera, definirPreset, abrirPartes } = useLoja.getState();
   if (!peca) return <p className="dica">Clique numa peça para selecioná-la. Arraste a peça selecionada para desmontar; arrastar sobre qualquer outra gira o modelo.</p>;
 
   const cor = corDestaqueDe(estado, peca.fmaId);
@@ -28,12 +30,18 @@ export function PainelPeca() {
   return (
     <div className="painel-peca">
       <p className="sistema">{ROTULO_SISTEMA[peca.sistema]}{peca.lado !== '-' && ` · lado ${peca.lado === 'D' ? 'direito' : 'esquerdo'}`}</p>
-      <h2 className="nome-leigo">{peca.nomeLeigo}</h2>
+      <h2 className="nome-leigo">{peca.nomeLeigo}{ehParte(peca) && peca.status === 'auto' && <span className="tarja">nome automático, em revisão</span>}</h2>
       <p className="nomes"><span>{peca.nomePt}</span> · <i lang="la">{peca.nomeLatim}</i></p>
       {BLOCOS.map((b) => (
         <section key={b} className="bloco"><h3>{b}</h3><p className="rascunho">Descrição em revisão médica</p></section>
       ))}
       <div className="linha-botoes">
+        {(peca.numPartes ?? 0) > 0 && (
+          <button type="button" disabled={estadoPartes === 'carregando'} onClick={() => void abrirPartes(peca)}>
+            {estadoPartes === 'carregando' ? 'Carregando partes…' : `Ver partes (${peca.numPartes})`}
+          </button>
+        )}
+        {estadoPartes === 'erro' && <span role="alert" className="rascunho">Partes indisponíveis</span>}
         <button type="button" onClick={focar}>Focar</button>
         <button type="button" onClick={() => isolar(isolada ? null : peca.fmaId)}>{isolada ? 'Sair da isolação' : 'Isolar'}</button>
         <button type="button" onClick={() => alternarOculta(peca.fmaId)}>{oculta ? 'Mostrar peça' : 'Ocultar peça'}</button>

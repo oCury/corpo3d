@@ -24,7 +24,19 @@ export function lerElementos(texto: string): Map<string, Set<string>> {
   return m;
 }
 
-function dividirCsv(linha: string): string[] {
+/** `concept id \t name \t element file id`, com cabeçalho → nome em inglês por conceito. */
+export function lerNomesConceitos(texto: string): Map<string, string> {
+  const m = new Map<string, string>();
+  for (const linha of texto.split('\n').slice(1)) {
+    const c = linha.split('\t');
+    if (c.length < 3) continue;
+    const [fma, nome] = c.map((s) => s.trim());
+    if (!m.has(fma)) m.set(fma, nome);
+  }
+  return m;
+}
+
+export function dividirCsv(linha: string): string[] {
   const out: string[] = []; let atual = ''; let aspas = false;
   for (const ch of linha) {
     if (ch === '"') aspas = !aspas;

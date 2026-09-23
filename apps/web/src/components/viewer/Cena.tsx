@@ -4,6 +4,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { Bvh, Environment, OrbitControls } from '@react-three/drei';
 import { carregarManifesto } from '@/lib/manifesto';
 import { useLoja } from '@/lib/estado/store';
+import { pecasVisiveis } from '@/lib/estado/detalhe';
 import { useAtalhos } from '@/lib/hooks/useAtalhos';
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion';
 import { Peca } from './Peca';
@@ -58,6 +59,8 @@ export function Cena() {
   const manifesto = useLoja((s) => s.manifesto);
   const definirManifesto = useLoja((s) => s.definirManifesto);
   const estado = useLoja((s) => s.estado);
+  const partes = useLoja((s) => s.partes);
+  const carregarPartes = useLoja((s) => s.carregarPartes);
   const selecionada = useLoja((s) => s.selecionada);
   const presetCamera = useLoja((s) => s.presetCamera);
   const historico = useLoja((s) => s.historico.length);
@@ -75,6 +78,11 @@ export function Cena() {
     return () => { ativo = false; };
   }, [manifesto, definirManifesto, setErro]);
 
+  // um link que chega com a pilha preenchida precisa das partes de cada nó; `carregarPartes` marca 'carregando' na hora, então não repete
+  useEffect(() => {
+    for (const id of estado.detalhe) if (partes[id] === undefined) void carregarPartes(id);
+  }, [estado.detalhe, partes, carregarPartes]);
+
   if (erro)
     return (
       <p role="alert" data-testid="erro">
@@ -83,7 +91,7 @@ export function Cena() {
     );
   if (!manifesto) return <p data-testid="carregando">Carregando manifesto…</p>;
 
-  const visiveis = manifesto.pecas.filter((p) => estado.opacidade[p.sistema] > 0 && !estado.ocultas.includes(p.fmaId));
+  const visiveis = pecasVisiveis(manifesto, partes, estado);
 
   return (
     <div
@@ -96,6 +104,7 @@ export function Cena() {
       data-explosao={estado.explosao}
       data-historico={historico}
       data-camera={presetCamera}
+      data-detalhe={estado.detalhe.join('>')}
       style={{ position: 'absolute', inset: 0 }}
     >
       <Canvas
