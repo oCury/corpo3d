@@ -29,6 +29,7 @@ test('abre as partes do coração, seleciona um ventrículo, explode dentro do �
   await expect(cena).toHaveAttribute('data-visiveis', String(240 + n));
   await expect(cena).toHaveAttribute('data-selecionada', '');
   await expect(page.getByRole('navigation', { name: 'Caminho' })).toContainText('Coração');
+  await aguardarModeloRenderizado(page, cena); // as partes chegam por Suspense depois do JSON; a câmera já está no coração, então o centro do palco só tem pixels quando os GLBs renderizaram
   await capturarSePossivel(page, join(process.env.HOME ?? '', 'Desktop', `corpo3d-detalhe-coracao-${info.project.name}.png`));
 
   // a lista ganha o grupo "Partes de Coração"; escolher o ventrículo seleciona e enquadra

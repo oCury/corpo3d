@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { PNG } from 'pngjs';
 
@@ -23,12 +23,14 @@ function fracaoNaoFundo(png: Buffer): number {
  * estão chegando de forma assíncrona (Suspense) e o canvas só assume o tamanho final e ganha
  * malhas clicáveis depois disso. Sem esta espera, um clique/arrasto no canvas logo após abrir a
  * página não acerta nada (raycast vazio): é uma corrida, não uma questão de posição do gesto.
+ * `alvo` (opcional) restringe a medição a um elemento — o palco, por exemplo: no tablet empilhado o
+ * centro da página não é o centro do canvas, e depois de um `enquadrar` o modelo está no centro do canvas.
  */
-export async function aguardarModeloRenderizado(page: Page) {
+export async function aguardarModeloRenderizado(page: Page, alvo: Locator | Page = page) {
   await expect.poll(async () => {
     // Chromium sem cabeça às vezes recusa a captura no meio de um quadro WebGL pesado
     // ("Unable to capture screenshot"): é "ainda não pronto", não falha do teste — o poll repete.
-    try { return fracaoNaoFundo(await page.screenshot()); } catch { return 0; }
+    try { return fracaoNaoFundo(await alvo.screenshot()); } catch { return 0; }
   }, { timeout: 60_000 }).toBeGreaterThan(0.2);
 }
 
