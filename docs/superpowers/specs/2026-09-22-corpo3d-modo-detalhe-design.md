@@ -46,9 +46,11 @@ possível depois, um órgão por spec. Aqui entra só **estrutura**: partes e no
   ventrículo esquerdo → valva mitral, músculo papilar, cúspide da aórtica; coronária esquerda →
   descendente anterior, circunflexa.
 - **Sujeira do atlas que a regra tem de tratar:** o crânio (`FMA46565`) contém elementos do
-  hioide e da glândula lacrimal, que já são peças de nível 1; os conceitos "direitos" do olho
-  (`FMA12514` e partes) contêm os dois olhos (81 mm de largura); rim, fêmur, baço, vesícula e
-  próstata são um elemento só (sem partes).
+  hioide e da glândula lacrimal, que já são peças de nível 1 (regra dos elementos
+  compartilhados); os elementos "direitos" do olho (`FMA12514` e partes) trazem os dois olhos
+  dentro de cada arquivo, sem repetir elemento do esquerdo (exceção declarada); rim, fêmur,
+  baço, vesícula e próstata são um elemento só (sem partes). Uma parte que é subconjunto do pai
+  sempre cabe na caixa do pai, então **não há regra de caixa**.
 - Tudo no atlas compartilha um sistema de coordenadas: uma parte fica exatamente onde está o
   pai, sem transformação. É o que torna "abrir as partes" só trocar malhas.
 - Código que este spec se apoia: `Peca.tsx` recebe um `PecaManifesto` e faz todo o resto por
@@ -71,8 +73,11 @@ Para um nó `P` com elementos `E(P)`:
      zone, wall, part of, set of, side of, septum, apex, base of, border, margin, line, point,
      content, layer, myocardium, endocardium, epicardium, parenchyma, tree, proper, hemi,
      segment, division, trunk of` (palavra inteira, sem distinguir maiúsculas);
-   - bbox de `C` que não cabe na bbox de `P` **expandida 1 cm** (mata os conceitos "direitos" do
-     olho que contêm os dois olhos; a checagem usa as bboxes das malhas já convertidas).
+   - `P` em `PECAS_SEM_PARTES` (constante do pipeline, com o motivo em comentário): hoje só o
+     globo ocular direito `FMA12514`. Verificado em 22/09: os 8 elementos dele não se repetem
+     no esquerdo, mas **cada arquivo "direito" do atlas já traz os dois olhos dentro de si**
+     (córnea direita = 81 mm de largura), então nenhuma regra por elementos ou por caixa o
+     pega. O olho é desenhado paramétrico de qualquer jeito.
 3. **Escolha automática:** candidatas ordenadas por `(−|E(C)|, fmaId)`; entra a que não repete
    elemento já coberto. Determinístico.
 4. **Curadoria** (seção 4) aplicada por cima: linhas `revisado` entram **mesmo repetindo
@@ -189,7 +194,7 @@ existente e que todo GLB referenciado existe.
 ## 9. Testes
 
 **Pipeline (Vitest), `tests/partes.test.ts` com fixture de elementos sintética:** subconjunto
-estrito; lista negra; exclusão de elementos de outra peça de nível 1; bbox fora do pai + 1 cm;
+estrito; lista negra; exclusão de elementos de outra peça de nível 1; `PECAS_SEM_PARTES`;
 guloso determinístico; `revisado` entra sobrepondo; `excluida` sai; resto; ≥ 2 partes para ter
 detalhe; recursão para no nível 5; `vetorExplosao` radial com alcance = diagonal do pai;
 leitura/escrita de `partes.csv` preservando curadoria e removendo `auto` órfãs.
