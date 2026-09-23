@@ -5,6 +5,7 @@ import { PainelCamadas } from './PainelCamadas';
 import { Controles } from './Controles';
 import { ListaPecas } from './ListaPecas';
 import { PainelPeca } from './PainelPeca';
+import { Caminho } from './Caminho';
 
 export function Estudio() {
   return (
@@ -19,6 +20,7 @@ export function Estudio() {
         <Cena />
       </section>
       <aside className="painel painel-direito" aria-label="Peça selecionada" data-testid="painel-peca">
+        <Caminho />
         <PainelPeca />
       </aside>
     </div>
