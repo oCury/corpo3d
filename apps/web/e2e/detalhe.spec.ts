@@ -29,10 +29,13 @@ test('abre as partes do coração, seleciona um ventrículo, explode dentro do �
   await expect(cena).toHaveAttribute('data-visiveis', String(240 + n));
   await expect(cena).toHaveAttribute('data-selecionada', '');
   await expect(page.getByRole('navigation', { name: 'Caminho' })).toContainText('Coração');
-  await aguardarModeloRenderizado(page, cena); // as partes chegam por Suspense depois do JSON; a câmera já está no coração, então o centro do palco só tem pixels quando os GLBs renderizaram
+  // as partes chegam por Suspense depois do JSON: espera o ventrículo existir na cena e o palco ter um quadro desenhado antes de capturar
+  await expect.poll(async () => page.evaluate((id) => !!(window as unknown as { __cena?: { getObjectByName(n: string): unknown } }).__cena?.getObjectByName(id), VENTRICULO_ESQUERDO)).toBe(true);
+  await aguardarModeloRenderizado(page, cena);
   await capturarSePossivel(page, join(process.env.HOME ?? '', 'Desktop', `corpo3d-detalhe-coracao-${info.project.name}.png`));
 
   // a lista ganha o grupo "Partes de Coração"; escolher o ventrículo seleciona e enquadra
+  await expect(page.getByRole('listbox', { name: 'Peças' })).toContainText('Partes de Coração');
   await page.getByRole('listbox', { name: 'Peças' }).getByRole('option', { name: ventriculo!.nomePt, exact: true }).click();
   await expect(cena).toHaveAttribute('data-selecionada', VENTRICULO_ESQUERDO);
   await expect(page.getByTestId('painel-peca')).toContainText(ventriculo!.nomePt);

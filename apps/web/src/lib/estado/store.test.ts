@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { useLoja } from './store';
+import type { PartePeca } from '@/lib/manifesto';
 import { ESTADO_INICIAL, MAX_HISTORICO } from './schema';
 
 const loja = () => useLoja.getState();
@@ -90,6 +91,7 @@ describe('loja: peças', () => {
 
 describe('loja: modo detalhe', () => {
   const peca = { fmaId: 'FMA1', nomeLatim: 'Cor', nomePt: 'Coração', nomeLeigo: 'coração', sistema: 'cardiovascular' as const, lado: '-' as const, glb: 'cardiovascular/FMA1.glb', bytes: 1, triangulos: 1, elementos: 1, numPartes: 1, bbox: { min: [0, 1, 0] as [number, number, number], max: [0.1, 1.1, 0.1] as [number, number, number] }, centro: [0.05, 1.05, 0.05] as [number, number, number], vetorExplosao: [0, 0, 1] as [number, number, number] };
+  const parteDe = (fmaId: string): PartePeca => ({ ...peca, fmaId, glb: `partes/FMA1/${fmaId}.glb`, paiFmaId: 'FMA1', nivel: 2, status: 'auto' });
   const json = { versao: 1, paiFmaId: 'FMA1', partes: [{ ...peca, fmaId: 'FMA10', glb: 'partes/FMA1/FMA10.glb', paiFmaId: 'FMA1', nivel: 2, status: 'auto', numPartes: 0 }] };
   /** `carregarManifestoPartes` confere que `paiFmaId` do JSON é o pedido: o mock responde com o pai que está na URL. */
   const mockFetch = () => vi.stubGlobal('fetch', vi.fn(async (url: string) => ({ ok: true, json: async () => ({ ...json, paiFmaId: /partes\/(.+)\.json/.exec(url)?.[1] ?? '' }) })));
@@ -114,10 +116,27 @@ describe('loja: modo detalhe', () => {
     expect(loja().estado.detalhe).toEqual([]);
     expect(loja().historico).toEqual([]);
   });
+  it('só um caminho: peça de nível 1 com detalhe aberto começa uma pilha nova; parte estranha ao nó aberto não entra', async () => {
+    mockFetch();
+    await loja().abrirPartes(peca);
+    expect(await loja().abrirPartes({ ...peca, fmaId: 'FMA2' })).toBe(true);
+    expect(loja().estado.detalhe).toEqual(['FMA2']);
+    expect(await loja().abrirPartes(parteDe('FMA99'))).toBe(false);
+    expect(loja().estado.detalhe).toEqual(['FMA2']);
+  });
+  it('link com nó que já não tem partes: carregarPartes registra erro e trunca a pilha ali, sem histórico', async () => {
+    loja().aplicar({ detalhe: ['FMA1', 'FMA10'] });
+    const antes = loja().historico.length;
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: false, status: 404, json: async () => ({}) })));
+    await loja().carregarPartes('FMA1');
+    expect(loja().partes.FMA1).toBe('erro');
+    expect(loja().estado.detalhe).toEqual([]);
+    expect(loja().historico).toHaveLength(antes);
+  });
   it('fecharPartes(n) mantém n níveis', async () => {
     mockFetch();
     await loja().abrirPartes(peca);
-    await loja().abrirPartes({ ...peca, fmaId: 'FMA10' });
+    await loja().abrirPartes(parteDe('FMA10'));
     expect(loja().estado.detalhe).toEqual(['FMA1', 'FMA10']);
     loja().fecharPartes(1);
     expect(loja().estado.detalhe).toEqual(['FMA1']);

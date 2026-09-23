@@ -1,7 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Peca } from './catalogo';
-import { DIR_PARTES, RAZAO_PADRAO } from './constantes';
+import { DIR_PARTES, NIVEL_MAXIMO, RAZAO_PADRAO } from './constantes';
 import { escreverGlb, type Bbox } from './glb';
 import type { ManifestoPartes, PartePeca, PecaManifesto } from './manifesto';
 import { novaGeometria, parseObj } from './obj';
@@ -33,8 +33,9 @@ export async function construirPartes(op: OpcoesConstruirPartes): Promise<{ porP
   const pecaPorId = new Map(op.pecas.map((p) => [p.fmaId, p]));
   const paiDe = new Map<string, string>();
   for (const l of linhas) if (!paiDe.has(l.fmaId)) paiDe.set(l.fmaId, l.paiFmaId);
-  const raizDe = (id: string): string => { let x = id; while (paiDe.has(x)) x = paiDe.get(x)!; return x; };
-  const nivelDe = (id: string): number => { let n = 1, x = id; while (paiDe.has(x)) { x = paiDe.get(x)!; n++; } return n; };
+  const cicloOuFundo = (id: string) => new Error(`partes.csv: ciclo de pais ou profundidade > ${NIVEL_MAXIMO} a partir de ${id}`);
+  const raizDe = (id: string): string => { let x = id, n = 0; while (paiDe.has(x)) { x = paiDe.get(x)!; if (++n > NIVEL_MAXIMO) throw cicloOuFundo(id); } return x; };
+  const nivelDe = (id: string): number => { let n = 1, x = id; while (paiDe.has(x)) { x = paiDe.get(x)!; if (++n > NIVEL_MAXIMO) throw cicloOuFundo(id); } return n; };
   const proprios = elementosProprios(op.pecas);
   const elementosDe = (id: string): Set<string> => {
     const p = pecaPorId.get(id); if (p) return p.elementos;

@@ -12,8 +12,8 @@ export function useAtalhos() {
       const loja = useLoja.getState();
       if (e.key === 'Escape') {
         if (loja.selecionada || loja.estado.isolada) { loja.isolar(null); loja.selecionar(null); return; }
-        // nada selecionado nem isolado: com detalhe aberto, fecha um nível
-        if (loja.estado.detalhe.length) loja.fecharPartes(loja.estado.detalhe.length - 1);
+        // nada selecionado nem isolado: com detalhe aberto, fecha um nível (não dentro da busca/nota: lá o Esc é do campo)
+        if (!emCampoDeTexto(e.target) && loja.estado.detalhe.length) loja.fecharPartes(loja.estado.detalhe.length - 1);
         return;
       }
       if (emCampoDeTexto(e.target)) return;

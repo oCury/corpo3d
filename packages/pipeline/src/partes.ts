@@ -110,7 +110,10 @@ export function proporArvore(raizes: No[], atlas: Atlas, propriosPorRaiz: Map<st
     const propriosRaiz = propriosPorRaiz.get(no.raiz) ?? new Set<string>();
     const proprios = new Set([...no.elementos].filter((e) => propriosRaiz.has(e)));
     const { partes, resto } = escolherPartes(no, proprios, candidatas(proprios, atlas, new Set([no.fmaId])), curadoria, atlas);
-    if (partes.length + (resto.size ? 1 : 0) < 2) continue;
+    const excluidas = new Set(curadoria.filter((l) => l.paiFmaId === no.fmaId && l.status === 'excluida').map((l) => l.fmaId));
+    const idResto = no.fmaId + SUFIXO_RESTO;
+    const temResto = resto.size > 0 && !excluidas.has(idResto); // resto `excluida` não volta (e não duplica a linha)
+    if (partes.length + (temResto ? 1 : 0) < 2) continue;
     for (const c of partes) {
       const velha = anterior.get(`${no.fmaId}|${c.fmaId}`);
       const linha: LinhaParte = velha?.status === 'revisado' ? velha
@@ -118,14 +121,16 @@ export function proporArvore(raizes: No[], atlas: Atlas, propriosPorRaiz: Map<st
       saida.push(linha);
       fila.push({ fmaId: c.fmaId, nome: c.nome, nomePt: linha.nomePt, elementos: c.elementos, nivel: no.nivel + 1, raiz: no.raiz });
     }
-    if (resto.size) {
-      const id = no.fmaId + SUFIXO_RESTO;
-      const velha = anterior.get(`${no.fmaId}|${id}`);
+    if (temResto) {
+      const velha = anterior.get(`${no.fmaId}|${idResto}`);
       saida.push(velha?.status === 'revisado' ? velha
-        : { paiFmaId: no.fmaId, fmaId: id, nomeEn: `rest of ${no.nome}`, nomePt: nomeResto(no.nomePt || no.nome), nomeLeigo: velha?.nomeLeigo ?? '', status: 'auto' });
+        : { paiFmaId: no.fmaId, fmaId: idResto, nomeEn: `rest of ${no.nome}`, nomePt: nomeResto(no.nomePt || no.nome), nomeLeigo: velha?.nomeLeigo ?? '', status: 'auto' });
     }
     for (const l of curadoria) if (l.paiFmaId === no.fmaId && l.status === 'excluida') saida.push(l);
   }
+  // spec §4: `revisado`/`excluida` são mantidas como estão mesmo quando o pai deixou de ter detalhe ou não foi alcançado
+  const emitidas = new Set(saida.map((l) => `${l.paiFmaId}|${l.fmaId}`));
+  for (const l of curadoria) if (l.status !== 'auto' && !emitidas.has(`${l.paiFmaId}|${l.fmaId}`)) saida.push(l);
   return saida;
 }
 

@@ -104,6 +104,22 @@ describe('proporArvore', () => {
     // FMA3 {f,z}: próprios {z} → sem candidatas → sem detalhe
     expect(linhas.some((l) => l.paiFmaId === 'FMA3')).toBe(false);
   });
+  it('resto marcado excluida não volta nem duplica a linha; curadoria de pai sem detalhe é preservada; CSV relê', () => {
+    const a = atlas(); const proprios = elementosProprios(pecas);
+    const raizes = pecas.map((p) => no(p.fmaId, p.elementos));
+    const cur: LinhaParte[] = [
+      { paiFmaId: 'FMA1', fmaId: 'FMA12', nomeEn: 'coronary sinus', nomePt: '', nomeLeigo: '', status: 'excluida' },
+      { paiFmaId: 'FMA1', fmaId: 'FMA1-resto', nomeEn: 'rest of heart', nomePt: '', nomeLeigo: '', status: 'excluida' },
+      { paiFmaId: 'FMA10', fmaId: 'FMA10-resto', nomeEn: 'rest of left ventricle', nomePt: '', nomeLeigo: '', status: 'excluida' },
+      { paiFmaId: 'FMA3', fmaId: 'FMA77', nomeEn: 'x', nomePt: '', nomeLeigo: '', status: 'excluida' },
+    ];
+    const linhas = proporArvore(raizes, a, proprios, cur);
+    expect(linhas.filter((l) => l.paiFmaId === 'FMA1').map((l) => [l.fmaId, l.status])).toEqual([['FMA10', 'auto'], ['FMA11', 'auto'], ['FMA12', 'excluida'], ['FMA1-resto', 'excluida']]);
+    // FMA10 {a,b}: 1 parte + resto excluído = 1 → sem detalhe; a exclusão fica no CSV mesmo assim
+    expect(linhas.filter((l) => l.paiFmaId === 'FMA10').map((l) => [l.fmaId, l.status])).toEqual([['FMA10-resto', 'excluida']]);
+    expect(linhas.filter((l) => l.paiFmaId === 'FMA3').map((l) => [l.fmaId, l.status])).toEqual([['FMA77', 'excluida']]);
+    expect(() => lerCsvPartes(escreverCsvPartes(linhas))).not.toThrow();
+  });
   it('para no nível máximo', () => {
     const a = atlas(); const proprios = elementosProprios(pecas);
     const linhas = proporArvore([no('FMA1', pecas[0].elementos, 5)], a, proprios, []);

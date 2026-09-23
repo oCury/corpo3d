@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-import { carregarManifestoPartes, type Manifesto, type PecaManifesto, type Sistema } from '@/lib/manifesto';
+import { carregarManifestoPartes, ehParte, type Manifesto, type PecaManifesto, type Sistema } from '@/lib/manifesto';
 import { EstadoCenaSchema, ESTADO_INICIAL, MAX_HISTORICO, MAX_NOTA, type EstadoCena, CORES_DESTAQUE } from './schema';
 import { enquadrar } from './geometria';
-import type { PartesCarregadas } from './detalhe';
+import { partesDe, type PartesCarregadas } from './detalhe';
 
 export type CorDestaque = (typeof CORES_DESTAQUE)[number];
 export type Vec3 = [number, number, number];
@@ -47,7 +47,7 @@ interface Loja {
   definirCamera(pos: Vec3, alvo: Vec3): void;
   /** Busca `/models/partes/<pai>.json` uma vez; guarda a lista, ou 'erro'. */
   carregarPartes(paiFmaId: string): Promise<void>;
-  /** Carrega antes de abrir; se falhar, não muda o estado e devolve false. Encaixa o nó, empilha, tira a seleção, enquadra. */
+  /** Carrega antes de abrir; se falhar (ou a peça não for parte do nó aberto), não muda o estado e devolve false. Peça de nível 1 começa uma pilha nova. Encaixa o nó, empilha, tira a seleção, enquadra. */
   abrirPartes(peca: PecaManifesto): Promise<boolean>;
   /** Mantém os primeiros `nivel` itens da pilha (0 fecha tudo). */
   fecharPartes(nivel: number): void;
@@ -117,14 +117,21 @@ export const useLoja = create<Loja>()((set, get) => ({
     } catch (e) {
       console.warn(`partes de ${paiFmaId}:`, (e as Error).message);
       set({ partes: { ...get().partes, [paiFmaId]: 'erro' } });
+      // spec §8: nó da pilha que já não tem partes (manifesto mudou) → a pilha é truncada ali, sem entrada de histórico
+      const d = get().estado.detalhe; const i = d.indexOf(paiFmaId);
+      if (i >= 0) get().aplicar({ detalhe: d.slice(0, i) }, { historico: false });
     }
   },
   abrirPartes: async (peca) => {
     await get().carregarPartes(peca.fmaId);
     if (!Array.isArray(get().partes[peca.fmaId])) return false;
     const e = get().estado;
+    // só um caminho fica aberto: peça de nível 1 começa uma pilha nova; parte só entra se for parte do nó mais fundo
+    const topo = e.detalhe[e.detalhe.length - 1];
+    if (ehParte(peca) && !(topo && partesDe(get().partes, topo)?.some((p) => p.fmaId === peca.fmaId))) return false;
+    const detalhe = ehParte(peca) ? [...e.detalhe, peca.fmaId] : [peca.fmaId];
     const q = enquadrar(peca);
-    get().aplicar({ detalhe: [...e.detalhe, peca.fmaId], soltas: e.soltas.filter((s) => s.fmaId !== peca.fmaId), camera: { pos: q.pos, alvo: q.alvo } });
+    get().aplicar({ detalhe, soltas: e.soltas.filter((s) => s.fmaId !== peca.fmaId), camera: { pos: q.pos, alvo: q.alvo } });
     set({ selecionada: null, presetCamera: 'livre' });
     return true;
   },
