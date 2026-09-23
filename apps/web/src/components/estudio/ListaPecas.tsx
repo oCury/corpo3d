@@ -2,7 +2,7 @@
 import { useLoja, pecaDe } from '@/lib/estado/store';
 import { enquadrar } from '@/lib/estado/geometria';
 import { SISTEMAS, ROTULO_SISTEMA, type PecaManifesto } from '@/lib/manifesto';
-import { partesDe, dentroDoDetalhe } from '@/lib/estado/detalhe';
+import { partesDe } from '@/lib/estado/detalhe';
 
 const EMPTY: PecaManifesto[] = [];
 

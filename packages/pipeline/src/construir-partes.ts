@@ -31,7 +31,6 @@ export async function construirPartes(op: OpcoesConstruirPartes): Promise<{ porP
   const linhas = lerCsvPartes(readFileSync(op.csvPartes, 'utf8')).filter((l) => l.status !== 'excluida');
   const contagem = contarPartes(linhas);
   const pecaPorId = new Map(op.pecas.map((p) => [p.fmaId, p]));
-  const manifestoPorId = new Map(op.manifestoPecas.map((p) => [p.fmaId, p]));
   const paiDe = new Map<string, string>();
   for (const l of linhas) if (!paiDe.has(l.fmaId)) paiDe.set(l.fmaId, l.paiFmaId);
   const raizDe = (id: string): string => { let x = id; while (paiDe.has(x)) x = paiDe.get(x)!; return x; };

@@ -7,7 +7,7 @@ import { escreverGlb } from './glb';
 import { novaGeometria, parseObj } from './obj';
 import { FONTE, vetorExplosaoPadrao, type Manifesto, type PecaManifesto } from './manifesto';
 import { construirPartes, contarPartes } from './construir-partes';
-import { indexarAtlas, lerCsvPartes, unirConceitos } from './partes';
+import { lerCsvPartes, unirConceitos } from './partes';
 
 export interface OpcoesConstruir {
   csv: string; elementParts: { partof: string; isa: string }; dirObj: string; dirSaida: string;
