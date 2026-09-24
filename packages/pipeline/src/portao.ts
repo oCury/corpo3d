@@ -1,9 +1,8 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { CSV_ESTRUTURAS, DIR_PARTES, DIR_SAIDA, AREA_MINIMA_NORMAIS_M2, FMA_PELE, NORMAIS_OPOSTAS_TOLERADAS, OCLUSAO_ALTA, OCLUSAO_FRACAO_ALTA_MAX, OCLUSAO_MAXIMO_MIN, OCLUSAO_MEDIA_MAX, OCLUSAO_MEDIA_MIN, ORCAMENTO_BYTES_PARTES_TOTAL, ORCAMENTO_BYTES_POR_PECA, ORCAMENTO_BYTES_TOTAL } from './constantes';
+import { CSV_ESTRUTURAS, DIR_PARTES, DIR_SAIDA, AREA_MINIMA_NORMAIS_M2, FMA_PELE, NORMAIS_OPOSTAS_TOLERADAS, RAZAO_MINIMA_NORMAL, OCLUSAO_ALTA, OCLUSAO_FRACAO_ALTA_MAX, OCLUSAO_MAXIMO_MIN, OCLUSAO_MEDIA_MAX, OCLUSAO_MEDIA_MIN, ORCAMENTO_BYTES_PARTES_TOTAL, ORCAMENTO_BYTES_POR_PECA, ORCAMENTO_BYTES_TOTAL } from './constantes';
 import { lerCsvEstruturas } from './catalogo';
 import { lerGlb } from './glb';
-import { normaisSuaves } from './normais';
 import type { Manifesto, ManifestoPartes } from './manifesto';
 
 export function verificarOrcamento(m: Manifesto, idsCsv: string[], orc: { porPeca: number; total: number }): { ok: boolean; problemas: string[] } {
@@ -41,21 +40,25 @@ export function verificarPartes(jsons: ManifestoPartes[], pecas: Set<string>, or
  * `pos` em metros. Vértices cuja área incidente é menor que `areaMinimaM2` são lascas sub-pixel que a
  * quantização de 14 bits vira sem efeito visível: não contam (o defeito real da pele tinha ≈ 6 mm² por vértice).
  */
-export function verificarNormais(pos: ArrayLike<number>, idx: ArrayLike<number>, normais: ArrayLike<number>, areaMinimaM2 = AREA_MINIMA_NORMAIS_M2): number {
-  const media = normaisSuaves(pos, idx);
-  const area = new Float64Array(pos.length / 3);
+export function verificarNormais(pos: ArrayLike<number>, idx: ArrayLike<number>, normais: ArrayLike<number>, areaMinimaM2 = AREA_MINIMA_NORMAIS_M2, razaoMinima = RAZAO_MINIMA_NORMAL): number {
+  const nv = pos.length / 3;
+  const soma = new Float64Array(pos.length), modulos = new Float64Array(nv);
   for (let t = 0; t < idx.length; t += 3) {
     const a = idx[t] * 3, b = idx[t + 1] * 3, c = idx[t + 2] * 3;
     const ux = pos[b] - pos[a], uy = pos[b + 1] - pos[a + 1], uz = pos[b + 2] - pos[a + 2];
     const vx = pos[c] - pos[a], vy = pos[c + 1] - pos[a + 1], vz = pos[c + 2] - pos[a + 2];
-    const dobro = Math.hypot(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
-    area[a / 3] += dobro / 2; area[b / 3] += dobro / 2; area[c / 3] += dobro / 2;
+    const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+    const dobro = Math.hypot(nx, ny, nz);
+    for (const i of [a, b, c]) { soma[i] += nx; soma[i + 1] += ny; soma[i + 2] += nz; modulos[i / 3] += dobro; }
   }
   let opostas = 0;
-  for (let i = 0; i < media.length; i += 3) {
-    if (media[i] === 0 && media[i + 1] === 0 && media[i + 2] === 0) continue; // sem face
-    if (area[i / 3] < areaMinimaM2) continue; // lasca
-    if (media[i] * normais[i] + media[i + 1] * normais[i + 1] + media[i + 2] * normais[i + 2] < 0) opostas++;
+  for (let v = 0; v < nv; v++) {
+    const i = v * 3;
+    if (modulos[v] === 0) continue;                                    // sem face
+    if (modulos[v] / 2 < areaMinimaM2) continue;                       // lasca sub-pixel (soma das áreas)
+    const l = Math.hypot(soma[i], soma[i + 1], soma[i + 2]);
+    if (l < razaoMinima * modulos[v]) continue;                        // faces costas com costas: média ambígua
+    if (soma[i] * normais[i] + soma[i + 1] * normais[i + 1] + soma[i + 2] * normais[i + 2] < 0) opostas++;
   }
   return opostas;
 }

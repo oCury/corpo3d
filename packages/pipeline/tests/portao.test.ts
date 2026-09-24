@@ -62,6 +62,11 @@ describe('verificarNormais', () => {
     expect(verificarNormais(lasca.pos, lasca.idx, new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1]))).toBe(0);
     expect(verificarNormais(lasca.pos, lasca.idx, new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1]), 0)).toBe(3);
   });
+  it('faces costas com costas (soma das normais se cancela) têm média ambígua e não contam', () => {
+    const dupla = { pos: new Float32Array([0, 0, 0, 1, 0, 0, 0, 1, 0]), idx: new Uint32Array([0, 1, 2, 0, 2, 1]) }; // +z e −z sobre os mesmos vértices
+    expect(verificarNormais(dupla.pos, dupla.idx, new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1]))).toBe(0);
+    expect(verificarNormais(dupla.pos, dupla.idx, new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1]))).toBe(0);
+  });
 });
 
 describe('verificarOclusao', () => {

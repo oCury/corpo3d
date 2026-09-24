@@ -87,7 +87,9 @@ Duas verificações novas, com o `NodeIO` e o decodificador meshopt já registra
 
 - `verificarNormais`: em **toda** GLB do manifesto e das partes, contar vértices cuja normal
   gravada tem `dot < 0` com a média das faces vizinhas, ignorando lascas (área incidente
-  < 0,1 mm²). Portão: **≤ 20 por GLB** (hoje a pele tem 1; antes, 2.108). *Medido em 24/09 ao
+  < 0,1 mm²) e vértices de média ambígua (faces costas com costas no atlas: |soma| < 30 % da
+  soma dos módulos — a direção vira de sinal à toa). Portão: **≤ 20 por GLB** (hoje: 11 toleradas
+  em 5 GLBs; a pele tem 1; antes, 2.108). *Medido em 24/09 ao
   executar a Tarefa A:* a quantização de 14 bits do meshopt vira triângulos longos e finos
   sub-pixel em 64 peças, 1 a 6 vértices cada — resíduo inerente, invisível, tolerado e contado
   na linha final do portão.
