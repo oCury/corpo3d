@@ -16,7 +16,7 @@ describe('materialPara', () => {
   it('a pele recebe o shader procedural (onBeforeCompile definido) e os demais não', () => {
     expect(materialPara('pele', 'Cutis').onBeforeCompile).not.toBe(MeshPhysicalMaterial.prototype.onBeforeCompile);
     expect(materialPara('esqueleto', 'Femur').onBeforeCompile).toBe(MeshPhysicalMaterial.prototype.onBeforeCompile);
-    expect(materialPara('pele', 'Cutis').customProgramCacheKey()).toBe('pele-procedural-v2');
+    expect(materialPara('pele', 'Cutis').customProgramCacheKey()).toBe('pele-procedural-v3');
   });
   it('colore veias de azul e artérias de vermelho pelo nome em latim', () => {
     expect(corPorNome('cardiovascular', 'Vena cava superior')).toBe('#3f5fa8');

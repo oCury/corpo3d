@@ -35,6 +35,6 @@ export async function aguardarModeloRenderizado(page: Page, alvo: Locator | Page
 }
 
 /** Captura para arquivo só como artefato de inspeção: uma recusa do Chromium não deve reprovar o teste. */
-export async function capturarSePossivel(page: Page, path: string) {
-  try { await page.screenshot({ path }); } catch { /* artefato opcional */ }
+export async function capturarSePossivel(alvo: Page | Locator, path: string) {
+  try { await alvo.screenshot({ path }); } catch { /* artefato opcional */ }
 }

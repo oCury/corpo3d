@@ -60,3 +60,30 @@ export const ORCAMENTO_BYTES_PARTES_TOTAL = 12 * 1024 * 1024;
  * paramétrico de qualquer jeito (Peca.tsx).
  */
 export const PECAS_SEM_PARTES = new Set(['FMA12514']);
+
+/** Inflar sem dobrar (spec pele-realismo §3): vértice dobrado = normal média das faces infladas discorda da normal de partida. */
+export const LIMIAR_DOBRA = 0.2;
+/** Reduções pela metade do deslocamento nos vértices dobrados e vizinhos (3,5 → 1,75 → 0,875 → 0,44 mm); o que ainda dobrar vai a zero. */
+export const MAX_REDUCOES_DOBRA = 3;
+/** Oclusão ambiente cozida por vértice (spec §4): raios por vértice, alcance e afastamento da origem para não acertar a própria face. */
+export const AMOSTRAS_OCLUSAO = 48;
+export const ALCANCE_OCLUSAO_M = 0.3;
+export const AFASTAMENTO_RAIO_M = 0.0005;
+/** Peças que recebem `_OCLUSAO`. Ligar outra é acrescentar aqui. */
+export const PECAS_COM_OCLUSAO = new Set([FMA_PELE]);
+/** Passar disto não falha: fica no log. */
+export const ORCAMENTO_SEGUNDOS_OCLUSAO = 30;
+/** Portão da oclusão (spec §5). */
+export const OCLUSAO_MEDIA_MIN = 0.05;
+export const OCLUSAO_MEDIA_MAX = 0.5;    // medido 0,385 na pele: coxas encostadas e braços junto ao tronco
+export const OCLUSAO_MAXIMO_MIN = 0.5;
+export const OCLUSAO_ALTA = 0.9;
+export const OCLUSAO_FRACAO_ALTA_MAX = 0.2; // medido 11,6 % (coxas, pés): contato real; raios entrando na malha dariam > 50 %
+/** Portão das normais: vértice cuja área incidente é menor que isto é lasca sub-pixel que a quantização vira sem efeito visível. */
+export const AREA_MINIMA_NORMAIS_M2 = 1e-7;
+/** Resíduo da quantização de 14 bits em triângulos longos e finos: medido em 24/09 até 6 por GLB (o defeito real da pele dava 2.108). */
+export const NORMAIS_OPOSTAS_TOLERADAS = 20;
+/** A pele é a única peça sempre visível e hoje tem 1: qualquer retrocesso da correção tem de reprovar. */
+export const NORMAIS_OPOSTAS_TOLERADAS_PELE = 2;
+/** Vértice cuja soma das normais das faces quase se cancela (faces costas com costas no atlas) tem direção ambígua: não conta. */
+export const RAZAO_MINIMA_NORMAL = 0.3;

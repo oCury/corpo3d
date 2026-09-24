@@ -5,7 +5,9 @@ import { join } from 'node:path';
 import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { MeshoptDecoder } from 'meshoptimizer';
-import { escreverGlb } from '../src/glb';
+import { SphereGeometry } from 'three';
+import { escreverGlb, lerGlb } from '../src/glb';
+import { verificarNormais } from '../src/portao';
 
 // cubo de 1 m centrado em (2, 3, 4): 8 vértices, 12 triângulos
 function cubo() {
@@ -57,5 +59,24 @@ describe('escreverGlb', () => {
       return (p.getMax([])[0] - p.getMin([])[0]) * esc;
     };
     expect(await extensao(join(dir, 'b.glb'))).toBeGreaterThan((await extensao(join(dir, 'a.glb'))) + 0.003);  // +2 mm de cada lado ≈ +4 mm (tolerância)
+  });
+  it('normais gravadas são da geometria FINAL (depois de inflar) e a oclusão vira _OCLUSAO normalizado', async () => {
+    const g = new SphereGeometry(0.05, 24, 16);
+    const geo = { posicoes: Array.from(g.getAttribute('position').array as Float32Array), indices: Array.from(g.getIndex()!.array) };
+    const dir = mkdtempSync(join(tmpdir(), 'glb-'));
+    const st = await escreverGlb(geo, join(dir, 'esfera.glb'), { razao: 1, nome: 'E', inflarM: 0.0035, oclusao: true });
+    expect(st.reduzidosInflar).toBe(0);
+    expect(st.segundosOclusao).toBeGreaterThanOrEqual(0);
+    const lido = await lerGlb(join(dir, 'esfera.glb'));
+    expect(verificarNormais(lido.pos, lido.idx, lido.normais)).toBe(0);
+    expect(lido.oclusao).not.toBeNull();
+    expect(lido.oclusao!.length).toBe(lido.pos.length / 3);
+    for (const o of lido.oclusao!) { expect(o).toBeGreaterThanOrEqual(0); expect(o).toBeLessThanOrEqual(1); }
+    expect(lido.oclusao!.reduce((a, o) => a + o, 0) / lido.oclusao!.length).toBeLessThan(0.05); // convexa: quase nada ocluído
+  });
+  it('sem a opção oclusao, não há _OCLUSAO', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'glb-'));
+    await escreverGlb(cubo(), join(dir, 'c.glb'), { razao: 1, nome: 'C' });
+    expect((await lerGlb(join(dir, 'c.glb'))).oclusao).toBeNull();
   });
 });

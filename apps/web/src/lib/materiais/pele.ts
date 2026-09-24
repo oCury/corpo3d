@@ -51,12 +51,19 @@ const DIST_BUMP_ZERO = 1.1;
 const COR_PELO = new Color(AJUSTE.cor);
 const GLSL_COR_PELO = `vec3(${f(COR_PELO.r)}, ${f(COR_PELO.g)}, ${f(COR_PELO.b)})`;
 
+/** Força da oclusão cozida (`_OCLUSAO` do pipeline); 0 desliga. */
+export const FORCA_OCLUSAO = 1.0;
+/** Um único objeto de uniform para TODAS as instâncias: `Peca.tsx` clona o material por peça, e o gancho de desenvolvimento muda todas de uma vez. */
+const uForcaOclusao = { value: FORCA_OCLUSAO };
+export function definirForcaOclusao(valor: number): void { uForcaOclusao.value = valor; }
+
 /**
  * Pele sem UV: todo detalhe é função da posição de REPOUSO no mundo (metros).
  * - micro-bump (poros) perturbando a normal pelo gradiente do ruído;
  * - rugosidade variando (brilho não uniforme, como pele de verdade);
  * - manchas de cor e leve avermelhado (vascularização) em baixa frequência;
  * - pelos (couro cabeludo raspado, sobrancelhas, sugestão no corpo) por máscaras de posição (`pelos.ts`).
+ * - oclusão ambiente cozida no pipeline (atributo `_oclusao`, 0 = livre) só na luz indireta; GLB antiga sem o atributo lê 0.
  *
  * "Repouso": o vértice em espaço de mundo menos `origem`, o deslocamento do grupo da peça
  * (arrasto e explosão). Sem isso, cabelo e sobrancelhas ficariam parados no mundo enquanto a
@@ -88,11 +95,12 @@ export class MaterialPele extends MeshPhysicalMaterial {
 
   override onBeforeCompile(shader: WebGLProgramParametersWithUniforms): void {
     shader.uniforms.uOrigemPele = { value: this.origem };
+    shader.uniforms.uForcaOclusao = uForcaOclusao;
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;\nuniform vec3 uOrigemPele;')
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPosMundoPele = (modelMatrix * vec4(transformed, 1.0)).xyz - uOrigemPele;');
+      .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;\nuniform vec3 uOrigemPele;\nattribute float _oclusao;\nvarying float vOclusaoPele;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPosMundoPele = (modelMatrix * vec4(transformed, 1.0)).xyz - uOrigemPele;\nvOclusaoPele = _oclusao;');
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;\n' + GLSL_RUIDO + GLSL_PELOS)
+      .replace('#include <common>', '#include <common>\nvarying vec3 vPosMundoPele;\nvarying float vOclusaoPele;\nuniform float uForcaOclusao;\n' + GLSL_RUIDO + GLSL_PELOS)
       // cor: manchas em baixa frequência + leve vermelho (vasos sob a pele) + pelos.
       // As três máscaras ficam no escopo do main(): os trechos de rugosidade e normal as reusam.
       .replace(
@@ -109,6 +117,25 @@ export class MaterialPele extends MeshPhysicalMaterial {
         diffuseColor.rgb = mix(diffuseColor.rgb, ${GLSL_COR_PELO}, ${f(AJUSTE.couro.mistura)} * mCouroPelos * (0.6 + 0.4 * pontilhadoCouro));
         diffuseColor.rgb = mix(diffuseColor.rgb, ${GLSL_COR_PELO}, ${f(AJUSTE.sobrancelha.mistura)} * mSobrPelos);
         diffuseColor.rgb *= 1.0 - ${f(AJUSTE.corpo.escurecimento)} * mCorpoPelos;`,
+      )
+      // oclusão cozida por vértice (spec pele-realismo §6): só a luz INDIRETA escurece, como o aoMap do three
+      .replace(
+        '#include <aomap_fragment>',
+        `#include <aomap_fragment>
+        {
+          float oclusaoPele = max(0.0, 1.0 - clamp(vOclusaoPele, 0.0, 1.0) * uForcaOclusao);
+          reflectedLight.indirectDiffuse *= oclusaoPele;
+          #if defined( USE_CLEARCOAT )
+            clearcoatSpecularIndirect *= oclusaoPele;
+          #endif
+          #if defined( USE_SHEEN )
+            sheenSpecularIndirect *= oclusaoPele;
+          #endif
+          #if defined( USE_ENVMAP ) && defined( STANDARD )
+            float dotNVOclusao = saturate( dot( geometryNormal, geometryViewDir ) );
+            reflectedLight.indirectSpecular *= computeSpecularOcclusion( dotNVOclusao, oclusaoPele, material.roughness );
+          #endif
+        }`,
       )
       // rugosidade: variação sutil; couro cabeludo fosco; pelos do corpo um pouco mais foscos
       .replace(
@@ -144,7 +171,7 @@ export class MaterialPele extends MeshPhysicalMaterial {
   }
 
   override customProgramCacheKey(): string {
-    return 'pele-procedural-v2';
+    return 'pele-procedural-v3';
   }
 }
 
