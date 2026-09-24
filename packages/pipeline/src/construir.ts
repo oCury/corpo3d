@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { CSV_ESTRUTURAS, CSV_PARTES, DIR_CACHE, DIR_SAIDA, FMA_PELE, RAZAO_PADRAO } from './constantes';
+import { CSV_ESTRUTURAS, CSV_PARTES, DIR_CACHE, DIR_SAIDA, FMA_PELE, ORCAMENTO_SEGUNDOS_OCLUSAO, PECAS_COM_OCLUSAO, RAZAO_PADRAO } from './constantes';
 import type { Envelope } from './confinar';
 import { lerCsvEstruturas, lerElementos, lerNomesConceitos, resolverPecas } from './catalogo';
 import { escreverGlb } from './glb';
@@ -47,6 +47,7 @@ export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
       inflarM: p.inflarMm ? p.inflarMm / 1000 : undefined,
       confinarEm: p.confinar === 'pele' ? envelope : undefined,
       devolverGeometria: p.fmaId === FMA_PELE,
+      oclusao: PECAS_COM_OCLUSAO.has(p.fmaId),
     });
     if (p.fmaId === FMA_PELE) envelope = st.geometriaFinal;
     saida.push({
@@ -55,7 +56,7 @@ export async function construir(op: OpcoesConstruir): Promise<Manifesto> {
       numPartes: contagemPartes.get(p.fmaId) ?? 0,
       bbox: st.bbox, centro: st.centro, vetorExplosao: p.vetorExplosao ?? vetorExplosaoPadrao(st.centro, p.sistema),
     });
-    log(`[${i + 1}/${pecas.length}] ${p.nomePt}: ${p.elementos.size} el, ${st.triangulosAntes}→${st.triangulosDepois} tri, ${(st.bytes / 1024).toFixed(0)} KB${st.confinados !== undefined ? `, ${st.confinados} vértices confinados na pele` : ''}`);
+    log(`[${i + 1}/${pecas.length}] ${p.nomePt}: ${p.elementos.size} el, ${st.triangulosAntes}→${st.triangulosDepois} tri, ${(st.bytes / 1024).toFixed(0)} KB${st.confinados !== undefined ? `, ${st.confinados} vértices confinados na pele` : ''}${st.reduzidosInflar ? `, ${st.reduzidosInflar} vértices inflaram menos (dobras)` : ''}${st.segundosOclusao !== undefined ? `, oclusão média ${(st.oclusaoMedia ?? 0).toFixed(3)} em ${st.segundosOclusao.toFixed(1)} s${st.segundosOclusao > ORCAMENTO_SEGUNDOS_OCLUSAO ? ' (ACIMA do orçamento de tempo)' : ''}` : ''}`);
   }
   if (temCsvPartes) {
     const r = await construirPartes({ csvPartes: op.csvPartes!, dirObj: op.dirObj, dirSaida: op.dirSaida, pecas, manifestoPecas: saida, conceitos, log });
