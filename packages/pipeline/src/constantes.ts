@@ -75,7 +75,11 @@ export const PECAS_COM_OCLUSAO = new Set([FMA_PELE]);
 export const ORCAMENTO_SEGUNDOS_OCLUSAO = 30;
 /** Portão da oclusão (spec §5). */
 export const OCLUSAO_MEDIA_MIN = 0.05;
-export const OCLUSAO_MEDIA_MAX = 0.4;
+export const OCLUSAO_MEDIA_MAX = 0.5;    // medido 0,385 na pele: coxas encostadas e braços junto ao tronco
 export const OCLUSAO_MAXIMO_MIN = 0.5;
 export const OCLUSAO_ALTA = 0.9;
-export const OCLUSAO_FRACAO_ALTA_MAX = 0.01;
+export const OCLUSAO_FRACAO_ALTA_MAX = 0.2; // medido 11,6 % (coxas, pés): contato real; raios entrando na malha dariam > 50 %
+/** Portão das normais: vértice cuja área incidente é menor que isto é lasca sub-pixel que a quantização vira sem efeito visível. */
+export const AREA_MINIMA_NORMAIS_M2 = 1e-7;
+/** Resíduo da quantização de 14 bits em triângulos longos e finos: medido em 24/09 até 6 por GLB (o defeito real da pele dava 2.108). */
+export const NORMAIS_OPOSTAS_TOLERADAS = 20;

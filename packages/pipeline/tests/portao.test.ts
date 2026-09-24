@@ -57,6 +57,11 @@ describe('verificarNormais', () => {
     expect(verificarNormais(tri.pos, tri.idx, new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1]))).toBe(0);
     expect(verificarNormais(tri.pos, tri.idx, new Float32Array([0, 0, -1, 0, 0, 1, 0, 0, -1]))).toBe(2);
   });
+  it('lasca sub-pixel (área incidente < 0,1 mm²) com normal oposta não conta', () => {
+    const lasca = { pos: new Float32Array([0, 0, 0, 0.001, 0, 0, 0, 0.00001, 0]), idx: new Uint32Array([0, 1, 2]) }; // área 5e-9 m²
+    expect(verificarNormais(lasca.pos, lasca.idx, new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1]))).toBe(0);
+    expect(verificarNormais(lasca.pos, lasca.idx, new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1]), 0)).toBe(3);
+  });
 });
 
 describe('verificarOclusao', () => {

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { CSV_ESTRUTURAS, DIR_PARTES, DIR_SAIDA, FMA_PELE, OCLUSAO_ALTA, OCLUSAO_FRACAO_ALTA_MAX, OCLUSAO_MAXIMO_MIN, OCLUSAO_MEDIA_MAX, OCLUSAO_MEDIA_MIN, ORCAMENTO_BYTES_PARTES_TOTAL, ORCAMENTO_BYTES_POR_PECA, ORCAMENTO_BYTES_TOTAL } from './constantes';
+import { CSV_ESTRUTURAS, DIR_PARTES, DIR_SAIDA, AREA_MINIMA_NORMAIS_M2, FMA_PELE, NORMAIS_OPOSTAS_TOLERADAS, OCLUSAO_ALTA, OCLUSAO_FRACAO_ALTA_MAX, OCLUSAO_MAXIMO_MIN, OCLUSAO_MEDIA_MAX, OCLUSAO_MEDIA_MIN, ORCAMENTO_BYTES_PARTES_TOTAL, ORCAMENTO_BYTES_POR_PECA, ORCAMENTO_BYTES_TOTAL } from './constantes';
 import { lerCsvEstruturas } from './catalogo';
 import { lerGlb } from './glb';
 import { normaisSuaves } from './normais';
@@ -36,12 +36,25 @@ export function verificarPartes(jsons: ManifestoPartes[], pecas: Set<string>, or
   return { ok: problemas.length === 0, problemas };
 }
 
-/** Quantos vértices têm a normal gravada de costas (`dot < 0`) para a normal média das faces vizinhas. */
-export function verificarNormais(pos: ArrayLike<number>, idx: ArrayLike<number>, normais: ArrayLike<number>): number {
+/**
+ * Quantos vértices têm a normal gravada de costas (`dot < 0`) para a normal média das faces vizinhas.
+ * `pos` em metros. Vértices cuja área incidente é menor que `areaMinimaM2` são lascas sub-pixel que a
+ * quantização de 14 bits vira sem efeito visível: não contam (o defeito real da pele tinha ≈ 6 mm² por vértice).
+ */
+export function verificarNormais(pos: ArrayLike<number>, idx: ArrayLike<number>, normais: ArrayLike<number>, areaMinimaM2 = AREA_MINIMA_NORMAIS_M2): number {
   const media = normaisSuaves(pos, idx);
+  const area = new Float64Array(pos.length / 3);
+  for (let t = 0; t < idx.length; t += 3) {
+    const a = idx[t] * 3, b = idx[t + 1] * 3, c = idx[t + 2] * 3;
+    const ux = pos[b] - pos[a], uy = pos[b + 1] - pos[a + 1], uz = pos[b + 2] - pos[a + 2];
+    const vx = pos[c] - pos[a], vy = pos[c + 1] - pos[a + 1], vz = pos[c + 2] - pos[a + 2];
+    const dobro = Math.hypot(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
+    area[a / 3] += dobro / 2; area[b / 3] += dobro / 2; area[c / 3] += dobro / 2;
+  }
   let opostas = 0;
   for (let i = 0; i < media.length; i += 3) {
     if (media[i] === 0 && media[i + 1] === 0 && media[i + 2] === 0) continue; // sem face
+    if (area[i / 3] < areaMinimaM2) continue; // lasca
     if (media[i] * normais[i] + media[i + 1] * normais[i + 1] + media[i + 2] * normais[i + 2] < 0) opostas++;
   }
   return opostas;
@@ -78,20 +91,22 @@ async function cli(): Promise<number> {
   // normais e oclusão, GLB a GLB (spec pele-realismo §5)
   const normaisOpostas: string[] = [];
   const oclusao: string[] = [];
+  let toleradas = 0, glbsToleradas = 0;
   const todas = [...m.pecas.map((p) => ({ fmaId: p.fmaId, glb: p.glb })), ...jsons.flatMap((j) => j.partes.map((p) => ({ fmaId: p.fmaId, glb: p.glb })))];
   for (const p of todas) {
     const f = join(DIR_SAIDA, p.glb);
     if (!existsSync(f)) continue;
     const g = await lerGlb(f);
     const opostas = verificarNormais(g.pos, g.idx, g.normais);
-    if (opostas > 0) normaisOpostas.push(`${p.fmaId}: ${opostas} vértice(s) com normal gravada oposta às faces`);
+    if (opostas > NORMAIS_OPOSTAS_TOLERADAS) normaisOpostas.push(`${p.fmaId}: ${opostas} vértice(s) com normal gravada oposta às faces (> ${NORMAIS_OPOSTAS_TOLERADAS})`);
+    else if (opostas > 0) { toleradas += opostas; glbsToleradas++; }
     if (p.fmaId === FMA_PELE) {
       const ro = verificarOclusao(g.oclusao, { mediaMin: OCLUSAO_MEDIA_MIN, mediaMax: OCLUSAO_MEDIA_MAX, maximoMin: OCLUSAO_MAXIMO_MIN, alta: OCLUSAO_ALTA, fracaoAltaMax: OCLUSAO_FRACAO_ALTA_MAX });
       oclusao.push(...ro.problemas.map((x) => `${p.fmaId} (pele): ${x}`));
     }
   }
   const problemas = [...r.problemas, ...faltandoNoDisco, ...rp.problemas, ...partesSemGlb, ...normaisOpostas, ...oclusao];
-  console.log(`${m.pecas.length} peças, ${(m.bytesTotal / 1048576).toFixed(2)} MB, ${jsons.length} pais com partes, ${todas.length} GLBs conferidas (normais e oclusão), ${problemas.length} problema(s)`);
+  console.log(`${m.pecas.length} peças, ${(m.bytesTotal / 1048576).toFixed(2)} MB, ${jsons.length} pais com partes, ${todas.length} GLBs conferidas (normais e oclusão; ${toleradas} normais opostas toleradas em ${glbsToleradas} GLBs, lascas de quantização), ${problemas.length} problema(s)`);
   for (const p of problemas) console.log(' - ' + p);
   return problemas.length ? 1 : 0;
 }

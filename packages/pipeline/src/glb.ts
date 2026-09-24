@@ -102,9 +102,8 @@ export async function escreverGlb(g: Geometria, saida: string, op: { razao: numb
 }
 
 /**
- * Lê uma GLB do pipeline de volta: posições (nas unidades quantizadas do nó — a escala é uniforme e
- * positiva, então direções e sinais de produto vetorial são os do mundo), normais e `_OCLUSAO`
- * (desnormalizados para float) e os índices.
+ * Lê uma GLB do pipeline de volta: posições em METROS (desfaz a quantização pela escala e translação
+ * do nó), normais e `_OCLUSAO` (desnormalizados para float) e os índices.
  */
 export async function lerGlb(caminho: string): Promise<{ pos: Float32Array; idx: Uint32Array; normais: Float32Array; oclusao: Float32Array | null }> {
   const doc = await (await getIo()).read(caminho);
@@ -118,5 +117,8 @@ export async function lerGlb(caminho: string): Promise<{ pos: Float32Array; idx:
   };
   const pos = ler('POSITION'), normais = ler('NORMAL'), idx = p.getIndices()?.getArray();
   if (!pos || !normais || !idx) throw new Error(`${caminho}: GLB sem POSITION, NORMAL ou índices`);
+  const no = doc.getRoot().listNodes()[0];
+  const s = no?.getScale() ?? [1, 1, 1], tr = no?.getTranslation() ?? [0, 0, 0];
+  for (let i = 0; i < pos.length; i += 3) { pos[i] = pos[i] * s[0] + tr[0]; pos[i + 1] = pos[i + 1] * s[1] + tr[1]; pos[i + 2] = pos[i + 2] * s[2] + tr[2]; }
   return { pos, idx: new Uint32Array(idx), normais, oclusao: ler('_OCLUSAO') };
 }

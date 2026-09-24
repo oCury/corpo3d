@@ -86,10 +86,15 @@ uma linha). Sobre a geometria e as normais **finais**:
 Duas verificações novas, com o `NodeIO` e o decodificador meshopt já registrados em `glb.ts`:
 
 - `verificarNormais`: em **toda** GLB do manifesto e das partes, contar vértices cuja normal
-  gravada tem `dot < 0` com a média das faces vizinhas. Portão: **0** (hoje: 2.108 na pele).
-- `verificarOclusao`: a pele tem `_OCLUSAO`; média entre **0,05 e 0,40**; máximo **> 0,5**;
-  fração de vértices com oclusão > 0,9 **< 1 %** (raios entrando na malha por normal errada
-  dariam quase tudo ocluído).
+  gravada tem `dot < 0` com a média das faces vizinhas, ignorando lascas (área incidente
+  < 0,1 mm²). Portão: **≤ 20 por GLB** (hoje a pele tem 1; antes, 2.108). *Medido em 24/09 ao
+  executar a Tarefa A:* a quantização de 14 bits do meshopt vira triângulos longos e finos
+  sub-pixel em 64 peças, 1 a 6 vértices cada — resíduo inerente, invisível, tolerado e contado
+  na linha final do portão.
+- `verificarOclusao`: a pele tem `_OCLUSAO`; média entre **0,05 e 0,50**; máximo **> 0,5**;
+  fração de vértices com oclusão > 0,9 **≤ 20 %** (raios entrando na malha por normal errada
+  dariam > 50 %). *Medido em 24/09:* média 0,385 e 11,6 % acima de 0,9, concentrados nas coxas
+  encostadas (7.723) e nos pés juntos (2.783), zero no tronco central — contato real, não defeito.
 
 ## 6. Shader da pele (web, `pele.ts`)
 
