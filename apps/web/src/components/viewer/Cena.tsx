@@ -7,6 +7,8 @@ import { useLoja } from '@/lib/estado/store';
 import { pecasVisiveis } from '@/lib/estado/detalhe';
 import { useAtalhos } from '@/lib/hooks/useAtalhos';
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion';
+import { CONTORNO, EXPOSICAO, HDRI_INTENSIDADE, LUZ_PRINCIPAL, PREENCHIMENTO, TOM } from '@/lib/luz';
+import { definirForcaOclusao } from '@/lib/materiais/pele';
 import { Peca } from './Peca';
 import { Camera, type ControlesOrbita } from './Camera';
 
@@ -23,12 +25,15 @@ function FiltrarHits() {
   return null;
 }
 
-/** Expõe a cena Three.js em `window.__cena` para os testes E2E lerem posições de peças diretamente. */
+/** Expõe a cena Three.js em `window.__cena` e o gancho `window.__oclusao(v)` (força da oclusão cozida) para os testes E2E. */
 function ExporCena() {
   const scene = useThree((s) => s.scene);
+  const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
-    (window as unknown as { __cena?: unknown }).__cena = scene;
-  }, [scene]);
+    const w = window as unknown as { __cena?: unknown; __oclusao?: (v: number) => void };
+    w.__cena = scene;
+    w.__oclusao = (v: number) => { definirForcaOclusao(v); invalidate(); };
+  }, [scene, invalidate]);
   return null;
 }
 
@@ -108,18 +113,19 @@ export function Cena() {
       style={{ position: 'absolute', inset: 0 }}
     >
       <Canvas
-        shadows
+        shadows="soft"
         frameloop="demand"
         dpr={[1, 1.5]}
         camera={{ position: [0, 1.0, 2.6], fov: 40, near: 0.01, far: 20 }}
-        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: true, powerPreference: 'high-performance', toneMapping: TOM, toneMappingExposure: EXPOSICAO }}
         onPointerMissed={() => useLoja.getState().selecionar(null)}
       >
         <color attach="background" args={['#101214']} />
-        <Environment files="/hdri/studio_small_09_1k.hdr" />
+        <Environment files="/hdri/studio_small_09_1k.hdr" environmentIntensity={HDRI_INTENSIDADE} />
         <directionalLight
-          position={[1.5, 3, 2]}
-          intensity={1.2}
+          position={LUZ_PRINCIPAL.posicao}
+          intensity={LUZ_PRINCIPAL.intensidade}
+          color={LUZ_PRINCIPAL.cor}
           castShadow
           shadow-mapSize={[2048, 2048]}
           shadow-bias={-0.0002}
@@ -127,6 +133,8 @@ export function Cena() {
         >
           <orthographicCamera attach="shadow-camera" args={[-1.2, 1.2, 2, -0.2, 0.5, 8]} />
         </directionalLight>
+        <directionalLight position={PREENCHIMENTO.posicao} intensity={PREENCHIMENTO.intensidade} color={PREENCHIMENTO.cor} />
+        <directionalLight position={CONTORNO.posicao} intensity={CONTORNO.intensidade} color={CONTORNO.cor} />
         <Suspense fallback={null}>
           <Bvh firstHitOnly>
             {visiveis.map((p) => (
