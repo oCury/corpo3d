@@ -50,11 +50,12 @@ tiveram o deslocamento reduzido:
 
 1. `desloc[v] = distM` para todo vértice; normais de partida `n0` = normais suaves da malha
    simplificada (as de hoje).
-2. Até `MAX_ITERACOES_DOBRA = 4` vezes: `pos' = pos + n0 · desloc`; calcula a normal média das
-   faces de cada vértice em `pos'`; um vértice está **dobrado** se `dot(média, n0) < LIMIAR_DOBRA`
-   (0,2) ou se a média é nula. Sem dobrados, para. Senão, `desloc` dos dobrados **e dos vizinhos
-   diretos** cai pela metade (3,5 → 1,75 → 0,875 → 0,44 mm).
-3. Depois da última iteração, vértice ainda dobrado (e vizinhos) recebe `desloc = 0`.
+2. `pos' = pos + n0 · desloc`; calcula a normal média das faces de cada vértice em `pos'`; um
+   vértice está **dobrado** se `dot(média, n0) < LIMIAR_DOBRA` (0,2) ou se a média é nula. Sem
+   dobrados, para. Senão, `desloc` dos dobrados **e dos vizinhos diretos** cai pela metade e
+   repete, até `MAX_REDUCOES_DOBRA = 3` reduções (3,5 → 1,75 → 0,875 → 0,44 mm).
+3. Vértice ainda dobrado depois disso (e vizinhos) recebe `desloc = 0`, repetindo a checagem até
+   não sobrar dobra.
 
 A ordem em `escreverGlb` passa a ser: solda → simplifica → normais de partida → **inflar sem
 dobrar** → confinar (como hoje) → **normais finais das posições finais** (`normaisSuaves`) →
