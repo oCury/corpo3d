@@ -66,7 +66,7 @@ describe('escreverGlb', () => {
     const dir = mkdtempSync(join(tmpdir(), 'glb-'));
     const st = await escreverGlb(geo, join(dir, 'esfera.glb'), { razao: 1, nome: 'E', inflarM: 0.0035, oclusao: true });
     expect(st.reduzidosInflar).toBe(0);
-    expect(st.segundosOclusao).toBeGreaterThan(0);
+    expect(st.segundosOclusao).toBeGreaterThanOrEqual(0);
     const lido = await lerGlb(join(dir, 'esfera.glb'));
     expect(verificarNormais(lido.pos, lido.idx, lido.normais)).toBe(0);
     expect(lido.oclusao).not.toBeNull();

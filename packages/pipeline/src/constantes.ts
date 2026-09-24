@@ -83,5 +83,7 @@ export const OCLUSAO_FRACAO_ALTA_MAX = 0.2; // medido 11,6 % (coxas, pés): cont
 export const AREA_MINIMA_NORMAIS_M2 = 1e-7;
 /** Resíduo da quantização de 14 bits em triângulos longos e finos: medido em 24/09 até 6 por GLB (o defeito real da pele dava 2.108). */
 export const NORMAIS_OPOSTAS_TOLERADAS = 20;
+/** A pele é a única peça sempre visível e hoje tem 1: qualquer retrocesso da correção tem de reprovar. */
+export const NORMAIS_OPOSTAS_TOLERADAS_PELE = 2;
 /** Vértice cuja soma das normais das faces quase se cancela (faces costas com costas no atlas) tem direção ambígua: não conta. */
 export const RAZAO_MINIMA_NORMAL = 0.3;

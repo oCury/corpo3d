@@ -43,7 +43,7 @@ function analisar(png: Buffer): Analise {
 /** Chromium sem cabeça às vezes recusa a captura num quadro pesado: repete até conseguir. */
 async function capturar(alvo: Locator): Promise<Buffer> {
   let ultimo: unknown;
-  for (let i = 0; i < 5; i++) { try { return await alvo.screenshot(); } catch (e) { ultimo = e; } }
+  for (let i = 0; i < 5; i++) { try { return await alvo.screenshot(); } catch (e) { ultimo = e; await new Promise((r) => setTimeout(r, 100)); } }
   throw ultimo;
 }
 

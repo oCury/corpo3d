@@ -77,7 +77,8 @@ uma linha). Sobre a geometria e as normais **finais**:
 - `oclusao(v) = Σ pesos / AMOSTRAS`, em [0, 1]: **0 = livre, 1 = totalmente ocluído**. Guarda-se
   a oclusão, e não a luz, para que uma GLB antiga sem o atributo renderize como hoje (atributo
   ausente lê 0).
-- Gravada como atributo `_OCLUSAO` (SCALAR, float) antes do `meshopt`, que a quantiza a 12 bits.
+- Gravada como atributo `_OCLUSAO` (SCALAR, **Uint8 normalizado**, passo de 0,4 %) antes do `meshopt`, que
+  a comprime sem requantizar; menor que float quantizado a 12 bits e indistinguível na luz indireta.
 - Custo: 101 mil vértices × 48 raios ≈ 4,9 milhões de raios sobre 203 mil triângulos; orçamento
   de tempo **30 s** para a pele dentro do `construir` (hoje ≈ 10 s no total).
 

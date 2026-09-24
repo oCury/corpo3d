@@ -123,7 +123,7 @@ export class MaterialPele extends MeshPhysicalMaterial {
         '#include <aomap_fragment>',
         `#include <aomap_fragment>
         {
-          float oclusaoPele = 1.0 - clamp(vOclusaoPele, 0.0, 1.0) * uForcaOclusao;
+          float oclusaoPele = max(0.0, 1.0 - clamp(vOclusaoPele, 0.0, 1.0) * uForcaOclusao);
           reflectedLight.indirectDiffuse *= oclusaoPele;
           #if defined( USE_CLEARCOAT )
             clearcoatSpecularIndirect *= oclusaoPele;

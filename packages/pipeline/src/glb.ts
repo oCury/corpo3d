@@ -21,6 +21,8 @@ export interface EstatisticasGlb {
   confinados?: number;
   /** Vértices que inflaram menos que a distância cheia por causa de uma dobra (spec pele-realismo §3). */
   reduzidosInflar?: number;
+  /** Dobras que o recuo não fechou (auto-interseção local; ver `inflar.ts`). */
+  dobrasRestantes?: number;
   /** Só com `oclusao: true`. */
   segundosOclusao?: number;
   oclusaoMedia?: number;
@@ -46,8 +48,9 @@ export function bboxDe(pos: ArrayLike<number>): Bbox {
 }
 
 /**
- * weld → simplify (meshoptimizer) → normais suaves próprias → prune → meshopt (quantiza e
- * comprime). bbox/centro vêm da geometria float, antes da quantização.
+ * weld → simplify (meshoptimizer) → normais de partida → inflar sem dobrar → confinar → normais FINAIS
+ * (da geometria gravada) → oclusão por vértice (`_OCLUSAO`, só quando pedida) → prune → meshopt (quantiza e
+ * comprime). bbox/centro vêm da geometria float de entrada, antes de inflar e da quantização.
  */
 export async function escreverGlb(g: Geometria, saida: string, op: { razao: number; nome: string; inflarM?: number; confinarEm?: Envelope; devolverGeometria?: boolean; oclusao?: boolean }): Promise<EstatisticasGlb> {
   if (g.posicoes.length === 0 || g.indices.length === 0) throw new Error(`geometria vazia para ${op.nome}`);
@@ -71,16 +74,16 @@ export async function escreverGlb(g: Geometria, saida: string, op: { razao: numb
   // normais de partida (da malha simplificada) só servem de direção para inflar
   const n0 = normaisSuaves(pos, idx);
   let final = new Float32Array(pos);
-  let reduzidosInflar: number | undefined;
+  let reduzidosInflar: number | undefined, dobrasRestantes: number | undefined;
   if (op.inflarM) {
     const r = inflarSemDobrar(pos, idx, n0, op.inflarM);
-    final = r.pos; reduzidosInflar = r.reduzidos;
+    final = r.pos; reduzidosInflar = r.reduzidos; dobrasRestantes = r.restantes;
   }
   let confinados: number | undefined;
   if (op.confinarEm) confinados = confinarDentro(final, op.confinarEm, { folgaM: FOLGA_CONFINAR_M, alcanceM: ALCANCE_CONFINAR_M });
   if (op.inflarM || op.confinarEm) posAcc.setArray(final);
   // normais GRAVADAS = as da geometria gravada (spec pele-realismo §3): impossível ficarem de costas para a face
-  const n = normaisSuaves(final, idx);
+  const n = op.inflarM || op.confinarEm ? normaisSuaves(final, idx) : n0;
   p.setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(n).setBuffer(buffer));
   let segundosOclusao: number | undefined, oclusaoMedia: number | undefined;
   if (op.oclusao) {
@@ -98,7 +101,7 @@ export async function escreverGlb(g: Geometria, saida: string, op: { razao: numb
 
   mkdirSync(dirname(saida), { recursive: true });
   await nodeIo.write(saida, doc);
-  return { bytes: statSync(saida).size, triangulosAntes: g.indices.length / 3, triangulosDepois, bbox, centro, geometriaFinal, confinados, reduzidosInflar, segundosOclusao, oclusaoMedia };
+  return { bytes: statSync(saida).size, triangulosAntes: g.indices.length / 3, triangulosDepois, bbox, centro, geometriaFinal, confinados, reduzidosInflar, dobrasRestantes, segundosOclusao, oclusaoMedia };
 }
 
 /**
@@ -117,7 +120,8 @@ export async function lerGlb(caminho: string): Promise<{ pos: Float32Array; idx:
   };
   const pos = ler('POSITION'), normais = ler('NORMAL'), idx = p.getIndices()?.getArray();
   if (!pos || !normais || !idx) throw new Error(`${caminho}: GLB sem POSITION, NORMAL ou índices`);
-  const no = doc.getRoot().listNodes()[0];
+  const malha = doc.getRoot().listMeshes()[0];
+  const no = doc.getRoot().listNodes().find((x) => x.getMesh() === malha); // escreverGlb cria um nó por GLB, sem rotação
   const s = no?.getScale() ?? [1, 1, 1], tr = no?.getTranslation() ?? [0, 0, 0];
   for (let i = 0; i < pos.length; i += 3) { pos[i] = pos[i] * s[0] + tr[0]; pos[i + 1] = pos[i + 1] * s[1] + tr[1]; pos[i + 2] = pos[i + 2] * s[2] + tr[2]; }
   return { pos, idx: new Uint32Array(idx), normais, oclusao: ler('_OCLUSAO') };

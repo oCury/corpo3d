@@ -52,7 +52,7 @@ describe('inflarSemDobrar', () => {
     const { pos, idx } = deThree(new PlaneGeometry(0.1, 0.1, 4, 4));
     const n0 = normaisSuaves(pos, idx);
     const r = inflarSemDobrar(pos, idx, n0, 0.0035);
-    expect(r.reduzidos).toBe(0); expect(r.zerados).toBe(0);
+    expect(r.reduzidos).toBe(0); expect(r.zerados).toBe(0); expect(r.restantes).toBe(0);
     for (let v = 0; v < pos.length / 3; v++) expect(r.pos[v * 3 + 2] - pos[v * 3 + 2]).toBeCloseTo(0.0035, 6);
   });
   it('calha em V: zero dobrados no fim; o fundo anda menos que as bordas; houve redução', () => {
@@ -60,6 +60,7 @@ describe('inflarSemDobrar', () => {
     const n0 = normaisSuaves(pos, idx);
     const r = inflarSemDobrar(pos, idx, n0, 0.0035);
     expect(verticesDobrados(r.pos, idx, n0)).toEqual([]);
+    expect(r.restantes).toBe(0);
     expect(r.reduzidos).toBeGreaterThan(0);
     const desloc = (v: number) => Math.hypot(r.pos[v * 3] - pos[v * 3], r.pos[v * 3 + 1] - pos[v * 3 + 1], r.pos[v * 3 + 2] - pos[v * 3 + 2]);
     const np = 9, meio = 4 * np + 4, borda = 4 * np; // linha central (i = 4): fundo da calha (j = 4) e a borda de cima (j = 0)

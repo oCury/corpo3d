@@ -28,7 +28,8 @@ export function verticesDobrados(pos: ArrayLike<number>, idx: ArrayLike<number>,
   return out;
 }
 
-export interface ResultadoInflar { pos: Float32Array; reduzidos: number; zerados: number }
+/** `restantes` > 0 = a dobra era mais larga que a frente de zeragem alcança; as normais finais escondem o ponto, mas fica uma auto-interseção local. */
+export interface ResultadoInflar { pos: Float32Array; reduzidos: number; zerados: number; restantes: number }
 
 /**
  * Desloca cada vértice `distM` ao longo de `n0`. Onde a superfície dobraria (dobras mais
@@ -43,7 +44,7 @@ export function inflarSemDobrar(
   const limiar = op.limiar ?? LIMIAR_DOBRA, maxReducoes = op.maxReducoes ?? MAX_REDUCOES_DOBRA;
   const nv = pos.length / 3;
   const out = new Float32Array(pos);
-  if (distM <= 0 || idx.length === 0) return { pos: out, reduzidos: 0, zerados: 0 };
+  if (distM <= 0 || idx.length === 0) return { pos: out, reduzidos: 0, zerados: 0, restantes: 0 };
   const desloc = new Float32Array(nv).fill(distM);
   const viz = vizinhos(idx, nv);
   const aplicar = () => {
@@ -67,5 +68,5 @@ export function inflarSemDobrar(
     aplicar();
     dobrados = verticesDobrados(out, idx, n0, limiar);
   }
-  return { pos: out, reduzidos: reduzidos.size, zerados };
+  return { pos: out, reduzidos: reduzidos.size, zerados, restantes: dobrados.length };
 }
