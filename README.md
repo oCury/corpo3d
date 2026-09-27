@@ -19,3 +19,9 @@ razaoSimplificacao`. Para adicionar uma peça: achar o ID em `.cache/bp3d/*_part
 inserir a linha, reconstruir, rodar o portão.
 
 Modelos: BodyParts3D, © The Database Center for Life Science, CC BY 4.0.
+
+## Licença
+
+Código sob a licença MIT (`LICENSE`). Os modelos 3D não estão no repositório: são baixados do
+BodyParts3D pelo pipeline e seguem a licença CC BY 4.0 do The Database Center for Life Science,
+com a atribuição exibida no app (`/atribuicao`).
